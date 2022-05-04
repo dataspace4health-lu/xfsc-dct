@@ -5,10 +5,12 @@ import { join } from 'path';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 import { AppConfigModule } from './config/config.module';
 import { ExampleModule } from './example/example.module';
+import { GlobalModule } from './global/global.module';
 
 @Module({
   imports: [
     AppConfigModule,
+    GlobalModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
