@@ -7,6 +7,6 @@ export class ExampleService {
   public constructor(protected exampleRepository: ExampleRepository) {}
 
   getExample() {
-    return null;
+    return this.exampleRepository.getEntity('asd');
   }
 }

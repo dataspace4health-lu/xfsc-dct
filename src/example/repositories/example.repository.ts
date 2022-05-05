@@ -1,20 +1,19 @@
-import { Injectable } from "@nestjs/common";
+import { CACHE_MANAGER, Inject, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { Cache } from "cache-manager";
+import { BaseDatabaseRepository } from "src/common/repositories/base-db.repository";
 import { Repository } from "typeorm";
 import { Example } from "../entities/example.entity";
 
 @Injectable()
-export class ExampleRepository {
+export class ExampleRepository extends BaseDatabaseRepository<Example> {
 
-    public constructor(@InjectRepository(Example) private repository: Repository<Example>) { }
-
-
-    public async getEntity(id: string): Promise<Example> {
-        return this.repository.findOneBy({ id });
+    public constructor(@Inject(CACHE_MANAGER) cache: Cache, @InjectRepository(Example) repository: Repository<Example>) {
+        super(cache, repository);
     }
 
-    public async getAll(): Promise<Example[]> {
-        return this.repository.find();
+    public async getEntity(id: string): Promise<Example> {
+        return super.getEntity(id);
     }
 
 }
