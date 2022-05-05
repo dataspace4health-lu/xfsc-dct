@@ -5,15 +5,16 @@ import validationSchema from "./config-validation-schema";
 import loggerConfig, { ConfigType as LoggerConfig } from "./loaders/logger.config";
 import generalConfig, { ConfigType as GeneralConfig } from "./loaders/general.config";
 import redisConfig, {ConfigType as RedisConfig} from "./loaders/redis.config";
+import adminConfig, {ConfigType as AdminConfig} from "./loaders/admin.config";
 
-export type ConfigType = DatabaseConfig & LoggerConfig & GeneralConfig & RedisConfig;
+export type ConfigType = DatabaseConfig & LoggerConfig & GeneralConfig & RedisConfig & AdminConfig;
 
 @Module({
     imports: [
         ConfigModule.forRoot({
             isGlobal: true,
             validationSchema,
-            load: [generalConfig, databaseConfig, loggerConfig, redisConfig]
+            load: [generalConfig, databaseConfig, loggerConfig, redisConfig, adminConfig]
         }),
     ]
 })

@@ -5,6 +5,12 @@ export default Joi.object({
     NODE_ENV: Joi.string().valid('development', 'production').default('production'),
     APP_ENDPOINT: Joi.string().uri().default('http://localhost:3000'),
 
+
+    ADMIN_USERNAME: Joi.string().required(),
+    ADMIN_PASSWORD: Joi.string().required(),
+    ADMIN_JWT_SECRET_KEY: Joi.string().required(),
+    ADMIN_JWT_EXPIRES_IN_MINUTES: Joi.number().integer().min(1).required(),
+
     DATABASE_HOST: Joi.string().required(),
     DATABASE_PORT: Joi.number().default(5432),
     DATABASE_USER: Joi.string().required(),

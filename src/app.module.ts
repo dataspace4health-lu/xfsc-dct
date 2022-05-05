@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { join } from 'path';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
+import { AuthModule } from './auth/auth.module';
 import { AppConfigModule } from './config/config.module';
 import { ExampleModule } from './example/example.module';
 import { GlobalModule } from './global/global.module';
@@ -24,7 +25,7 @@ import { GlobalModule } from './global/global.module';
           // logging: true
         } as PostgresConnectionOptions;
       }
-    }), ExampleModule],
+    }), AuthModule, ExampleModule],
   controllers: [],
   providers: [],
 })
