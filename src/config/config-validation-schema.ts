@@ -15,4 +15,16 @@ export default Joi.object({
     LOGGER_WINSTON_LEVEL: Joi.string().valid('debug', 'info', 'warn', 'error').default('info'),
     LOGGER_WINSTON_TRANSPORTS_CONSOLE: Joi.boolean().default(true),
     LOGGER_WINSTON_TRANSPORTS_FILE: Joi.string().default('logs/app.log'),
+
+    CACHE_TYPE: Joi.string().valid('redis', 'memory').default('memory'),
+    CACHE_TTL: Joi.number().default(300),
+
+    REDIS_HOST: Joi.string().when('CACHE_TYPE', {
+        is: 'redis',
+        then: Joi.required(),
+        otherwise: Joi.optional().allow('')
+    }),
+    REDIS_PORT: Joi.number().default(6379),
+    REDIS_PREFIX: Joi.string().default('cache')
+
 });
