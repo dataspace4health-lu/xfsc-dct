@@ -4,16 +4,16 @@ import { ConfigService } from '@nestjs/config';
 import { Request, Response } from 'express';
 import { ConfigType } from 'src/config/config.module';
 
-@Catch(HttpException)
-export class GlobalExceptionFilter implements ExceptionFilter<HttpException> {
+@Catch()
+export class GlobalExceptionFilter implements ExceptionFilter<Error> {
 
     public constructor(private logger: Logger, private readonly configService: ConfigService<ConfigType>) { }
 
-    catch(exception: HttpException, host: ArgumentsHost) {
+    catch(exception: Error, host: ArgumentsHost) {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse<Response>();
         const request = ctx.getRequest<Request>();
-        const status = exception.getStatus();
+        const status = (exception instanceof HttpException) ? exception.getStatus(): 500;
 
         this.logger.error(exception.message, exception.stack);
 

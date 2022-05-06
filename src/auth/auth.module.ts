@@ -7,6 +7,7 @@ import { AuthController } from "./controllers/auth.controller";
 import { AuthService } from "./services/auth.service";
 import { AdminStrategy } from "./strategies/admin.strategy";
 import { LocalStrategy } from "./strategies/local.strategy";
+import { TokenStrategy } from "./strategies/token.strategy";
 
 
 @Module({
@@ -23,7 +24,7 @@ import { LocalStrategy } from "./strategies/local.strategy";
             }
         })
     ],
-    providers: [AuthService, LocalStrategy, AdminStrategy],
+    providers: [AuthService, LocalStrategy, AdminStrategy, TokenStrategy],
     controllers:[AuthController]
 })
 export class AuthModule { }

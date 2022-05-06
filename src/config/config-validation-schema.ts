@@ -4,7 +4,7 @@ import { LoggerType } from 'src/global/logs/logger.provider';
 export default Joi.object({
     NODE_ENV: Joi.string().valid('development', 'production').default('production'),
     APP_ENDPOINT: Joi.string().uri().default('http://localhost:3000'),
-
+    AUTH_TOKEN: Joi.string().required(),
 
     ADMIN_USERNAME: Joi.string().required(),
     ADMIN_PASSWORD: Joi.string().required(),
