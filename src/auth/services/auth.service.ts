@@ -27,6 +27,6 @@ export class AuthService {
     }
 
     async validateToken(token: string) {
-        token === `Bearer ${this.configService.get('general.token', { infer: true })}`
+        return token === `Bearer ${this.configService.get('general.token', { infer: true })}`
     }
 }

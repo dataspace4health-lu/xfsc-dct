@@ -10,7 +10,7 @@ export class ExampleController {
 
   @Get()
   list() {
-    return this.appService.getExample('asd');
+    return this.appService.getApiExample();
   }
 
   @Get(':id')

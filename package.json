@@ -28,6 +28,8 @@
     "@nestjs/passport": "^8.2.1",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/typeorm": "^8.0.3",
+    "axios": "^0.27.2",
+    "axios-mock-adapter": "^1.20.0",
     "cache-manager": "^3.6.1",
     "cache-manager-redis-store": "^2.0.0",
     "class-transformer": "^0.5.1",

@@ -1,0 +1,22 @@
+{
+    "http://example.com": {
+        "/example": {
+            "onGet": {
+                "status": 200,
+                "response": {
+                    "example": {
+                        "key": "value"
+                    }
+                }
+            },
+            "onPost": {
+                "status": 400,
+                "response": {
+                    "example": {
+                        "key": "value"
+                    }
+                }
+            }
+        }
+    }
+}
