@@ -1,5 +1,6 @@
-import { Module } from '@nestjs/common';
+import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { join } from 'path';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
@@ -27,6 +28,11 @@ import { GlobalModule } from './global/global.module';
       }
     }), AuthModule, ExampleModule],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ClassSerializerInterceptor,
+    }
+  ],
 })
 export class AppModule { }

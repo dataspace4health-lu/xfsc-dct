@@ -5,6 +5,7 @@ import { ConfigType } from "src/config/config.module";
 import { GlobalExceptionFilter } from "./exceptions/global.exception-filter";
 import { LoggerProvider } from "./logs/logger.provider";
 import * as redisStore from 'cache-manager-redis-store';
+import { ValidationExceptionFilter } from "./exceptions/validation.exception-filter";
 
 @Global()
 @Module({
@@ -31,6 +32,10 @@ import * as redisStore from 'cache-manager-redis-store';
         {
             provide: APP_FILTER,
             useClass: GlobalExceptionFilter,
+        },
+        {
+            provide: APP_FILTER,
+            useClass: ValidationExceptionFilter,
         },
         LoggerProvider,
         Logger

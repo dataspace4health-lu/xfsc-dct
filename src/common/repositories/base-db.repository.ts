@@ -20,7 +20,7 @@ export class BaseDatabaseRepository<T extends BaseEntity>  {
         return this.repository.find();
     }
 
-    public async save(entity: T) {
+    public async save(entity: DeepPartial<T>) {
         const [result] = await Promise.all([
             this.repository.save(entity),
             this.forgetCache(entity.id)
