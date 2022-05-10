@@ -10,6 +10,7 @@ async function bootstrap() {
   const logger =  app.get(LoggerProvider).logger;
   app.useLogger(logger);
   app.useGlobalPipes(new ValidationPipe());
+  app.setGlobalPrefix('api');
   await app.listen(3000);
 }
 bootstrap();
