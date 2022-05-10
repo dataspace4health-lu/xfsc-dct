@@ -2,7 +2,6 @@ import { registerAs } from '@nestjs/config';
 
 const loader = () => ({
     isDevelopment: Boolean(process.env.NODE_ENV === 'development'),
-    appUrl: process.env.APP_ENDPOINT,
     cache: {
         store: process.env.CACHE_TYPE,
         ttl: parseInt(process.env.CACHE_TTL),

@@ -1,15 +1,26 @@
 import { CacheModule, Global, Logger, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { ConfigType } from 'src/config/config.module';
 import { GlobalExceptionFilter } from './exceptions/global.exception-filter';
 import { LoggerProvider } from './logs/logger.provider';
 import * as redisStore from 'cache-manager-redis-store';
 import { ValidationExceptionFilter } from './exceptions/validation.exception-filter';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 @Global()
 @Module({
     imports: [
+        ThrottlerModule.forRootAsync({
+            inject: [ConfigService],
+            useFactory: (configService: ConfigService<ConfigType>) => {
+                const config = configService.get('server.throtller', { infer: true });
+                return {
+                    ...config,
+                    store: 'memory',
+                };
+            },
+        }),
         CacheModule.registerAsync({
             inject: [ConfigService],
             useFactory: (configService: ConfigService<ConfigType>) => {
@@ -37,6 +48,7 @@ import { ValidationExceptionFilter } from './exceptions/validation.exception-fil
             provide: APP_FILTER,
             useClass: ValidationExceptionFilter,
         },
+
         LoggerProvider,
         Logger,
     ],
