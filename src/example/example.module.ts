@@ -7,10 +7,8 @@ import { ExampleRepository } from './repositories/example.repository';
 import { ExampleService } from './services/example.service';
 
 @Module({
-    imports: [
-        TypeOrmModule.forFeature([Example])
-    ],
+    imports: [TypeOrmModule.forFeature([Example])],
     providers: [ExampleRepository, ExampleService, ExampleApi],
-    controllers: [ExampleController]
+    controllers: [ExampleController],
 })
 export class ExampleModule {}

@@ -17,7 +17,9 @@ export default Joi.object({
     DATABASE_PASSWORD: Joi.string().required(),
     DATABASE_DATABASE: Joi.string().required(),
 
-    LOGGER_TYPE: Joi.string().valid(...Object.values(LoggerType)).default('console'),
+    LOGGER_TYPE: Joi.string()
+        .valid(...Object.values(LoggerType))
+        .default('console'),
     LOGGER_WINSTON_LEVEL: Joi.string().valid('debug', 'info', 'warn', 'error').default('info'),
     LOGGER_WINSTON_TRANSPORTS_CONSOLE: Joi.boolean().default(true),
     LOGGER_WINSTON_TRANSPORTS_FILE: Joi.string().default('logs/app.log'),
@@ -28,9 +30,8 @@ export default Joi.object({
     REDIS_HOST: Joi.string().when('CACHE_TYPE', {
         is: 'redis',
         then: Joi.required(),
-        otherwise: Joi.optional().allow('')
+        otherwise: Joi.optional().allow(''),
     }),
     REDIS_PORT: Joi.number().default(6379),
-    REDIS_PREFIX: Joi.string().default('cache')
-
+    REDIS_PREFIX: Joi.string().default('cache'),
 });

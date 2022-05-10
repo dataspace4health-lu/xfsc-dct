@@ -1,11 +1,11 @@
-import { CacheModule, Global, Logger, Module } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import { APP_FILTER } from "@nestjs/core";
-import { ConfigType } from "src/config/config.module";
-import { GlobalExceptionFilter } from "./exceptions/global.exception-filter";
-import { LoggerProvider } from "./logs/logger.provider";
+import { CacheModule, Global, Logger, Module } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { APP_FILTER } from '@nestjs/core';
+import { ConfigType } from 'src/config/config.module';
+import { GlobalExceptionFilter } from './exceptions/global.exception-filter';
+import { LoggerProvider } from './logs/logger.provider';
 import * as redisStore from 'cache-manager-redis-store';
-import { ValidationExceptionFilter } from "./exceptions/validation.exception-filter";
+import { ValidationExceptionFilter } from './exceptions/validation.exception-filter';
 
 @Global()
 @Module({
@@ -15,18 +15,18 @@ import { ValidationExceptionFilter } from "./exceptions/validation.exception-fil
             useFactory: (configService: ConfigService<ConfigType>) => {
                 const cacheConfig = {
                     ...configService.get('general.cache', { infer: true }),
-                    isGlobal: true
-                }
+                    isGlobal: true,
+                };
                 if (cacheConfig.store === 'redis') {
                     return {
                         ...cacheConfig,
                         ...configService.get('redis'),
-                        store: redisStore
-                    }
+                        store: redisStore,
+                    };
                 }
-                return cacheConfig
+                return cacheConfig;
             },
-        })
+        }),
     ],
     providers: [
         {
@@ -38,8 +38,8 @@ import { ValidationExceptionFilter } from "./exceptions/validation.exception-fil
             useClass: ValidationExceptionFilter,
         },
         LoggerProvider,
-        Logger
+        Logger,
     ],
-    exports:[CacheModule]
+    exports: [CacheModule],
 })
-export class GlobalModule { }
+export class GlobalModule {}

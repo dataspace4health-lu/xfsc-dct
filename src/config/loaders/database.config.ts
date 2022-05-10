@@ -1,4 +1,4 @@
-import { registerAs } from "@nestjs/config";
+import { registerAs } from '@nestjs/config';
 
 const load = () => ({
     host: process.env.DATABASE_HOST,
@@ -6,11 +6,11 @@ const load = () => ({
 
     username: process.env.DATABASE_USER,
     password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE_DATABASE
-})
+    database: process.env.DATABASE_DATABASE,
+});
 
 export type ConfigType = {
-    database: ReturnType<typeof load>
-}
+    database: ReturnType<typeof load>;
+};
 
 export default registerAs('database', load);
