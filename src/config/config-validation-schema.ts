@@ -3,8 +3,11 @@ import { LoggerType } from 'src/global/logs/logger.provider';
 
 export default Joi.object({
     NODE_ENV: Joi.string().valid('development', 'production').default('production'),
-    APP_ENDPOINT: Joi.string().uri().default('http://localhost:3000'),
     AUTH_TOKEN: Joi.string().required(),
+    
+    SERVER_ENDPOINT: Joi.string().uri().default('http://localhost:3000'),
+    SERVER_THROTLLER_TTL: Joi.number().integer().min(1).max(300).default(60),
+    SERVER_THROTLLER_LIMIT: Joi.number().integer().min(1).default(10),
 
     ADMIN_USERNAME: Joi.string().required(),
     ADMIN_PASSWORD: Joi.string().required(),

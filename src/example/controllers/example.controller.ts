@@ -22,4 +22,14 @@ export class ExampleController {
   create(@Body() exampleDto: ExampleDto) {
     return this.appService.create(exampleDto);
   }
+
+  @Get('/throttle/get')
+  throttled() {
+    return new Promise((res) => {
+      setTimeout(() => {
+        res('throttled');
+      }
+        , 3000);
+    })
+  }
 }
