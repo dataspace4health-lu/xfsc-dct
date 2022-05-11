@@ -8,7 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { AppConfigModule } from './config/config.module';
 import { ExampleModule } from './example/example.module';
 import { GlobalModule } from './global/global.module';
-import { NotificationsModule } from './notifications/notifications.module';
+import { InboxModule } from './inbox/inbox.module';
 
 @Module({
     imports: [
@@ -30,7 +30,7 @@ import { NotificationsModule } from './notifications/notifications.module';
         }),
         AuthModule,
         ExampleModule,
-        NotificationsModule,
+        InboxModule,
     ],
     controllers: [],
     providers: [
