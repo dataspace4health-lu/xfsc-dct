@@ -1,7 +1,7 @@
 import { CacheModule, Global, Logger, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { APP_FILTER } from '@nestjs/core';
-import { ConfigType } from 'src/config/config.module';
+import { ConfigType } from 'Config/config.module';
 import { GlobalExceptionFilter } from './exceptions/global.exception-filter';
 import { LoggerProvider } from './logs/logger.provider';
 import * as redisStore from 'cache-manager-redis-store';

@@ -2,14 +2,14 @@ import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { join } from 'path';
-import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
-import { AuthModule } from './auth/auth.module';
-import { AppConfigModule } from './config/config.module';
-import { ExampleModule } from './example/example.module';
-import { GlobalModule } from './global/global.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import { InboxModule } from './inbox/inbox.module';
+import { join } from 'path';
+import type { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
+import { AuthModule } from 'Auth/auth.module';
+import { AppConfigModule } from 'Config/config.module';
+import { ExampleModule } from './example/example.module';
+import { GlobalModule } from 'Global/global.module';
+import { InboxModule } from 'Inbox/inbox.module';
 
 @Module({
   imports    : [

@@ -1,7 +1,7 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Request, Response } from 'express';
-import { ConfigType } from 'src/config/config.module';
+import { ConfigType } from 'Config/config.module';
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter<Error> {

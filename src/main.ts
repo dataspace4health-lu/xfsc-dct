@@ -9,9 +9,11 @@ async function bootstrap() {
     });
     const logger = app.get(LoggerProvider).logger;
     app.useLogger(logger);
-    app.useGlobalPipes(new JSONLDValidationPipe({
-        transform:true
-    }))
+    app.useGlobalPipes(
+        new JSONLDValidationPipe({
+            transform: true,
+        }),
+    );
     app.setGlobalPrefix('api');
     await app.listen(3000);
 }
