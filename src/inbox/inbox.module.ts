@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
-import { InboxController } from './inbox.controller';
-import { InboxService } from './inbox.service';
-
+import { InboxController } from './controllers/inbox.controller';
+import { InboxService } from './services/inbox.service';
 @Module({
     providers: [InboxService],
     controllers: [InboxController],
