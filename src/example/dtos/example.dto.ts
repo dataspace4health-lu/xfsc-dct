@@ -1,10 +1,7 @@
-import { IsNotEmpty, IsOptional, IsString } from "class-validator";
-
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class ExampleDto {
-
-    @IsString()
-    @IsNotEmpty()
-    data: string
-
+  @IsString()
+  @IsNotEmpty()
+  data: string;
 }

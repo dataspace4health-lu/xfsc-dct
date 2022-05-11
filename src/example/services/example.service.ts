@@ -7,7 +7,6 @@ import { ExampleRepository } from '../repositories/example.repository';
 
 @Injectable()
 export class ExampleService {
-
   public constructor(protected exampleRepository: ExampleRepository, protected exampleApi: ExampleApi) {}
 
   getExample(id: string) {
@@ -21,5 +20,4 @@ export class ExampleService {
   getApiExample() {
     return this.exampleApi.getExample();
   }
-
 }

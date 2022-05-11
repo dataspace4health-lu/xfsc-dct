@@ -16,28 +16,31 @@ import { ServeStaticModule } from '@nestjs/serve-static';
     GlobalModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'client'),
-      exclude: ['/api*'],
+      exclude : ['/api*'],
     }),
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
+      imports   : [ConfigModule],
+      inject    : [ConfigService],
       useFactory: async (config: ConfigService) => {
-        const options = config.get<TypeOrmModuleOptions>('database')
+        const options = config.get<TypeOrmModuleOptions>('database');
         return {
           ...options,
-          type: "postgres",
-          entities: [join(__dirname, '**', '*.entity.{ts,js}')],
+          type       : 'postgres',
+          entities   : [join(__dirname, '**', '*.entity.{ts,js}')],
           synchronize: true,
           // logging: true
         } as PostgresConnectionOptions;
-      }
-    }), AuthModule, ExampleModule],
+      },
+    }),
+    AuthModule,
+    ExampleModule,
+  ],
   controllers: [],
-  providers: [
+  providers  : [
     {
-      provide: APP_INTERCEPTOR,
+      provide : APP_INTERCEPTOR,
       useClass: ClassSerializerInterceptor,
-    }
+    },
   ],
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,4 +1,4 @@
-import { Body, ClassSerializerInterceptor, Controller, Get, Param, Post, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { TokenAuthGuard } from 'src/auth/guards/token.guard';
 import { ExampleDto } from '../dtos/example.dto';
 import { ExampleService } from '../services/example.service';
@@ -27,9 +27,9 @@ export class ExampleController {
   throttled() {
     return new Promise((res) => {
       setTimeout(() => {
-        res('throttled');
-      }
+          res('throttled');
+        }
         , 3000);
-    })
+    });
   }
 }
