@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { mock } from 'src/mocks/mocker';
 
-export interface BaseApiOptions extends Omit<AxiosRequestConfig, 'baseURL'> {}
+export type BaseApiOptions = Omit<AxiosRequestConfig, 'baseURL'>;
 
 export class BaseAPI {
     private readonly requester: AxiosInstance;

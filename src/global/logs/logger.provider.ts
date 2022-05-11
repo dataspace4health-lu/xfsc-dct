@@ -15,7 +15,7 @@ export class LoggerProvider {
 
     public constructor(readonly configService: ConfigService<ConfigType>) {
         if (configService.get('logger.type', { infer: true }) === LoggerType.WINSTON) {
-            let transports = [];
+            const transports = [];
             const { winston } = configService.get('logger');
             if (winston.isConsole || configService.get('general.isDevelopment', { infer: true })) {
                 transports.push(
