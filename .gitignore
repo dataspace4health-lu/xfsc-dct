@@ -1,5 +1,6 @@
 dist
 node_modules
 .env
-logs
 client
+./logs
+logs/app.log
