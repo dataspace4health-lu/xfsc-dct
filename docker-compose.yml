@@ -1,11 +1,18 @@
 version: '3.9'
 services:
-    web:
+    nestjs:
         build: .
         ports:
             - '3000:3000'
         links:
             - 'redis:redis'
+        depends_on:
+            - db
+        networks:
+            - test
+        environment:
+            - REDIS_HOST=redis
+            - DATABASE_HOST=postgres-db
     redis:
         image: 'redis:alpine'
         ports:
@@ -15,14 +22,16 @@ services:
     db:
         image: postgres
         environment:
-            POSTGRES_PASSWORD: postgres
-            POSTGRES_USER: postgres
-            POSTGRES_DB: dels
+            - POSTGRES_USER=${DATABASE_USER}
+            - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+            - POSTGRES_DB=${DATABASE_DATABASE}
         ports:
             - '5432:5432'
         volumes:
             - 'dbdata:/var/lib/postgres/data'
-
+        container_name: postgres-db
+        networks:
+            - test
     redis-commander:
         image: rediscommander/redis-commander:latest
         environment:
@@ -32,3 +41,5 @@ services:
 volumes:
     dbdata:
     redisdata:
+networks:
+    test:
