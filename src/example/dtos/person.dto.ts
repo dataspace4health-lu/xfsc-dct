@@ -1,10 +1,9 @@
-import { Type } from "class-transformer";
-import { IsDate, IsString } from "class-validator";
-import { JSONLDContext } from "../decorators/context.validator.decorator";
+import { Type } from 'class-transformer';
+import { IsDate, IsString } from 'class-validator';
+import { JSONLDContext } from '../decorators/context.validator.decorator';
 
-@JSONLDContext({ "@context": "https://json-ld.org/contexts/person.jsonld" })
+@JSONLDContext({ '@context': 'https://json-ld.org/contexts/person.jsonld' })
 export class PersonDto {
-
     @IsString()
     name: string;
 

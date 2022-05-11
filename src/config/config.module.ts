@@ -15,7 +15,7 @@ export type ConfigType = DatabaseConfig & LoggerConfig & GeneralConfig & RedisCo
         ConfigModule.forRoot({
             isGlobal: true,
             validationSchema,
-            load    : [generalConfig, databaseConfig, loggerConfig, redisConfig, adminConfig, serverConfig],
+            load: [generalConfig, databaseConfig, loggerConfig, redisConfig, adminConfig, serverConfig],
         }),
     ],
 })

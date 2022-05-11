@@ -1,6 +1,6 @@
-import { ValidationPipe } from "@nestjs/common";
+import { ValidationPipe } from '@nestjs/common';
 import * as jsonld from 'jsonld';
-import { CONTEXT_METADATA_KEY } from "src/example/decorators/context.validator.decorator";
+import { CONTEXT_METADATA_KEY } from 'src/example/decorators/context.validator.decorator';
 
 export class JSONLDValidationPipe extends ValidationPipe {
     async transform(value: any, metadata: any) {

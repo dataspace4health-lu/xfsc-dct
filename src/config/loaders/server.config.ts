@@ -4,7 +4,7 @@ const loader = () => ({
     endpoint: process.env.SERVER_ENDPOINT,
 
     throtller: {
-        ttl  : parseInt(process.env.SERVER_THROTLLER_TTL),
+        ttl: parseInt(process.env.SERVER_THROTLLER_TTL),
         limit: parseInt(process.env.SERVER_THROTLLER_LIMIT),
     },
 });
