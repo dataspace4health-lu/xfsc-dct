@@ -1,4 +1,4 @@
-import { registerAs } from "@nestjs/config";
+import { registerAs } from '@nestjs/config';
 
 const loader = () => ({
     host: process.env.REDIS_HOST,
@@ -7,7 +7,7 @@ const loader = () => ({
 });
 
 export type ConfigType = {
-    redis: ReturnType<typeof loader>
-}
+    redis: ReturnType<typeof loader>;
+};
 
 export default registerAs('redis', loader);

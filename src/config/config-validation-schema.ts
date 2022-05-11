@@ -4,7 +4,7 @@ import { LoggerType } from 'src/global/logs/logger.provider';
 export default Joi.object({
     NODE_ENV: Joi.string().valid('development', 'production').default('production'),
     AUTH_TOKEN: Joi.string().required(),
-    
+
     SERVER_ENDPOINT: Joi.string().uri().default('http://localhost:3000'),
     SERVER_THROTLLER_TTL: Joi.number().integer().min(1).max(300).default(60),
     SERVER_THROTLLER_LIMIT: Joi.number().integer().min(1).default(10),
@@ -20,7 +20,9 @@ export default Joi.object({
     DATABASE_PASSWORD: Joi.string().required(),
     DATABASE_DATABASE: Joi.string().required(),
 
-    LOGGER_TYPE: Joi.string().valid(...Object.values(LoggerType)).default('console'),
+    LOGGER_TYPE: Joi.string()
+        .valid(...Object.values(LoggerType))
+        .default('console'),
     LOGGER_WINSTON_LEVEL: Joi.string().valid('debug', 'info', 'warn', 'error').default('info'),
     LOGGER_WINSTON_TRANSPORTS_CONSOLE: Joi.boolean().default(true),
     LOGGER_WINSTON_TRANSPORTS_FILE: Joi.string().default('logs/app.log'),
@@ -31,9 +33,8 @@ export default Joi.object({
     REDIS_HOST: Joi.string().when('CACHE_TYPE', {
         is: 'redis',
         then: Joi.required(),
-        otherwise: Joi.optional().allow('')
+        otherwise: Joi.optional().allow(''),
     }),
     REDIS_PORT: Joi.number().default(6379),
-    REDIS_PREFIX: Joi.string().default('cache')
-
+    REDIS_PREFIX: Joi.string().default('cache'),
 });

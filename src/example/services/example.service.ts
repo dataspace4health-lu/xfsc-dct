@@ -7,17 +7,17 @@ import { ExampleRepository } from '../repositories/example.repository';
 
 @Injectable()
 export class ExampleService {
-  public constructor(protected exampleRepository: ExampleRepository, protected exampleApi: ExampleApi) {}
+    public constructor(protected exampleRepository: ExampleRepository, protected exampleApi: ExampleApi) {}
 
-  getExample(id: string) {
-    return this.exampleRepository.getEntity(id);
-  }
+    getExample(id: string) {
+        return this.exampleRepository.getEntity(id);
+    }
 
-  create(exampleDto: ExampleDto | DeepPartial<Example>) {
-    return this.exampleRepository.save(exampleDto);
-  }
+    create(exampleDto: ExampleDto | DeepPartial<Example>) {
+        return this.exampleRepository.save(exampleDto);
+    }
 
-  getApiExample() {
-    return this.exampleApi.getExample();
-  }
+    getApiExample() {
+        return this.exampleApi.getExample();
+    }
 }
