@@ -1,6 +1,5 @@
 import { Cache } from 'cache-manager';
 import { DeepPartial, FindOptionsWhere, Repository } from 'typeorm';
-import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { BaseEntity } from '../model/base.entity';
 
 export class BaseDatabaseRepository<T extends BaseEntity> {
@@ -26,6 +25,7 @@ export class BaseDatabaseRepository<T extends BaseEntity> {
         return result;
     }
 
+    // eslint-disable-next-line @typescript-eslint/ban-types
     protected async rememberValue(key: string, fetch: Function): Promise<any> {
         key = this.makeCacheKey(key);
 

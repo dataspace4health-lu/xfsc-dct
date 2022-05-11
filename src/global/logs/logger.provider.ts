@@ -1,7 +1,7 @@
 import { ConsoleLogger, Injectable, LoggerService } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { WinstonModule } from 'nest-winston';
-import { ConfigType } from 'src/config/config.module';
+import { ConfigType } from 'Config/config.module';
 import * as Winston from 'winston';
 
 export enum LoggerType {

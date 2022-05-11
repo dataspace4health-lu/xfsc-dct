@@ -1,6 +1,5 @@
 import { Controller, Request, Post, UseGuards, Get } from '@nestjs/common';
-import { LocalAuthGuard } from 'src/auth/guards/local.guard';
-import { TokenAuthGuard } from 'src/auth/guards/token.guard';
+import { TokenAuthGuard } from 'Auth/guards/token.guard';
 import { InboxService } from '../services/inbox.service';
 
 @Controller('inbox')
