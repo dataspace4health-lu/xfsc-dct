@@ -25,6 +25,7 @@ export class BaseDatabaseRepository<T extends BaseEntity> {
         return result;
     }
 
+    // eslint-disable-next-line @typescript-eslint/ban-types
     protected async rememberValue(key: string, fetch: Function): Promise<any> {
         key = this.makeCacheKey(key);
 
