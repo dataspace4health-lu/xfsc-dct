@@ -4,3 +4,15 @@ node_modules
 client
 ./logs
 logs/app.log
+client
+
+# IDE
+.idea
+.vscode
+
+# Mac Only
+.DS_Store
+
+#docker
+.config
+.npm
