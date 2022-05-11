@@ -10,20 +10,20 @@ import { LocalStrategy } from './strategies/local.strategy';
 import { TokenStrategy } from './strategies/token.strategy';
 
 @Module({
-  imports    : [
-    PassportModule,
-    JwtModule.registerAsync({
-      inject    : [ConfigService],
-      useFactory: async (config: ConfigService<ConfigType>) => {
-        const auth = config.get('admin.auth', { infer: true });
-        return {
-          secret     : auth.secret,
-          signOptions: { expiresIn: auth.expiresIn },
-        };
-      },
-    }),
-  ],
-  providers  : [AuthService, LocalStrategy, AdminStrategy, TokenStrategy],
-  controllers: [AuthController],
+    imports: [
+        PassportModule,
+        JwtModule.registerAsync({
+            inject: [ConfigService],
+            useFactory: async (config: ConfigService<ConfigType>) => {
+                const auth = config.get('admin.auth', { infer: true });
+                return {
+                    secret: auth.secret,
+                    signOptions: { expiresIn: auth.expiresIn },
+                };
+            },
+        }),
+    ],
+    providers: [AuthService, LocalStrategy, AdminStrategy, TokenStrategy],
+    controllers: [AuthController],
 })
 export class AuthModule {}

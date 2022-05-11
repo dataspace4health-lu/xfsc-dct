@@ -7,12 +7,14 @@ import { Example } from '../entities/example.entity';
 
 @Injectable()
 export class ExampleRepository extends BaseDatabaseRepository<Example> {
-  public constructor(@Inject(CACHE_MANAGER) cache: Cache, @InjectRepository(Example) repository: Repository<Example>) {
-    super(cache, repository);
-  }
+    public constructor(
+        @Inject(CACHE_MANAGER) cache: Cache,
+        @InjectRepository(Example) repository: Repository<Example>,
+    ) {
+        super(cache, repository);
+    }
 
-  public async getEntity(id: string): Promise<Example> {
-    return super.getEntity(id);
-  }
-
+    public async getEntity(id: string): Promise<Example> {
+        return super.getEntity(id);
+    }
 }

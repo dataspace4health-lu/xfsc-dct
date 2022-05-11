@@ -3,6 +3,6 @@ import { Column, Entity } from 'typeorm';
 
 @Entity()
 export class Example extends BaseEntity {
-  @Column()
-  data: string;
+    @Column()
+    data: string;
 }

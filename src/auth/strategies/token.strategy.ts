@@ -6,9 +6,8 @@ import { ConfigType } from 'src/config/config.module';
 import { AuthService } from '../services/auth.service';
 
 @Injectable()
-export class TokenStrategy extends PassportStrategy(Strategy, "custom") {
-
-    constructor(protected authService:AuthService) {
+export class TokenStrategy extends PassportStrategy(Strategy, 'custom') {
+    constructor(protected authService: AuthService) {
         super();
     }
 

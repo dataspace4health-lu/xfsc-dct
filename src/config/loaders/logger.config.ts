@@ -1,5 +1,5 @@
-import { registerAs } from "@nestjs/config";
-import { LoggerType } from "src/global/logs/logger.provider";
+import { registerAs } from '@nestjs/config';
+import { LoggerType } from 'src/global/logs/logger.provider';
 
 const loader = () => ({
     type: process.env.LOGGER_TYPE || LoggerType.Console,
@@ -7,12 +7,12 @@ const loader = () => ({
     winston: {
         level: process.env.LOGGER_WINSTON_LEVEL,
         isConsole: Boolean(process.env.LOGGER_WINSTON_TRANSPORTS_CONSOLE),
-        fileName: process.env.LOGGER_WINSTON_TRANSPORTS_FILE
-    }
+        fileName: process.env.LOGGER_WINSTON_TRANSPORTS_FILE,
+    },
 });
 
 export type ConfigType = {
-    logger: ReturnType<typeof loader>
-}
+    logger: ReturnType<typeof loader>;
+};
 
 export default registerAs('logger', loader);

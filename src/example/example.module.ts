@@ -9,14 +9,17 @@ import { ExampleRepository } from './repositories/example.repository';
 import { ExampleService } from './services/example.service';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Example]),
-  ],
+    imports: [TypeOrmModule.forFeature([Example])],
 
-  providers  : [ExampleRepository, ExampleService, ExampleApi, {
-    provide : APP_GUARD,
-    useClass: ThrottlerGuard,
-  }],
-  controllers: [ExampleController],
+    providers: [
+        ExampleRepository,
+        ExampleService,
+        ExampleApi,
+        {
+            provide: APP_GUARD,
+            useClass: ThrottlerGuard,
+        },
+    ],
+    controllers: [ExampleController],
 })
 export class ExampleModule {}
