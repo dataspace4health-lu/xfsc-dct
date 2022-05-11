@@ -29,7 +29,7 @@ export class LoggerProvider {
                 transports.push(
                     new Winston.transports.File({
                         filename: winston.fileName,
-                        format: Winston.format.simple(),
+                        format  : Winston.format.simple(),
                     }),
                 );
             }

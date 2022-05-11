@@ -12,37 +12,37 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { InboxModule } from './inbox/inbox.module';
 
 @Module({
-    imports: [
-        AppConfigModule,
-        GlobalModule,
-        ServeStaticModule.forRoot({
-            rootPath: join(__dirname, '..', 'client'),
-            exclude: ['/api*'],
-        }),
-        TypeOrmModule.forRootAsync({
-            imports: [ConfigModule],
-            inject: [ConfigService],
-            useFactory: async (config: ConfigService) => {
-                const options = config.get<TypeOrmModuleOptions>('database');
-                return {
-                    ...options,
-                    type: 'postgres',
-                    entities: [join(__dirname, '**', '*.entity.{ts,js}')],
-                    synchronize: true,
-                    // logging: true
-                } as PostgresConnectionOptions;
-            },
-        }),
-        AuthModule,
-        ExampleModule,
-        InboxModule,
-    ],
-    controllers: [],
-    providers: [
-        {
-            provide: APP_INTERCEPTOR,
-            useClass: ClassSerializerInterceptor,
-        },
-    ],
+  imports    : [
+    AppConfigModule,
+    GlobalModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'client'),
+      exclude : ['/api*'],
+    }),
+    TypeOrmModule.forRootAsync({
+      imports   : [ConfigModule],
+      inject    : [ConfigService],
+      useFactory: async (config: ConfigService) => {
+        const options = config.get<TypeOrmModuleOptions>('database');
+        return {
+          ...options,
+          type       : 'postgres',
+          entities   : [join(__dirname, '**', '*.entity.{ts,js}')],
+          synchronize: true,
+          // logging: true
+        } as PostgresConnectionOptions;
+      },
+    }),
+    AuthModule,
+    ExampleModule,
+    InboxModule,
+  ],
+  controllers: [],
+  providers  : [
+    {
+      provide : APP_INTERCEPTOR,
+      useClass: ClassSerializerInterceptor,
+    },
+  ],
 })
 export class AppModule {}
