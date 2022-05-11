@@ -1,8 +1,8 @@
 import { registerAs } from '@nestjs/config';
 
 const loader = () => ({
-    host  : process.env.REDIS_HOST,
-    port  : process.env.REDIS_PORT,
+    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT,
     prefix: process.env.REDIS_PREFIX,
 });
 

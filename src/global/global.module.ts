@@ -10,9 +10,9 @@ import { ThrottlerModule } from '@nestjs/throttler';
 
 @Global()
 @Module({
-    imports  : [
+    imports: [
         ThrottlerModule.forRootAsync({
-            inject    : [ConfigService],
+            inject: [ConfigService],
             useFactory: (configService: ConfigService<ConfigType>) => {
                 const config = configService.get('server.throtller', { infer: true });
                 return {
@@ -22,7 +22,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
             },
         }),
         CacheModule.registerAsync({
-            inject    : [ConfigService],
+            inject: [ConfigService],
             useFactory: (configService: ConfigService<ConfigType>) => {
                 const cacheConfig = {
                     ...configService.get('general.cache', { infer: true }),
@@ -43,17 +43,17 @@ import { ThrottlerModule } from '@nestjs/throttler';
     ],
     providers: [
         {
-            provide : APP_FILTER,
+            provide: APP_FILTER,
             useClass: GlobalExceptionFilter,
         },
         {
-            provide : APP_FILTER,
+            provide: APP_FILTER,
             useClass: ValidationExceptionFilter,
         },
 
         LoggerProvider,
         Logger,
     ],
-    exports  : [CacheModule],
+    exports: [CacheModule],
 })
 export class GlobalModule {}

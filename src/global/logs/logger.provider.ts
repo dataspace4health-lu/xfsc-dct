@@ -18,18 +18,14 @@ export class LoggerProvider {
             const options = configService.get('logger.winston', { infer: true });
             this.logger = LoggerProvider.getWinstonLogger({
                 ...options,
-                isConsole: options.isConsole || configService.get('general.isDevelopment', { infer: true })
+                isConsole: options.isConsole || configService.get('general.isDevelopment', { infer: true }),
             });
         } else {
             this.logger = LoggerProvider.getDefaultLogger();
         }
     }
 
-    public static getWinstonLogger(opts: {
-        level: string;
-        isConsole: boolean;
-        fileName: string;
-    }) {
+    public static getWinstonLogger(opts: { level: string; isConsole: boolean; fileName: string }) {
         const transports = [];
 
         if (opts.isConsole) {

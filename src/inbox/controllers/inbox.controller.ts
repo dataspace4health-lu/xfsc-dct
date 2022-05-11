@@ -6,7 +6,7 @@ import { InboxService } from '../services/inbox.service';
 @Controller('inbox')
 @UseGuards(TokenAuthGuard)
 export class InboxController {
-    constructor(private readonly inboxService: InboxService) { }
+    constructor(private readonly inboxService: InboxService) {}
 
     @Get()
     async getNotification(@Request() req): Promise<any> {
