@@ -5,9 +5,9 @@ const loader = () => ({
     type: process.env.LOGGER_TYPE || LoggerType.Console,
 
     winston: {
-        level: process.env.LOGGER_WINSTON_LEVEL,
+        level    : process.env.LOGGER_WINSTON_LEVEL,
         isConsole: Boolean(process.env.LOGGER_WINSTON_TRANSPORTS_CONSOLE),
-        fileName: process.env.LOGGER_WINSTON_TRANSPORTS_FILE,
+        fileName : process.env.LOGGER_WINSTON_TRANSPORTS_FILE,
     },
 });
 
