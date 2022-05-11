@@ -1,12 +1,12 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { TokenAuthGuard } from 'src/auth/guards/token.guard';
 import { ExampleDto } from '../dtos/example.dto';
+import { PersonDto } from '../dtos/person.dto';
 import { ExampleService } from '../services/example.service';
-
 @UseGuards(TokenAuthGuard)
 @Controller('example')
 export class ExampleController {
-    constructor(private readonly appService: ExampleService) {}
+    constructor(private readonly appService: ExampleService) { }
 
     @Get('jora')
     list() {
@@ -18,9 +18,16 @@ export class ExampleController {
         return this.appService.getExample(id);
     }
 
-    @Post()
+    @Post("")
     create(@Body() exampleDto: ExampleDto) {
         return this.appService.create(exampleDto);
+    }
+
+    @Post("/person")
+    @UsePipes(new ValidationPipe({ transform: true }))
+    async createUser(@Body() personDto: PersonDto) {
+        console.log(personDto);
+        return { response: "ok" };
     }
 
     @Get('/throttle/get')

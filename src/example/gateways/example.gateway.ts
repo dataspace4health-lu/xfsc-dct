@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { BaseAPI } from 'src/common/api/base.api';
+import { BaseGateway } from 'src/common/api/base.gateway';
 
 @Injectable()
-export class ExampleApi extends BaseAPI {
+export class ExampleGateway extends BaseGateway {
     constructor() {
         super('http://example.com');
     }
