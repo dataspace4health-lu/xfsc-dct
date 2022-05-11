@@ -1,12 +1,12 @@
 import { CacheModule, Global, Logger, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { APP_FILTER } from '@nestjs/core';
+import { ThrottlerModule } from '@nestjs/throttler';
+import * as redisStore from 'cache-manager-redis-store';
 import { ConfigType } from 'Config/config.module';
 import { GlobalExceptionFilter } from './exceptions/global.exception-filter';
 import { LoggerProvider } from './logs/logger.provider';
-import * as redisStore from 'cache-manager-redis-store';
 import { ValidationExceptionFilter } from './exceptions/validation.exception-filter';
-import { ThrottlerModule } from '@nestjs/throttler';
 
 @Global()
 @Module({

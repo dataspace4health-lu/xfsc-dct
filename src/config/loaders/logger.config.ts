@@ -1,5 +1,5 @@
 import { registerAs } from '@nestjs/config';
-import { LoggerType } from 'src/global/logs/logger.provider';
+import { LoggerType } from 'Global/logs/logger.provider';
 
 const loader = () => ({
     type: process.env.LOGGER_TYPE || LoggerType.Console,

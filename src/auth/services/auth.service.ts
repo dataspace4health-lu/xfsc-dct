@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { ConfigType } from 'src/config/config.module';
 import { JwtService } from '@nestjs/jwt';
 import * as moment from 'moment';
+import { ConfigType } from 'Config/config.module';
 
 @Injectable()
 export class AuthService {
