@@ -1,12 +1,12 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { mock } from 'src/mocks/mocker';
 
-export type BaseApiOptions = Omit<AxiosRequestConfig, 'baseURL'>;
+export type BaseGatewayOptions = Omit<AxiosRequestConfig, 'baseURL'>;
 
-export class BaseAPI {
+export class BaseGateway {
     private readonly requester: AxiosInstance;
 
-    constructor(baseURL: string, props?: BaseApiOptions) {
+    constructor(baseURL: string, props?: BaseGatewayOptions) {
         this.requester = axios.create({
             baseURL,
             ...props,
