@@ -1,23 +1,14 @@
-import {
-    Body,
-    ClassSerializerInterceptor,
-    Controller,
-    Get,
-    Param,
-    Post,
-    UseGuards,
-    UseInterceptors,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { TokenAuthGuard } from 'src/auth/guards/token.guard';
 import { ExampleDto } from '../dtos/example.dto';
 import { ExampleService } from '../services/example.service';
 
-@Controller()
 @UseGuards(TokenAuthGuard)
+@Controller('example')
 export class ExampleController {
     constructor(private readonly appService: ExampleService) {}
 
-    @Get()
+    @Get('jora')
     list() {
         return this.appService.getApiExample();
     }

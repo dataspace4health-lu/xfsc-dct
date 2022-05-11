@@ -4,14 +4,15 @@ import { mock } from 'src/mocks/mocker';
 export interface BaseApiOptions extends Omit<AxiosRequestConfig, 'baseURL'> {}
 
 export class BaseAPI {
-    private requester: AxiosInstance;
+    private readonly requester: AxiosInstance;
 
-    constructor(endpoint: string, props?: BaseApiOptions) {
+    constructor(baseURL: string, props?: BaseApiOptions) {
         this.requester = axios.create({
-            baseURL: endpoint,
+            baseURL,
             ...props,
         });
-        mock(this.requester, endpoint);
+
+        mock(this.requester, baseURL);
     }
 
     protected handleError(error: any): Promise<boolean> {

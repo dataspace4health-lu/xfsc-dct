@@ -8,12 +8,17 @@ import { AuthModule } from './auth/auth.module';
 import { AppConfigModule } from './config/config.module';
 import { ExampleModule } from './example/example.module';
 import { GlobalModule } from './global/global.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
 import { InboxModule } from './inbox/inbox.module';
 
 @Module({
     imports: [
         AppConfigModule,
         GlobalModule,
+        ServeStaticModule.forRoot({
+            rootPath: join(__dirname, '..', 'client'),
+            exclude: ['/api*'],
+        }),
         TypeOrmModule.forRootAsync({
             imports: [ConfigModule],
             inject: [ConfigService],

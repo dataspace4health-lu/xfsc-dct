@@ -1,14 +1,6 @@
-import {
-    ExceptionFilter,
-    Catch,
-    ArgumentsHost,
-    HttpException,
-    Logger,
-    Inject,
-    BadRequestException,
-} from '@nestjs/common';
+import { ArgumentsHost, BadRequestException, Catch, ExceptionFilter, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { ConfigType } from 'src/config/config.module';
 
 @Catch(BadRequestException)

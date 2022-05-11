@@ -24,6 +24,7 @@ export class LoggerProvider {
                     }),
                 );
             }
+
             if (winston.fileName) {
                 transports.push(
                     new Winston.transports.File({
@@ -32,6 +33,7 @@ export class LoggerProvider {
                     }),
                 );
             }
+
             const level = configService.get('logger.winston.level', { infer: true });
             this.logger = WinstonModule.createLogger({
                 level,

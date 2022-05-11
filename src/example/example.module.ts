@@ -10,6 +10,7 @@ import { ExampleService } from './services/example.service';
 
 @Module({
     imports: [TypeOrmModule.forFeature([Example])],
+
     providers: [
         ExampleRepository,
         ExampleService,

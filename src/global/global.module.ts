@@ -1,12 +1,12 @@
 import { CacheModule, Global, Logger, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { APP_FILTER, APP_GUARD } from '@nestjs/core';
+import { APP_FILTER } from '@nestjs/core';
 import { ConfigType } from 'src/config/config.module';
 import { GlobalExceptionFilter } from './exceptions/global.exception-filter';
 import { LoggerProvider } from './logs/logger.provider';
 import * as redisStore from 'cache-manager-redis-store';
 import { ValidationExceptionFilter } from './exceptions/validation.exception-filter';
-import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 @Global()
 @Module({
@@ -28,6 +28,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
                     ...configService.get('general.cache', { infer: true }),
                     isGlobal: true,
                 };
+
                 if (cacheConfig.store === 'redis') {
                     return {
                         ...cacheConfig,
@@ -35,6 +36,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
                         store: redisStore,
                     };
                 }
+
                 return cacheConfig;
             },
         }),

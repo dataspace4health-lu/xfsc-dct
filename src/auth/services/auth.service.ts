@@ -12,7 +12,7 @@ export class AuthService {
     ) {}
 
     async validateAdmin(username: string, pass: string): Promise<any> {
-        const adminConfig = this.configService.get('admin');
+        const adminConfig = this.configService.get('admin', { infer: true });
         if (username === adminConfig.username && pass === adminConfig.password) {
             return {
                 username,
@@ -26,12 +26,12 @@ export class AuthService {
         return {
             accessToken: this.jwtService.sign(payload),
             expiresAt: moment()
-                .add(this.configService.get('admin.auth.expiresIn' as any), 'seconds')
+                .add(this.configService.get('admin.auth.expiresIn', { infer: true }), 'seconds')
                 .unix(),
         };
     }
 
     async validateToken(token: string) {
-        return token === `Bearer ${this.configService.get('general.token' as any)}`;
+        return token === `Bearer ${this.configService.get('general.token', { infer: true })}`;
     }
 }
