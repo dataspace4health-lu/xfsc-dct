@@ -1,6 +1,5 @@
 import { Cache } from 'cache-manager';
 import { DeepPartial, FindOptionsWhere, Repository } from 'typeorm';
-import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { BaseEntity } from '../model/base.entity';
 
 export class BaseDatabaseRepository<T extends BaseEntity> {
