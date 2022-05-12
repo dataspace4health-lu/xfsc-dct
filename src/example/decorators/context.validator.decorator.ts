@@ -3,7 +3,7 @@ import { SetMetadata } from '@nestjs/common';
 export const CONTEXT_METADATA_KEY = 'jsonld';
 
 export type JSONLDContext = {
-    '@context': string;
+    '@context': string | string[];
     '@id'?: string;
     '@type'?: string;
 };

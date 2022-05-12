@@ -1,4 +1,4 @@
-import { ClassSerializerInterceptor, Module } from '@nestjs/common';
+import { ClassSerializerInterceptor, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
@@ -10,6 +10,8 @@ import { AppConfigModule } from 'Config/config.module';
 import { ExampleModule } from './example/example.module';
 import { GlobalModule } from 'Global/global.module';
 import { InboxModule } from 'Inbox/inbox.module';
+import { RdfBodyParserMiddleware } from 'Global/middlewares/rdf.parser.middleware';
+import { JsonBodyParserMiddleware } from 'Global/middlewares/json.parser.middleware';
 
 @Module({
     imports: [
@@ -45,4 +47,9 @@ import { InboxModule } from 'Inbox/inbox.module';
         },
     ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer.apply(RdfBodyParserMiddleware).forRoutes('/inbox/*', '/example/person');
+        consumer.apply(JsonBodyParserMiddleware).exclude('/inbox/*', '/example/person').forRoutes('*');
+    }
+}

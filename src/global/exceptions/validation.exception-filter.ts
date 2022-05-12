@@ -10,7 +10,22 @@ export class ValidationExceptionFilter implements ExceptionFilter<BadRequestExce
     catch(exception: BadRequestException, host: ArgumentsHost) {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse<Response>();
-
-        response.status(exception.getStatus()).json(exception.getResponse());
+        const exceptionResponse = exception.getResponse();
+        if (typeof exceptionResponse === 'string') {
+            response.status(exception.getStatus()).json({
+                statusCode: exception.getStatus(),
+                message: [exceptionResponse],
+                error: 'Bad Request',
+            });
+        } else {
+            response.status(exception.getStatus()).json({
+                ...exceptionResponse,
+                message: [
+                    ...(Array.isArray((exceptionResponse as any).message)
+                        ? (exceptionResponse as any).message
+                        : [(exceptionResponse as any).message]),
+                ],
+            });
+        }
     }
 }

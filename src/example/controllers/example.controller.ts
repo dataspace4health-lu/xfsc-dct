@@ -1,4 +1,15 @@
-import { Body, Controller, Get, Param, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Get,
+    Param,
+    Post,
+    UseGuards,
+    UseInterceptors,
+    UsePipes,
+    ValidationPipe,
+} from '@nestjs/common';
+import { RdfInterceptor } from 'Global/interceptors/rdf.interceptor';
 import { TokenAuthGuard } from 'src/auth/guards/token.guard';
 import { ExampleDto } from '../dtos/example.dto';
 import { PersonDto } from '../dtos/person.dto';
@@ -24,10 +35,11 @@ export class ExampleController {
     }
 
     @Post('/person')
+    @UseInterceptors(RdfInterceptor)
     @UsePipes(new ValidationPipe({ transform: true }))
     async createUser(@Body() personDto: PersonDto) {
         console.log(personDto);
-        return { response: 'ok' };
+        return personDto;
     }
 
     @Get('/throttle/get')
