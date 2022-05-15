@@ -1,6 +1,6 @@
 {
     "http://example.com": {
-        "/example": {
+        "/checkProvider": {
             "onGet": {
                 "status": 200,
                 "response": {
@@ -10,10 +10,49 @@
                 }
             },
             "onPost": {
-                "status": 400,
+                "status": 200,
+                "response": {
+                    "example": {
+                        "isValid": true
+                    }
+                }
+            }
+        },
+
+        "/checkSignature": {
+            "onGet": {
+                "status": 200,
                 "response": {
                     "example": {
                         "key": "value"
+                    }
+                }
+            },
+            "onPost": {
+                "status": 200,
+                "response": {
+                    "example": {
+                        "isValid": true
+                    }
+                }
+            }
+        },
+
+        "/addSignature": {
+            "onGet": {
+                "status": 200,
+                "response": {
+                    "example": {
+                        "verificationMethod": "did:provider:123456#key2",
+                        "jws": "eyJ0eXAiOiJK...gFWFOEjXk"
+                    }
+                }
+            },
+            "onPost": {
+                "status": 200,
+                "response": {
+                    "example": {
+                        "isValid": true
                     }
                 }
             }
