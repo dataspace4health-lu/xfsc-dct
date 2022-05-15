@@ -46,11 +46,11 @@ class CredentialSubject {
   @IsArray()
   'gax:category': string[];
 
-  @IsNumber()
-  'gax:publisher': number;
+  @IsString()
+  'gax:publisher': string;
 
-  @IsNumber()
-  'gax:creator': number;
+  @IsString()
+  'gax:creator': string;
 
   @IsString()
   'gax:language': Url;

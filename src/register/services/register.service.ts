@@ -23,16 +23,16 @@ export class RegisterService {
           const signature = this.addSignature();
 
           const proof = {
-            "type": "Ed25519Signature2018",
-            "proofPurpose": "assertionMethod",
-            "created": new Date(),
-            "verificationMethod": signature.verificationMethod,
-            "jws": signature.jws
+            type: 'Ed25519Signature2018',
+            proofPurpose: 'assertionMethod',
+            created: new Date(),
+            verificationMethod: signature['verificationMethod'],
+            jws: signature['jws']
           };
 
-          const did = registerDto.proof.push(proof);
+          registerDto.proof.push(proof);
 
-          return did;
+          return registerDto;
         }
       }
 
