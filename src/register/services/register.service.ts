@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { RegisterGateway } from '../gateways/register.gateway';
 import { RegisterDto } from '../dtos/register.dto';
 
@@ -16,27 +16,29 @@ export class RegisterService {
 
       const userExists = this.checkProvider(registerDto.proof[0].jws);
 
-      if (userExists) {
-        const isValidSig = this.checkSignature(registerDto.proof[0].verificationMethod);
-
-        if (userExists) {
-          const signature = this.addSignature();
-
-          const proof = {
-            type: 'Ed25519Signature2018',
-            proofPurpose: 'assertionMethod',
-            created: new Date(),
-            verificationMethod: signature['verificationMethod'],
-            jws: signature['jws']
-          };
-
-          registerDto.proof.push(proof);
-
-          return registerDto;
-        }
+      if (!userExists) {
+        throw new ForbiddenException();
       }
 
-        return registerDto;
+      const isValidSig = this.checkSignature(registerDto.proof[0].verificationMethod);
+
+      if (!isValidSig) {
+        throw new UnauthorizedException();
+      }
+
+      const signature = this.addSignature();
+
+      const proof = {
+        type: 'Ed25519Signature2018',
+        proofPurpose: 'assertionMethod',
+        created: new Date(),
+        verificationMethod: signature['verificationMethod'],
+        jws: signature['jws']
+      };
+
+      registerDto.proof.push(proof);
+
+      return registerDto;
     }
 
     checkProvider(jws: string) {

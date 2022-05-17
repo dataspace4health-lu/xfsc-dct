@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, ServiceUnavailableException } from '@nestjs/common';
 import { BaseGateway } from 'src/common/api/base.gateway';
 
 @Injectable()
@@ -8,14 +8,29 @@ export class RegisterGateway extends BaseGateway {
   }
 
   public async checkProvider(jws: string) {
-    return this.request('/checkProvider', 'POST', jws);
+    try {
+      return this.request('/checkProvider', 'POST', jws);
+    } catch (e) {
+      // @TODO: if e is an instace of Error check the message and throw the error based on that
+      throw new ServiceUnavailableException();
+    }
   }
 
   public async checkSignature(signature: string) {
-    return this.request('/checkSignature', 'POST', signature);
+    try {
+      return this.request('/checkSignature', 'POST', signature);
+    } catch (e) {
+      // @TODO: if e is an instace of Error check the message and throw the error based on that
+      throw new ServiceUnavailableException();
+    }
   }
 
   public async addSignature() {
-    return this.request('/addSignature', 'POST');
+    try {
+      return this.request('/addSignature', 'GET');
+    } catch (e) {
+      // @TODO: if e is an instace of Error check the message and throw the error based on that
+      throw new ServiceUnavailableException();
+    }
   }
 }
