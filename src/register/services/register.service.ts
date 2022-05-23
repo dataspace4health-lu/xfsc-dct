@@ -1,5 +1,6 @@
 import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { RegisterDto } from '../dtos/register.dto';
+import { CommonGateway } from 'Common/api/common.gateway';
 
 @Injectable()
 export class RegisterService {
@@ -41,14 +42,14 @@ export class RegisterService {
     }
 
     checkProvider(jws: string) {
-        return this.registerApi.checkProvider(jws);
+      return this.commonApi.checkProvider(jws);
     }
 
     checkSignature(signature: string) {
-      return this.registerApi.checkSignature(signature);
+      return this.commonApi.checkSignature(signature);
     }
 
     addSignature() {
-      return this.registerApi.addSignature();
+      return this.commonApi.addSignature();
     }
 }
