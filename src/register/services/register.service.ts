@@ -4,7 +4,11 @@ import { RegisterDto } from '../dtos/register.dto';
 
 @Injectable()
 export class RegisterService {
+<<<<<<< HEAD
     public constructor(protected registerApi: RegisterGateway) {}
+=======
+    public constructor(protected commonApi: CommonGateway) {}
+>>>>>>> e10bcb7 (removed registerApi no longer needed)
 
     create(registerDto: RegisterDto) {
       /**
