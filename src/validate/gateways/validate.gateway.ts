@@ -24,13 +24,4 @@ export class ValidateGateway extends BaseGateway {
       throw new ServiceUnavailableException();
     }
   }
-
-  public async addSignature() {
-    try {
-      return this.request('/addSignature', 'GET');
-    } catch (e) {
-      // @TODO: if e is an instace of Error check the message and throw the error based on that
-      throw new ServiceUnavailableException();
-    }
-  }
 }

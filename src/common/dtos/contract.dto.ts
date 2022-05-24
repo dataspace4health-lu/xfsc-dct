@@ -4,7 +4,7 @@ import { Url } from 'jsonld/jsonld-spec';
 import { JSONLDContext } from '../decorators/context.validator.decorator';
 
 @JSONLDContext({ '@context': 'https://json-ld.org/contexts/person.jsonld' })
-export class ValidateDto {
+export class ContractDto {
   @IsArray()
   '@context': Url[]
 
@@ -27,8 +27,9 @@ class GaxVerifiableCredential {
   credentialSubject: CredentialSubject;
 
   @IsArray()
+  @IsNotEmpty()
   @Type(() => GaxProof)
-  proof: GaxProof[];
+  proof: GaxProof;
 }
 
 class CredentialSubject {
@@ -127,7 +128,7 @@ class GaxContractOffer {
   'gax:permission': GaxPermission;
 }
 
-class GaxPermission {
+export class GaxPermission {
   @IsString()
   '@type': string;
 
@@ -162,7 +163,7 @@ class GaxAction {
   '@id': string;
 }
 
-class GaxProof {
+export class GaxProof {
   @IsString()
   type: string;
 

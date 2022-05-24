@@ -1,4 +1,5 @@
 import { Injectable, ServiceUnavailableException } from '@nestjs/common';
+import { GaxProof } from 'Common/dtos/contract.dto';
 import { BaseGateway } from 'src/common/api/base.gateway';
 
 @Injectable()
@@ -32,6 +33,10 @@ export class CommonGateway extends BaseGateway {
       // @TODO: if e is an instace of Error check the message and throw the error based on that
       throw new ServiceUnavailableException();
     }
+  }
+
+  public async checkSignatures(signatures: GaxProof[]) {
+    return this.request('/checkSignatures', 'POST', signatures);
   }
 
   public async addSignature() {

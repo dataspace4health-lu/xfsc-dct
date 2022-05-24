@@ -5,7 +5,7 @@ import {
   UseGuards
 } from '@nestjs/common';
 import { TokenAuthGuard } from 'src/auth/guards/token.guard';
-import { ValidateDto } from '../dtos/validate.dto';
+import { ContractDto } from 'Common/dtos/contract.dto'
 import { ValidateService } from '../services/validate.service';
 
 @UseGuards(TokenAuthGuard)
@@ -14,7 +14,7 @@ export class ValidateController {
   constructor(private readonly appService: ValidateService) {}
 
   @Post('')
-  create(@Body() validateDto: ValidateDto): ValidateDto {
+  create(@Body() validateDto: ContractDto): ContractDto {
       return this.appService.create(validateDto);
   }
 }
