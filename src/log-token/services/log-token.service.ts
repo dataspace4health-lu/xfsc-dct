@@ -1,6 +1,7 @@
 import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { LogTokenGateway } from '../gateways/log-token.gateway';
 import { LogTokenDto } from '../dtos/log-token.dto';
+import { GaxProof } from 'Common/dtos/contract.dto';
 import { ConfigService } from '@nestjs/config';
 import { ConfigType } from 'Config/config.module';
 
@@ -8,7 +9,7 @@ import { ConfigType } from 'Config/config.module';
 export class LogTokenService {
     public constructor(
       protected logTokenApi: LogTokenGateway, 
-      protected readonly configService: ConfigService<ConfigType>,
+      protected readonly configService: ConfigService<ConfigType>
     ) {}
 
     create(logTokenDto: LogTokenDto) {
@@ -28,7 +29,7 @@ export class LogTokenService {
       return this.getToken(logTokenDto.verifiableCredential[0].credentialSubject['@id']);
     }
 
-    checkSignatures(signatures: LogTokenDto['verifiableCredential'][0]['proof'][]) {
+    checkSignatures(signatures:  GaxProof[]) {
       return this.logTokenApi.checkSignatures(signatures);
     }
 
