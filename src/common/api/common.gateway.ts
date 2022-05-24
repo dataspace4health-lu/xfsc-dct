@@ -2,7 +2,7 @@ import { Injectable, ServiceUnavailableException } from '@nestjs/common';
 import { BaseGateway } from 'src/common/api/base.gateway';
 
 @Injectable()
-export class RegisterGateway extends BaseGateway {
+export class CommonGateway extends BaseGateway {
   constructor() {
     super('http://example.com');
   }
@@ -10,6 +10,15 @@ export class RegisterGateway extends BaseGateway {
   public async checkProvider(jws: string) {
     try {
       return this.request('/checkProvider', 'POST', jws);
+    } catch (e) {
+      // @TODO: if e is an instace of Error check the message and throw the error based on that
+      throw new ServiceUnavailableException();
+    }
+  }
+
+  public async checkConsumer(jws: string) {
+    try {
+      return this.request('/checkConsumer', 'POST', jws);
     } catch (e) {
       // @TODO: if e is an instace of Error check the message and throw the error based on that
       throw new ServiceUnavailableException();
