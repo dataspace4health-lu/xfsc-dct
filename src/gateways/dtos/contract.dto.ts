@@ -3,14 +3,8 @@ import { IsArray, IsBoolean, IsDate, IsNotEmpty, IsNumber, IsObject, IsString, I
 import { Url } from 'jsonld/jsonld-spec';
 import { JSONLDContext } from 'src/gateways/decorators/context.validator.decorator';
 
-@JSONLDContext({ '@context': 'https://json-ld.org/contexts/person.jsonld' })
+// @JSONLDContext({ '@context': 'https://json-ld.org/contexts/person.jsonld' })
 export class ContractDto {
-  @IsArray()
-  '@context': Url[]
-
-  @IsString()
-  type: string;
-
   @IsArray()
   @Type(() => GaxVerifiableCredential)
   verifiableCredential: GaxVerifiableCredential[];

@@ -14,7 +14,7 @@ export class LogTokenController {
   constructor(private readonly appService: LogTokenService) {}
 
   @Post('token')
-  create(@Body() logTokenDto: ContractDto) {
-    return this.appService.create(logTokenDto);
+  async create(@Body() logTokenDto: ContractDto) {
+    return await this.appService.create(logTokenDto);
   }
 }

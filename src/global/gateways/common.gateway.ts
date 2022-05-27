@@ -9,36 +9,19 @@ export class CommonGateway extends BaseGateway {
     super('http://example.com');
   }
 
-  public async checkProvider(proof: GaxProof) {
+  public async checkUser(providerDID: string) {
     try {
-      const cachedProof = this.cache.get(proof.verificationMethod);
+      const cachedProof = await this.cache.get(providerDID);
 
-      if (cachedProof !== undefined) {
+      if (cachedProof !== undefined && cachedProof !== null) {
         return cachedProof;
       }
 
-      const res = this.request('/checkProvider', 'POST', proof);
-      this.cache.set(proof.verificationMethod, JSON.stringify(proof), { ttl: 86400 });
+      const res = await this.request('/checkProvider', 'POST', providerDID);
 
-      return res;
-    } catch (e) {
-      // @TODO: if e is an instace of Error check the message and throw the error based on that
-      throw new ServiceUnavailableException();
-    }
-  }
+      await this.cache.set(providerDID, res['example'], { ttl: 86400 });
 
-  public async checkConsumer(proof: GaxProof) {
-    try {
-      const cachedProof = this.cache.get(proof.verificationMethod);
-
-      if (cachedProof !== undefined) {
-        return cachedProof;
-      }
-
-      const res = this.request('/checkConsumer', 'POST', proof);
-      this.cache.set(proof.verificationMethod, JSON.stringify(proof), { ttl: 86400 });
-
-      return res;
+      return res['example'];
     } catch (e) {
       // @TODO: if e is an instace of Error check the message and throw the error based on that
       throw new ServiceUnavailableException();
@@ -47,16 +30,16 @@ export class CommonGateway extends BaseGateway {
 
   public async checkSignature(proof: GaxProof) {
     try {
-      const cachedProof = this.cache.get(proof.verificationMethod);
+      const cachedProof = await this.cache.get(proof.verificationMethod);
 
-      if (cachedProof !== undefined) {
+      if (cachedProof !== undefined && cachedProof !== null) {
         return cachedProof;
       }
 
-      const res = this.request('/checkSignature', 'POST', proof);
-      this.cache.set(proof.verificationMethod, JSON.stringify(proof), { ttl: 86400 });
+      const res = await this.request('/checkSignature', 'POST', proof);
+      await this.cache.set(proof.verificationMethod, res['example'], { ttl: 86400 });
 
-      return res;
+      return res['example'];
     } catch (e) {
       // @TODO: if e is an instace of Error check the message and throw the error based on that
       throw new ServiceUnavailableException();
@@ -64,20 +47,18 @@ export class CommonGateway extends BaseGateway {
   }
 
   public async checkSignatures(signatures: GaxProof[]) {
-    // signatures.forEach((signature) => {
-    //   const cachedProof = this.cache.get(proof.verificationMethod);
+    let valid = false;
 
-    //   if (cachedProof !== undefined) {
-    //     return cachedProof;
-    //   }
-    // });
+    for (const signature of signatures) {
+      await this.checkSignature(signature);
+    }
 
-    return this.request('/checkSignatures', 'POST', signatures);
+    return { isValid: valid };
   }
 
   public async addSignature() {
     try {
-      return this.request('/addSignature', 'GET');
+      return await this.request('/addSignature', 'GET');
     } catch (e) {
       // @TODO: if e is an instace of Error check the message and throw the error based on that
       throw new ServiceUnavailableException();

@@ -3,18 +3,9 @@ import { IsArray, IsBoolean, IsDate, IsNotEmpty, IsNumber, IsObject, IsString, I
 import { Url } from 'jsonld/jsonld-spec';
 import { JSONLDContext } from '../decorators/context.validator.decorator';
 
-// @JSONLDContext({
-//   '@context': ['https://json-ld.org/contexts/person.jsonld'],
-//   '@verifiableCredential': new RegisterDto,
-//   '@proof': undefined
-// })
+// @TODO: should be checked and see how this works
+// @JSONLDContext({ '@context': ['https://www.w3.org/2018/credentials/v1', 'https://w3id.org/gaia-x/core/context/DataAsset.jsonld'] })
 export class RegisterDto {
-  @IsArray()
-  '@context': Url[]
-
-  @IsString()
-  type: string;
-
   @IsArray()
   @Type(() => GaxVerifiableCredential)
   verifiableCredential: GaxVerifiableCredential[];

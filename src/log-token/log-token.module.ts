@@ -11,10 +11,10 @@ import { LogTokenService } from './services/log-token.service';
         LogTokenService,
         {
             provide: APP_INTERCEPTOR,
-            useClass: RdfInterceptor,
+            useClass: RdfInterceptor
         },
         LogTokenGateway
     ],
-    controllers: [LogTokenController],
+    controllers: [LogTokenController]
 })
 export class LogTokenModule {}

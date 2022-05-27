@@ -3,7 +3,6 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { GlobalModule } from 'Global/global.module';
 import { RdfInterceptor } from 'Global/interceptors/rdf.interceptor';
 import { ValidateController } from './controllers/validate.controller';
-import { ValidateGateway } from './gateways/validate.gateway';
 import { ValidateService } from './services/validate.service';
 @Module({
     imports: [GlobalModule],
@@ -12,8 +11,7 @@ import { ValidateService } from './services/validate.service';
         {
             provide: APP_INTERCEPTOR,
             useClass: RdfInterceptor,
-        },
-        ValidateGateway
+        }
     ],
     controllers: [ValidateController],
 })

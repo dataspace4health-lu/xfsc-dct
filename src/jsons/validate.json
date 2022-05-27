@@ -49,7 +49,7 @@
           "gax:permission": [
             {
               "@type": "gax:Permission",
-              "gax:assigner": "?providerDID",
+              "gax:assigner": "key1",
               "gax:target": "?someDataAssetID",
               "gax:action": "gax:COMPENSATE",
               "gax:negotiable": true,

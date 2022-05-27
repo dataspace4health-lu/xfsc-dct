@@ -15,21 +15,22 @@ export class RegisterService {
        * - call to return the DID to the provider
        */
 
-      const userExists = this.checkProvider(registerDto.proof[0]);
+      const providerDID = registerDto.verifiableCredential[0].credentialSubject['gax:contractOffer']['gax:permission']['gax:assigner'];
+      const userExists = await this.checkUser(providerDID);
+      const isValidSig = await this.checkSignature(registerDto.proof[0]);
 
-      if (!userExists) {
+      if (!userExists['isValid'] && !isValidSig) {
         throw new ForbiddenException();
-      }
-
-      const isValidSig = this.checkSignature(registerDto.proof[0]);
-
-      if (!isValidSig) {
-        throw new UnauthorizedException();
       }
 
       const signature = await this.addSignature();
 
+      if (signature['example']['type'] === undefined) {
+        throw new UnauthorizedException();
+      }
+
       // @TODO: this should be checked when implemented with the live service
+      // seems to be a problem with the contract model
       const proof = {
         type: signature['example']['type'],
         proofPurpose: signature['example']['proofPurpose'],
@@ -43,12 +44,12 @@ export class RegisterService {
       return registerDto;
     }
 
-    checkProvider(proof: GaxProof) {
-      return this.commonApi.checkProvider(proof);
+    async checkUser(providerDID: string) {
+      return await this.commonApi.checkUser(providerDID);
     }
 
-    checkSignature(proof: GaxProof) {
-      return this.commonApi.checkSignature(proof);
+    async checkSignature(proof: GaxProof) {
+      return await this.commonApi.checkSignature(proof);
     }
 
     async addSignature() {
