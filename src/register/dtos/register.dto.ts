@@ -3,7 +3,11 @@ import { IsArray, IsBoolean, IsDate, IsNotEmpty, IsNumber, IsObject, IsString, I
 import { Url } from 'jsonld/jsonld-spec';
 import { JSONLDContext } from '../decorators/context.validator.decorator';
 
-@JSONLDContext({ '@context': 'https://json-ld.org/contexts/person.jsonld' })
+// @JSONLDContext({
+//   '@context': ['https://json-ld.org/contexts/person.jsonld'],
+//   '@verifiableCredential': new RegisterDto,
+//   '@proof': undefined
+// })
 export class RegisterDto {
   @IsArray()
   '@context': Url[]

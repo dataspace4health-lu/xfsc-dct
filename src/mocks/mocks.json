@@ -43,7 +43,9 @@
                 "status": 200,
                 "response": {
                     "example": {
-                        "verificationMethod": "did:provider:123456#key2",
+                        "type": "Ed25519Signature2018",
+                        "proofPurpose": "assertionMethod",
+                        "verificationMethod": "did:DCS:123456#key2",
                         "jws": "eyJ0eXAiOiJK...gFWFOEjXk"
                     }
                 }

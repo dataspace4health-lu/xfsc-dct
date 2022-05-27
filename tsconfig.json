@@ -26,7 +26,8 @@
           "Register/*": ["src/register/*"],
           "Validate/*": ["src/validate/*"],
           "LogToken/*": ["src/log-token/*"],
-          "Mocks/*": ["src/mocks/*"]
+          "Mocks/*": ["src/mocks/*"],
+          "Gateways/*": ["src/gateways/*"]
       }
   },
   "include": ["src"]

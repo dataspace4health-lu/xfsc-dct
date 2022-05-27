@@ -5,7 +5,7 @@ import {
   UseGuards
 } from '@nestjs/common';
 import { TokenAuthGuard } from 'src/auth/guards/token.guard';
-import { ContractDto } from 'Common/dtos/contract.dto'
+import { ContractDto } from 'Gateways/dtos/contract.dto'
 import { ValidateService } from '../services/validate.service';
 
 @UseGuards(TokenAuthGuard)

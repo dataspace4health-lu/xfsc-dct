@@ -1,7 +1,7 @@
-import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ValidateGateway } from '../gateways/validate.gateway';
-import { ContractDto, GaxPermission, GaxProof } from 'Common/dtos/contract.dto';
-import { CommonGateway } from 'Common/api/common.gateway';
+import { ContractDto, GaxPermission, GaxProof } from 'Gateways/dtos/contract.dto';
+import { CommonGateway } from 'Global/gateways/common.gateway';
 
 @Injectable()
 export class ValidateService {

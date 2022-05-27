@@ -1,13 +1,13 @@
 import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { RegisterDto } from '../dtos/register.dto';
-import { CommonGateway } from '../../common/api/common.gateway';
-import { GaxProof } from 'Common/dtos/contract.dto';
+import { CommonGateway } from 'Global/gateways/common.gateway';
+import { GaxProof } from 'Gateways/dtos/contract.dto';
 
 @Injectable()
 export class RegisterService {
     public constructor(protected commonApi: CommonGateway) {}
 
-    create(registerDto: RegisterDto) {
+    async create(registerDto: RegisterDto) {
       /**
        * - call to verify if user exists; jws
        * - call to verify that that the signature is correct (verificationMethod)
@@ -27,14 +27,15 @@ export class RegisterService {
         throw new UnauthorizedException();
       }
 
-      const signature = this.addSignature();
+      const signature = await this.addSignature();
 
+      // @TODO: this should be checked when implemented with the live service
       const proof = {
-        type: 'Ed25519Signature2018',
-        proofPurpose: 'assertionMethod',
+        type: signature['example']['type'],
+        proofPurpose: signature['example']['proofPurpose'],
         created: new Date(),
-        verificationMethod: signature['verificationMethod'],
-        jws: signature['jws']
+        verificationMethod: signature['example']['verificationMethod'],
+        jws: signature['example']['jws']
       };
 
       registerDto.proof.push(proof);
@@ -50,7 +51,7 @@ export class RegisterService {
       return this.commonApi.checkSignature(proof);
     }
 
-    addSignature() {
-      return this.commonApi.addSignature();
+    async addSignature() {
+      return await this.commonApi.addSignature();
     }
 }

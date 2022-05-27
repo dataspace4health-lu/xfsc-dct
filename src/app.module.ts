@@ -23,22 +23,22 @@ import { LogTokenModule } from './log-token/log-token.module';
             rootPath: join(__dirname, '..', 'client'),
             exclude: ['/api*'],
         }),
-        TypeOrmModule.forRootAsync({
-            imports: [ConfigModule],
-            inject: [ConfigService],
-            useFactory: async (config: ConfigService) => {
-                const options = config.get<TypeOrmModuleOptions>('database');
-                return {
-                    ...options,
-                    type: 'postgres',
-                    entities: [join(__dirname, '**', '*.entity.{ts,js}')],
-                    synchronize: true,
-                    // logging: true
-                } as PostgresConnectionOptions;
-            },
-        }),
+        // TypeOrmModule.forRootAsync({
+        //     imports: [ConfigModule],
+        //     inject: [ConfigService],
+        //     useFactory: async (config: ConfigService) => {
+        //         const options = config.get<TypeOrmModuleOptions>('database');
+        //         return {
+        //             ...options,
+        //             type: 'postgres',
+        //             entities: [join(__dirname, '**', '*.entity.{ts,js}')],
+        //             synchronize: true,
+        //             // logging: true
+        //         } as PostgresConnectionOptions;
+        //     },
+        // }),
         AuthModule,
-        ExampleModule,
+        // ExampleModule,
         RegisterModule,
         ValidateModule,
         LogTokenModule
@@ -51,9 +51,12 @@ import { LogTokenModule } from './log-token/log-token.module';
         },
     ],
 })
+
+// export class AppModule {}
+
 export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
-        consumer.apply(RdfBodyParserMiddleware).forRoutes('/inbox/*', '/example/person');
-        consumer.apply(JsonBodyParserMiddleware).exclude('/inbox/*', '/example/person').forRoutes('*');
+        consumer.apply(RdfBodyParserMiddleware).forRoutes('*');
+        consumer.apply(JsonBodyParserMiddleware).forRoutes('*');
     }
 }

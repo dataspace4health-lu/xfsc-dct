@@ -1,6 +1,6 @@
 import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { LogTokenGateway } from '../gateways/log-token.gateway';
-import { ContractDto, GaxProof } from 'Common/dtos/contract.dto';
+import { ContractDto, GaxProof } from 'Gateways/dtos/contract.dto';
 import { ConfigService } from '@nestjs/config';
 import { ConfigType } from 'Config/config.module';
 

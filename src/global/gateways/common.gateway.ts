@@ -1,11 +1,11 @@
-import { Injectable, ServiceUnavailableException } from '@nestjs/common';
+import { CACHE_MANAGER, Inject, Injectable, ServiceUnavailableException } from '@nestjs/common';
 import { Cache } from 'cache-manager';
-import { GaxProof } from '../dtos/contract.dto';
+import { GaxProof } from 'src/gateways/dtos/contract.dto';
 import { BaseGateway } from 'src/common/api/base.gateway';
 
 @Injectable()
 export class CommonGateway extends BaseGateway {
-  constructor(protected cache: Cache) {
+  constructor(@Inject(CACHE_MANAGER) protected cache: Cache) {
     super('http://example.com');
   }
 

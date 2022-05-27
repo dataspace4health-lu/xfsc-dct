@@ -1,5 +1,5 @@
 import { Injectable, ServiceUnavailableException } from '@nestjs/common';
-import { ContractDto } from 'Common/dtos/contract.dto';
+import { ContractDto } from 'Gateways/dtos/contract.dto';
 import { BaseGateway } from 'src/common/api/base.gateway';
 
 @Injectable()

@@ -1,7 +1,7 @@
 import { Type } from 'class-transformer';
 import { IsArray, IsBoolean, IsDate, IsNotEmpty, IsNumber, IsObject, IsString, IsUrl } from 'class-validator';
 import { Url } from 'jsonld/jsonld-spec';
-import { JSONLDContext } from '../decorators/context.validator.decorator';
+import { JSONLDContext } from 'src/gateways/decorators/context.validator.decorator';
 
 @JSONLDContext({ '@context': 'https://json-ld.org/contexts/person.jsonld' })
 export class ContractDto {
