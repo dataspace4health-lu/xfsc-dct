@@ -14,7 +14,7 @@ export class ValidateService {
 
       const contractOffer = validateDto.verifiableCredential[0].credentialSubject['gax:contractOffer'];
       const confirmationRequired = contractOffer['gax:confirmationRequired'];
-      const permissions: GaxPermission[] = contractOffer['gax:permission'];
+      const permissions: GaxPermission[] = [contractOffer['gax:permission']];
       let found = confirmationRequired;
 
       if (!found) {
@@ -30,11 +30,11 @@ export class ValidateService {
         });
       }
 
-      return this.checkProvider(validateDto.proof[0].jws);
+      return this.checkProvider(validateDto.proof[0]);
     }
 
-    checkProvider(jws: string) {
-      return this.commonApi.checkProvider(jws);
+    checkProvider(proof: GaxProof) {
+      return this.commonApi.checkProvider(proof);
     }
 
     checkSignatures(signatures: GaxProof[]) {

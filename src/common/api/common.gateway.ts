@@ -1,6 +1,6 @@
 import { Injectable, ServiceUnavailableException } from '@nestjs/common';
 import { Cache } from 'cache-manager';
-import { GaxProof } from 'Common/dtos/contract.dto';
+import { GaxProof } from '../dtos/contract.dto';
 import { BaseGateway } from 'src/common/api/base.gateway';
 
 @Injectable()

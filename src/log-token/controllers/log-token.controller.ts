@@ -4,17 +4,17 @@ import {
   Post,
   UseGuards
 } from '@nestjs/common';
+import { ContractDto } from 'Common/dtos/contract.dto';
 import { TokenAuthGuard } from 'src/auth/guards/token.guard';
-import { LogTokenDto } from '../dtos/log-token.dto';
 import { LogTokenService } from '../services/log-token.service';
 
 @UseGuards(TokenAuthGuard)
 @Controller('log')
-export class RegisterController {
+export class LogTokenController {
   constructor(private readonly appService: LogTokenService) {}
 
   @Post('token')
-  create(@Body() logTokenDto: LogTokenDto) {
+  create(@Body() logTokenDto: ContractDto) {
     return this.appService.create(logTokenDto);
   }
 }

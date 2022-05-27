@@ -9,9 +9,11 @@ import { AuthModule } from 'Auth/auth.module';
 import { AppConfigModule } from 'Config/config.module';
 import { ExampleModule } from './example/example.module';
 import { GlobalModule } from 'Global/global.module';
-import { InboxModule } from 'Inbox/inbox.module';
 import { RdfBodyParserMiddleware } from 'Global/middlewares/rdf.parser.middleware';
 import { JsonBodyParserMiddleware } from 'Global/middlewares/json.parser.middleware';
+import { RegisterModule } from 'Register/register.module';
+import { ValidateModule } from 'Validate/validate.module';
+import { LogTokenModule } from './log-token/log-token.module';
 
 @Module({
     imports: [
@@ -37,7 +39,9 @@ import { JsonBodyParserMiddleware } from 'Global/middlewares/json.parser.middlew
         }),
         AuthModule,
         ExampleModule,
-        InboxModule,
+        RegisterModule,
+        ValidateModule,
+        LogTokenModule
     ],
     controllers: [],
     providers: [

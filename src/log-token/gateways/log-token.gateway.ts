@@ -1,6 +1,6 @@
 import { Injectable, ServiceUnavailableException } from '@nestjs/common';
+import { ContractDto } from 'Common/dtos/contract.dto';
 import { BaseGateway } from 'src/common/api/base.gateway';
-import { LogTokenDto } from '../dtos/log-token.dto';
 
 @Injectable()
 export class LogTokenGateway extends BaseGateway {
@@ -8,7 +8,7 @@ export class LogTokenGateway extends BaseGateway {
     super('http://example.com');
   }
 
-  public async checkSignatures(signatures: LogTokenDto['verifiableCredential'][0]['proof'][]) {
+  public async checkSignatures(signatures: ContractDto['verifiableCredential'][0]['proof'][]) {
     try {
       return this.request('/checkSignature', 'POST', signatures);
     } catch (e) {

@@ -1,7 +1,6 @@
 import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { LogTokenGateway } from '../gateways/log-token.gateway';
-import { LogTokenDto } from '../dtos/log-token.dto';
-import { GaxProof } from 'Common/dtos/contract.dto';
+import { ContractDto, GaxProof } from 'Common/dtos/contract.dto';
 import { ConfigService } from '@nestjs/config';
 import { ConfigType } from 'Config/config.module';
 
@@ -12,7 +11,7 @@ export class LogTokenService {
       protected readonly configService: ConfigService<ConfigType>
     ) {}
 
-    create(logTokenDto: LogTokenDto) {
+    create(logTokenDto: ContractDto) {
       const contractOffer = logTokenDto.verifiableCredential[0].credentialSubject['gax:contractOffer'];
       const shouldLog = contractOffer['gax:loggingMode'];
 

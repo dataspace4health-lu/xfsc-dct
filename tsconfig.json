@@ -23,7 +23,9 @@
           "Config/*": ["src/config/*"],
           "Common/*": ["src/common/*"],
           "Global/*": ["src/global/*"],
-          "Inbox/*": ["src/inbox/*"],
+          "Register/*": ["src/register/*"],
+          "Validate/*": ["src/validate/*"],
+          "LogToken/*": ["src/log-token/*"],
           "Mocks/*": ["src/mocks/*"]
       }
   },

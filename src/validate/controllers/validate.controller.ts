@@ -14,7 +14,7 @@ export class ValidateController {
   constructor(private readonly appService: ValidateService) {}
 
   @Post('')
-  create(@Body() validateDto: ContractDto): ContractDto {
+  create(@Body() validateDto: ContractDto) {
       return this.appService.create(validateDto);
   }
 }

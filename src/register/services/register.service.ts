@@ -1,6 +1,6 @@
 import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { RegisterDto } from '../dtos/register.dto';
-import { CommonGateway } from 'Common/api/common.gateway';
+import { CommonGateway } from '../../common/api/common.gateway';
 import { GaxProof } from 'Common/dtos/contract.dto';
 
 @Injectable()
