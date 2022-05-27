@@ -1,6 +1,7 @@
 import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { RegisterDto } from '../dtos/register.dto';
 import { CommonGateway } from 'Common/api/common.gateway';
+import { GaxProof } from 'Common/dtos/contract.dto';
 
 @Injectable()
 export class RegisterService {
@@ -14,13 +15,13 @@ export class RegisterService {
        * - call to return the DID to the provider
        */
 
-      const userExists = this.checkProvider(registerDto.proof[0].jws);
+      const userExists = this.checkProvider(registerDto.proof[0]);
 
       if (!userExists) {
         throw new ForbiddenException();
       }
 
-      const isValidSig = this.checkSignature(registerDto.proof[0].verificationMethod);
+      const isValidSig = this.checkSignature(registerDto.proof[0]);
 
       if (!isValidSig) {
         throw new UnauthorizedException();
@@ -41,12 +42,12 @@ export class RegisterService {
       return registerDto;
     }
 
-    checkProvider(jws: string) {
-      return this.commonApi.checkProvider(jws);
+    checkProvider(proof: GaxProof) {
+      return this.commonApi.checkProvider(proof);
     }
 
-    checkSignature(signature: string) {
-      return this.commonApi.checkSignature(signature);
+    checkSignature(proof: GaxProof) {
+      return this.commonApi.checkSignature(proof);
     }
 
     addSignature() {
