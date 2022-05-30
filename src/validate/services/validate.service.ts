@@ -17,22 +17,24 @@ export class ValidateService {
       const proofs = validateDto.verifiableCredential[0].proof;
       let found = confirmationRequired;
 
-      if (found) {
+      if (!found) {
         for (const permission of permissions) {
           if (permission['gax:negotiable'] === true) {
             found = true;
             break;
           }
         }
+      }
 
+      if (found) {
         try {
           return await this.checkSignatures(<unknown>proofs as GaxProof[]);
         } catch (e) {
           throw new UnauthorizedException();
         }
+      } else {
+        return await this.checkSignature(<unknown>proofs[1] as GaxProof);
       }
-
-      return await this.checkSignature(<unknown>proofs[1] as GaxProof);
     }
 
     async checkSignature(proof: GaxProof) {

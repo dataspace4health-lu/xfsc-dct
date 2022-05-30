@@ -8,13 +8,7 @@ export class RegisterService {
     public constructor(protected commonApi: CommonGateway) {}
 
     async create(registerDto: RegisterDto) {
-      /**
-       * - call to verify if user exists; jws
-       * - call to verify that that the signature is correct (verificationMethod)
-       * - call to request own signature to add
-       * - call to return the DID to the provider
-       */
-
+      console.log(registerDto);
       const providerDID = registerDto.verifiableCredential[0].credentialSubject['gax:contractOffer']['gax:permission']['gax:assigner'];
       const userExists = await this.checkUser(providerDID);
       const isValidSig = await this.checkSignature(registerDto.proof[0]);

@@ -1,5 +1,23 @@
 {
     "http://example.com": {
+        "/checkUser": {
+            "onGet": {
+                "status": 200,
+                "response": {
+                    "example": {
+                        "key": "value"
+                    }
+                }
+            },
+            "onPost": {
+                "status": 200,
+                "response": {
+                    "example": {
+                        "isValid": true
+                    }
+                }
+            }
+        },
         "/checkSignature": {
             "onGet": {
                 "status": 200,

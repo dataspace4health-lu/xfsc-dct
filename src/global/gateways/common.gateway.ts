@@ -17,7 +17,7 @@ export class CommonGateway extends BaseGateway {
         return cachedProof;
       }
 
-      const res = await this.request('/checkProvider', 'POST', providerDID);
+      const res = await this.request('/checkUser', 'POST', providerDID);
 
       await this.cache.set(providerDID, res['example'], { ttl: 86400 });
 
