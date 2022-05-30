@@ -1,91 +1,144 @@
 {
-    "http://example.com": {
-        "/checkUser": {
-            "onGet": {
-                "status": 200,
-                "response": {
-                    "example": {
-                        "key": "value"
-                    }
-                }
-            },
-            "onPost": {
-                "status": 200,
-                "response": {
-                    "example": {
-                        "isValid": true
-                    }
-                }
-            }
-        },
-        "/checkSignature": {
-            "onGet": {
-                "status": 200,
-                "response": {
-                    "example": {
-                        "key": "value"
-                    }
-                }
-            },
-            "onPost": {
-                "status": 200,
-                "response": {
-                    "example": {
-                        "isValid": true
-                    }
-                }
-            }
-        },
-
-        "/addSignature": {
-            "onGet": {
-                "status": 200,
-                "response": {
-                    "example": {
-                        "type": "Ed25519Signature2018",
-                        "proofPurpose": "assertionMethod",
-                        "verificationMethod": "did:DCS:123456#key2",
-                        "jws": "eyJ0eXAiOiJK...gFWFOEjXk"
-                    }
-                }
-            },
-            "onPost": {
-                "status": 200,
-                "response": {
-                    "example": {
-                        "isValid": true
-                    }
-                }
-            }
-        },
-
-        "/getToken": {
-            "onGet": {
-                "status": 200,
-                "response": {
-                    "header": {
-                        "alg": "HS256",
-                        "typ": "JWT"
-                    },
-                    "body": {
-                        "gax-dcs:logID": "(128-bit UUID)",
-                        "gax-dcs:dataTransactionID": "(Transaction ID)",
-                        "gax-dcs:contractID": "(contract ID)",
-                        "iss": "(Logging Service ID)",
-                        "sub": "(Participant ID)",
-                        "aud": "(GX-DELS identifier)",
-                        "exp": "Token lifetime"
-                    }
-                }
-            },
-            "onPost": {
-                "status": 400,
-                "response": {
-                    "example": {
-                        "key": "value"
-                    }
-                }
-            }
+  "http://example.com": {
+    "/checkUser": {
+      "onGet": {
+        "status": 200,
+        "response": {
+          "example": {
+            "key": "value"
+          }
         }
+      },
+      "onPost": {
+        "status": 200,
+        "response": {
+          "example": {
+            "isValid": true
+          }
+        }
+      }
+    },
+    "/checkSignature": {
+      "onGet": {
+        "status": 200,
+        "response": {
+          "example": {
+            "key": "value"
+          }
+        }
+      },
+      "onPost": {
+        "status": 200,
+        "response": {
+          "example": {
+            "isValid": true
+          }
+        }
+      }
+    },
+
+    "/addSignature": {
+      "onGet": {
+        "status": 200,
+        "response": {
+          "example": {
+            "type": "Ed25519Signature2018",
+            "proofPurpose": "assertionMethod",
+            "verificationMethod": "did:DCS:123456#key2",
+            "jws": "eyJ0eXAiOiJK...gFWFOEjXk"
+          }
+        }
+      },
+      "onPost": {
+        "status": 200,
+        "response": {
+          "example": {
+            "isValid": true
+          }
+        }
+      }
+    },
+
+    "/getToken": {
+      "onGet": {
+        "status": 200,
+        "response": {
+          "header": {
+            "alg": "HS256",
+            "typ": "JWT"
+          },
+          "body": {
+            "gax-dcs:logID": "(128-bit UUID)",
+            "gax-dcs:dataTransactionID": "(Transaction ID)",
+            "gax-dcs:contractID": "(contract ID)",
+            "iss": "(Logging Service ID)",
+            "sub": "(Participant ID)",
+            "aud": "(GX-DELS identifier)",
+            "exp": "Token lifetime"
+          }
+        }
+      },
+      "onPost": {
+        "status": 400,
+        "response": {
+          "example": {
+            "key": "value"
+          }
+        }
+      }
+    },
+    "/addContractSignature": {
+      "onGet": {
+        "status": 200,
+        "response": {
+          "example": {
+            "key": "value"
+          }
+        }
+      },
+      "onPost": {
+        "status": 200,
+        "response": {
+          "example": {
+            "type": "Ed25519Signature2018",
+            "proofPurpose": "assertionMethod",
+            "verificationMethod": "did:DCS:123456#key2",
+            "jws": "eyJ0eXAiOiJK...gFWFOEjXk"
+          }
+        }
+      }
+    },
+    "/dataProvider/distribution": {
+      "onGet": {
+        "status": 200,
+        "response": {
+          "example": {
+            "key": "value"
+          }
+        }
+      },
+      "onPost": {
+        "status": 200,
+        "response": {
+          "example": {}
+        }
+      }
+    },
+    "/dataConsumer/distribution": {
+      "onGet": {
+        "status": 200,
+        "response": {
+          "example": {
+            "key": "value"
+          }
+        }
+      },
+      "onPost": {
+        "status": 200,
+        "response": {
+          "example": {}
+        }
+      }
     }
+  }
 }
