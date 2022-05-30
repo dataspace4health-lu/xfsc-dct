@@ -7,6 +7,7 @@ import { ConfigType } from 'Config/config.module';
 import { GlobalExceptionFilter } from './exceptions/global.exception-filter';
 import { LoggerProvider } from './logs/logger.provider';
 import { ValidationExceptionFilter } from './exceptions/validation.exception-filter';
+import { CommonGateway } from 'Global/gateways/common.gateway';
 
 @Global()
 @Module({
@@ -53,7 +54,8 @@ import { ValidationExceptionFilter } from './exceptions/validation.exception-fil
 
         LoggerProvider,
         Logger,
+        CommonGateway
     ],
-    exports: [CacheModule],
+    exports: [CacheModule, CommonGateway],
 })
 export class GlobalModule {}

@@ -1,0 +1,52 @@
+import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { RegisterDto } from '../dtos/register.dto';
+import { CommonGateway } from 'Global/gateways/common.gateway';
+import { GaxProof } from 'Gateways/dtos/contract.dto';
+
+@Injectable()
+export class RegisterService {
+    public constructor(protected commonApi: CommonGateway) {}
+
+    async create(registerDto: RegisterDto) {
+      console.log(registerDto);
+      const providerDID = registerDto.verifiableCredential[0].credentialSubject['gax:contractOffer']['gax:permission']['gax:assigner'];
+      const userExists = await this.checkUser(providerDID);
+      const isValidSig = await this.checkSignature(registerDto.proof[0]);
+
+      if (!userExists['isValid'] && !isValidSig) {
+        throw new ForbiddenException();
+      }
+
+      const signature = await this.addSignature();
+
+      if (signature['example']['type'] === undefined) {
+        throw new UnauthorizedException();
+      }
+
+      // @TODO: this should be checked when implemented with the live service
+      // seems to be a problem with the contract model
+      const proof = {
+        type: signature['example']['type'],
+        proofPurpose: signature['example']['proofPurpose'],
+        created: new Date(),
+        verificationMethod: signature['example']['verificationMethod'],
+        jws: signature['example']['jws']
+      };
+
+      registerDto.proof.push(proof);
+
+      return registerDto;
+    }
+
+    async checkUser(providerDID: string) {
+      return await this.commonApi.checkUser(providerDID);
+    }
+
+    async checkSignature(proof: GaxProof) {
+      return await this.commonApi.checkSignature(proof);
+    }
+
+    async addSignature() {
+      return await this.commonApi.addSignature();
+    }
+}
