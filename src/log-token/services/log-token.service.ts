@@ -14,8 +14,8 @@ export class LogTokenService {
     ) {}
 
     async create(logTokenDto: ContractDto) {
-      const contractOffer = logTokenDto.verifiableCredential[0].credentialSubject['gax:contractOffer'];
-      const proofs: GaxProof[] = <unknown>logTokenDto.verifiableCredential[0].proof as GaxProof[];
+      const contractOffer = logTokenDto.VerifiableCredential.credentialSubject['gax:contractOffer'];
+      const proofs: GaxProof[] = <unknown>logTokenDto.VerifiableCredential.proof as GaxProof[];
       const shouldLog = contractOffer['gax:loggingMode'];
 
       if (shouldLog !== 'gax:LoggingMandatory' && shouldLog !== 'gax:LoggingOptional') {
@@ -28,7 +28,7 @@ export class LogTokenService {
         throw new UnauthorizedException();
       }
 
-      return await this.getToken(logTokenDto.verifiableCredential[0].credentialSubject['@id']);
+      return await this.getToken(logTokenDto.VerifiableCredential.credentialSubject['@id']);
     }
 
     async checkSignatures(signatures:  GaxProof[]) {

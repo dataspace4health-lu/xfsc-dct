@@ -47,13 +47,15 @@ export class CommonGateway extends BaseGateway {
   }
 
   public async checkSignatures(signatures: GaxProof[]) {
-    let valid = false;
-
     for (const signature of signatures) {
-      await this.checkSignature(signature);
+      const res = await this.checkSignature(signature);
+
+      if (!res) {
+        return { isValid: false };
+      }
     }
 
-    return { isValid: valid };
+    return { isValid: true };
   }
 
   public async addSignature() {

@@ -1,17 +1,15 @@
 import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
-import { RegisterDto } from '../dtos/register.dto';
 import { CommonGateway } from 'Global/gateways/common.gateway';
-import { GaxProof } from 'Gateways/dtos/contract.dto';
+import { ContractDto, GaxProof } from 'Gateways/dtos/contract.dto';
 
 @Injectable()
 export class RegisterService {
     public constructor(protected commonApi: CommonGateway) {}
 
-    async create(registerDto: RegisterDto) {
-      console.log(registerDto);
-      const providerDID = registerDto.verifiableCredential[0].credentialSubject['gax:contractOffer']['gax:permission']['gax:assigner'];
+    async create(registerDto: ContractDto) {
+      const providerDID = registerDto.VerifiableCredential.credentialSubject['gax:contractOffer']['gax:permission']['gax:assigner'];
       const userExists = await this.checkUser(providerDID);
-      const isValidSig = await this.checkSignature(registerDto.proof[0]);
+      const isValidSig = await this.checkSignature(registerDto.proof);
 
       if (!userExists['isValid'] && !isValidSig) {
         throw new ForbiddenException();
@@ -33,7 +31,7 @@ export class RegisterService {
         jws: signature['example']['jws']
       };
 
-      registerDto.proof.push(proof);
+      registerDto.proof = proof;
 
       return registerDto;
     }
