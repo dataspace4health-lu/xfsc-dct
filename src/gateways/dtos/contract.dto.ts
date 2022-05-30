@@ -3,17 +3,6 @@ import { IsArray, IsBoolean, IsDate, IsNotEmpty, IsNumber, IsObject, IsString, I
 import { Url } from 'jsonld/jsonld-spec';
 import { JSONLDContext } from 'src/gateways/decorators/context.validator.decorator';
 
-// @JSONLDContext({ '@context': 'https://json-ld.org/contexts/person.jsonld' })
-export class ContractDto {
-  @IsArray()
-  @Type(() => GaxVerifiableCredential)
-  verifiableCredential: GaxVerifiableCredential[];
-
-  @IsArray()
-  @Type(() => GaxProof)
-  proof: GaxProof[];
-}
-
 class GaxAction {
   @IsString()
   '@id': string;
@@ -162,7 +151,7 @@ export class GaxProof {
   jws: string;
 }
 
-class GaxVerifiableCredential {
+export class GaxVerifiableCredential {
   @IsObject()
   @IsNotEmpty()
   @Type(() => CredentialSubject)
@@ -170,6 +159,17 @@ class GaxVerifiableCredential {
 
   @IsArray()
   @IsNotEmpty()
+  @Type(() => GaxProof)
+  proof: GaxProof;
+}
+
+@JSONLDContext({ '@context': 'https://www.w3.org/2018/credentials/v1', verifiableCredential: [], proof: [] })
+export class ContractDto {
+  @IsObject()
+  @Type(() => GaxVerifiableCredential)
+  VerifiableCredential: GaxVerifiableCredential;
+
+  @IsObject()
   @Type(() => GaxProof)
   proof: GaxProof;
 }

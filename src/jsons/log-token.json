@@ -102,7 +102,7 @@ LogToken Header:
 "typ": "JWT"
 }
 LogToken Body: {
-gax-dcs:logID: "(128-bit UUID)",
+gax-dcs:logID: "(128-bit UUID)",  // generate - 24h
 gax-dcs:dataTransactionID: "(Transaction ID)",
 gax-dcs:contractID: "(contract ID)",
 iss: "(Logging Service ID)"

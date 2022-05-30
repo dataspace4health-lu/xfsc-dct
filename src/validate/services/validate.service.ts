@@ -11,10 +11,10 @@ export class ValidateService {
       // negotiable - one or more field with gax:negotiable = true || gax:confirmationRequired = true
       // check provider and consumer => if non-negotiable only provider
 
-      const contractOffer = validateDto.verifiableCredential[0].credentialSubject['gax:contractOffer'];
+      const contractOffer = validateDto.VerifiableCredential.credentialSubject['gax:contractOffer'];
       const confirmationRequired = contractOffer['gax:confirmationRequired'];
       const permissions: GaxPermission[] = <unknown>contractOffer['gax:permission'] as GaxPermission[];
-      const proofs = validateDto.verifiableCredential[0].proof;
+      const proofs = validateDto.VerifiableCredential.proof;
       let found = confirmationRequired;
 
       if (!found) {
@@ -29,7 +29,7 @@ export class ValidateService {
       if (found) {
         try {
           return await this.checkSignatures(<unknown>proofs as GaxProof[]);
-        } catch (e) {
+         } catch (e) {
           throw new UnauthorizedException();
         }
       } else {

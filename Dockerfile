@@ -3,7 +3,7 @@ ENV NODE_ENV=development
 WORKDIR /dct_local
 COPY ["package.json", "package-lock.json", "./"]
 RUN npm i -g @nestjs/cli
-RUN npm install --force
+RUN npm install --legacy-peer-deps
 COPY . .
 EXPOSE 3000
 # RUN npm run build
