@@ -1,0 +1,41 @@
+import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { LogTokenGateway } from '../gateways/log-token.gateway';
+import { ContractDto, GaxPermission, GaxProof } from 'Gateways/dtos/contract.dto';
+import { ConfigService } from '@nestjs/config';
+import { ConfigType } from 'Config/config.module';
+import { CommonGateway } from 'Global/gateways/common.gateway';
+
+@Injectable()
+export class LogTokenService {
+    public constructor(
+      protected logTokenApi: LogTokenGateway, 
+      protected readonly configService: ConfigService<ConfigType>,
+      protected commonApi: CommonGateway
+    ) {}
+
+    async create(logTokenDto: ContractDto) {
+      const contractOffer = logTokenDto.VerifiableCredential.credentialSubject['gax:contractOffer'];
+      const proofs: GaxProof[] = <unknown>logTokenDto.VerifiableCredential.proof as GaxProof[];
+      const shouldLog = contractOffer['gax:loggingMode'];
+
+      if (shouldLog !== 'gax:LoggingMandatory' && shouldLog !== 'gax:LoggingOptional') {
+        throw new ForbiddenException();
+      }
+
+      const isValidSig = await this.checkSignatures(<unknown>proofs as GaxProof[]);
+
+      if (!isValidSig) {
+        throw new UnauthorizedException();
+      }
+
+      return await this.getToken(logTokenDto.VerifiableCredential.credentialSubject['@id']);
+    }
+
+    async checkSignatures(signatures:  GaxProof[]) {
+      return await this.commonApi.checkSignatures(signatures);
+    }
+
+    async getToken(id: string) {
+      return await this.logTokenApi.getToken(id);
+    }
+}

@@ -1,13 +1,13 @@
-import { SetMetadata } from '@nestjs/common';
+// import { SetMetadata } from '@nestjs/common';
 
-export const CONTEXT_METADATA_KEY = 'jsonld';
+// export const CONTEXT_METADATA_KEY = 'jsonld';
 
-export type JSONLDContext = {
-    '@context': string | string[];
-    '@id'?: string;
-    '@type'?: string;
-};
+// export type JSONLDContext = {
+//     '@context': string | string[];
+//     '@id'?: string;
+//     '@type'?: string;
+// };
 
-export function JSONLDContext(context: JSONLDContext) {
-    return SetMetadata(CONTEXT_METADATA_KEY, context);
-}
+// export function JSONLDContext(context: JSONLDContext) {
+//     return SetMetadata(CONTEXT_METADATA_KEY, context);
+// }

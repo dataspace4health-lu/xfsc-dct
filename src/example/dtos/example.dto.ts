@@ -1,7 +1,7 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+// import { IsNotEmpty, IsString } from 'class-validator';
 
-export class ExampleDto {
-    @IsString()
-    @IsNotEmpty()
-    data: string;
-}
+// export class ExampleDto {
+//     @IsString()
+//     @IsNotEmpty()
+//     data: string;
+// }
