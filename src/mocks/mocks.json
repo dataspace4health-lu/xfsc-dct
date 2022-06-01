@@ -87,6 +87,40 @@
         }
       }
     },
+
+    "/transferContract": {
+      "onGet": {
+        "status": 400,
+        "response": {}
+      },
+      "onPost": {
+        "status": 200,
+        "response": {}
+      }
+    },
+
+    "/notifyConsumer": {
+      "onGet": {
+        "status": 400,
+        "response": {}
+      },
+      "onPost": {
+        "status": 200,
+        "response": {}
+      }
+    },
+
+    "/negotiationCheckOriginal": {
+      "onGet": {
+        "status": 400,
+        "response": {}
+      },
+      "onPost": {
+        "status": 200,
+        "response": {}
+      }
+    },
+
     "/addContractSignature": {
       "onGet": {
         "status": 200,

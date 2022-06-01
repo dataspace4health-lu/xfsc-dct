@@ -11,6 +11,7 @@ import { JsonBodyParserMiddleware } from 'Global/middlewares/json.parser.middlew
 import { RegisterModule } from 'Register/register.module';
 import { ValidateModule } from 'Validate/validate.module';
 import { LogTokenModule } from './log-token/log-token.module';
+import { NegotiateModule } from './negotiate/negotiate.module';
 import { MakeContractModule } from './make-contract/make-contract.module';
 
 @Module({
@@ -25,6 +26,7 @@ import { MakeContractModule } from './make-contract/make-contract.module';
     RegisterModule,
     ValidateModule,
     LogTokenModule,
+    NegotiateModule,
     MakeContractModule,
   ],
   controllers: [],
