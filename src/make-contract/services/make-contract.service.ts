@@ -50,9 +50,7 @@ export class MakeContractService {
       throw new ForbiddenException();
     }
 
-    // const signature = this.addSignature(contractDto.proof.jws, contractDto.VerifiableCredential.proof.jws);
-
-    const signature = await this.addSignature();
+    const signature = await this.addSignature(contractDto.proof.jws, contractDto.VerifiableCredential.proof.jws);
 
     if (signature['example']['type'] === undefined) {
       throw new UnauthorizedException();
@@ -117,14 +115,11 @@ export class MakeContractService {
   }
 
   /**
-   * GX-DCS MUST check if the Consumer adheres to the policies. GX-DCS MUST sign the Agreement using a hash including the Data Provider signature and Data Consumer signature. Then it MUST be sent to both Data Provider and Data Consumer.
+   * GX-DCS MUST sign the Agreement using a hash including the Data Provider signature and Data Consumer signature. Then it MUST be sent to both Data Provider and Data Consumer.
    * @param providerSignature
    * @param consumerSignature
    */
-  // async addSignature(providerSignature: string, consumerSignature: string) {
-  //   return await this.makeContractApi.addContractSignature(providerSignature, consumerSignature);
-  // }
-  async addSignature() {
-    return await this.commonApi.addSignature();
+  async addSignature(providerSignature: string, consumerSignature: string) {
+    return await this.makeContractApi.addContractSignature(providerSignature, consumerSignature);
   }
 }
