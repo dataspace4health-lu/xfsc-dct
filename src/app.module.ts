@@ -11,6 +11,7 @@ import { JsonBodyParserMiddleware } from 'Global/middlewares/json.parser.middlew
 import { RegisterModule } from 'Register/register.module';
 import { ValidateModule } from 'Validate/validate.module';
 import { LogTokenModule } from './log-token/log-token.module';
+import { MakeContractModule } from './make-contract/make-contract.module';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { LogTokenModule } from './log-token/log-token.module';
     AuthModule,
     RegisterModule,
     ValidateModule,
-    LogTokenModule
+    LogTokenModule,
+    MakeContractModule,
   ],
   controllers: [],
   providers: [
@@ -33,7 +35,6 @@ import { LogTokenModule } from './log-token/log-token.module';
     },
   ],
 })
-
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(RdfBodyParserMiddleware).exclude('/login/*').forRoutes('*');
