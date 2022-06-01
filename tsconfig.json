@@ -26,6 +26,7 @@
       "Register/*": ["src/register/*"],
       "Validate/*": ["src/validate/*"],
       "LogToken/*": ["src/log-token/*"],
+      "Negotiate/*": ["src/negotiate/*"],
       "Mocks/*": ["src/mocks/*"],
       "MakeContract/*": ["src/make-contract/*"],
       "Gateways/*": ["src/gateways/*"]
