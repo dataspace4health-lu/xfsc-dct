@@ -37,12 +37,12 @@ export class MakeContractService {
       throw new ForbiddenException();
     }
 
-    const isValidSig = await this.checkSignatures((<unknown>proofs) as GaxProof[]);
+    const isValidSig = await this.checkSignature(contractDto.proof);
     if (!isValidSig) {
       throw new UnauthorizedException();
     }
 
-    if (!this.isValidAgreementWithNegotiableFalse(contractDto.VerifiableCredential)) {
+    if (this.isValidAgreementWithNegotiableFalse(contractDto.VerifiableCredential)) {
       throw new ForbiddenException();
     }
 
@@ -50,17 +50,26 @@ export class MakeContractService {
       throw new ForbiddenException();
     }
 
-    const signature = this.addSignature(contractDto.proof[0].jws, contractDto.proof[1].jws);
+    // const signature = this.addSignature(contractDto.proof.jws, contractDto.VerifiableCredential.proof.jws);
+
+    const signature = await this.addSignature();
+
+    if (signature['example']['type'] === undefined) {
+      throw new UnauthorizedException();
+    }
+
     const proof = {
-      type: 'Ed25519Signature2023',
-      proofPurpose: 'make-contract',
+      type: signature['example']['type'],
+      proofPurpose: signature['example']['proofPurpose'],
       created: new Date(),
-      verificationMethod: signature['verificationMethod'],
-      jws: signature['jws'],
+      verificationMethod: signature['example']['verificationMethod'],
+      jws: signature['example']['jws'],
     };
-    proofs.push(proof);
-    contractDto.proof = proof;
+    // TODO: recheck/update the ContratDto structure to support array of proofs
+    // proofs.push(contractDto.proof);
+    // proofs.push(proof);
     // contractDto.proof = proofs;
+    contractDto.proof = proof;
 
     if (shouldLog === 'gax:LoggingMandatory') {
       //log
@@ -82,8 +91,8 @@ export class MakeContractService {
    * @param signatures
    * @returns
    */
-  async checkSignatures(signatures: GaxProof[]) {
-    return await this.commonApi.checkSignatures(signatures);
+  async checkSignature(signature: GaxProof) {
+    return await this.commonApi.checkSignature(signature);
   }
 
   /**
@@ -92,12 +101,7 @@ export class MakeContractService {
    * @returns boolean
    */
   isValidAgreementWithNegotiableFalse(credentials: GaxVerifiableCredential) {
-    for (const permission of credentials['gax:contractOffer']['gax:permission']) {
-      if (permission['gax:negotiable']) {
-        return false;
-      }
-    }
-    return true;
+    return credentials.credentialSubject['gax:contractOffer']['gax:permission']['gax:negotiable'];
   }
 
   /**
@@ -117,16 +121,10 @@ export class MakeContractService {
    * @param providerSignature
    * @param consumerSignature
    */
-  async addSignature(providerSignature: string, consumerSignature: string) {
-    return await this.makeContractApi.addContractSignature(providerSignature, consumerSignature);
-  }
-  /**
-   * GX-DCS MUST send the finalized Agreement to both Data Provider and Data Consumer.
-   * @param providerSignature
-   * @param consumerSignature
-   */
-  async distribution(contractDto: ContractDto) {
-    await this.makeContractApi.dataProviderDistribution(contractDto);
-    await this.makeContractApi.dataConsumerDistribution(contractDto);
+  // async addSignature(providerSignature: string, consumerSignature: string) {
+  //   return await this.makeContractApi.addContractSignature(providerSignature, consumerSignature);
+  // }
+  async addSignature() {
+    return await this.commonApi.addSignature();
   }
 }

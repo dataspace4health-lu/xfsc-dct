@@ -107,38 +107,6 @@
           }
         }
       }
-    },
-    "/dataProvider/distribution": {
-      "onGet": {
-        "status": 200,
-        "response": {
-          "example": {
-            "key": "value"
-          }
-        }
-      },
-      "onPost": {
-        "status": 200,
-        "response": {
-          "example": {}
-        }
-      }
-    },
-    "/dataConsumer/distribution": {
-      "onGet": {
-        "status": 200,
-        "response": {
-          "example": {
-            "key": "value"
-          }
-        }
-      },
-      "onPost": {
-        "status": 200,
-        "response": {
-          "example": {}
-        }
-      }
     }
   }
 }
