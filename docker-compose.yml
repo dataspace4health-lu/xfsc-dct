@@ -21,8 +21,22 @@ services:
         environment:
             - REDIS_HOST=redis
             - REDIS_PORT=6379
+    mkdocs:
+        container_name: mkdocs
+        image: polinux/mkdocs:latest
+        restart: always
+        ports:
+            - '8000:8000'
+        environment:
+            - LIVE_RELOAD_SUPPORT=true
+            - ADD_MODULES=fontawesome-markdown mkdocs-git-revision-date-localized-plugin mkdocs-material
+            - FAST_MODE=true
+            - DOCS_DIRECTORY=/mkdocs
+            - UPDATE_INTERVAL=15
+            - AUTO_UPDATE=true
+        volumes:
+            - ./docs:/docs
+            - ./:/mkdocs
 volumes:
     redisdata:
         driver: local
-networks:
-    test:
