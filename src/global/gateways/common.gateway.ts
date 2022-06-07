@@ -1,12 +1,32 @@
 import { CACHE_MANAGER, Inject, Injectable, ServiceUnavailableException } from '@nestjs/common';
 import { Cache } from 'cache-manager';
-import { GaxProof } from 'src/gateways/dtos/contract.dto';
+import { ContractDto, GaxProof } from 'src/gateways/dtos/contract.dto';
 import { BaseGateway } from 'src/common/api/base.gateway';
 
 @Injectable()
 export class CommonGateway extends BaseGateway {
   constructor(@Inject(CACHE_MANAGER) protected cache: Cache) {
     super('http://example.com');
+  }
+
+  // @TODO: the providerDID might have multiple contracts -> this needs to be changed with an assed DID
+  // waiting for a valid response from FC in order to determine where is the actual ID stored before changing
+  public async checkSD(providerDID: string, document: ContractDto) {
+    try {
+      const cachedSD = await this.cache.get();
+
+      if (cachedSD !== undefined && cachedSD !== null) {
+        return { isValid: true };
+      }
+
+      const res = await this.request('/checkSD', 'POST', document);
+
+      if (res['example']['isValid']) {
+        await this.cache.set(providerDID, document, { ttl: 86400 });
+      }
+    } catch (e) {
+      throw new ServiceUnavailableException();
+    }
   }
 
   public async checkUser(providerDID: string) {

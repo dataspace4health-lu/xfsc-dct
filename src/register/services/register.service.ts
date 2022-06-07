@@ -8,10 +8,11 @@ export class RegisterService {
 
     async create(registerDto: ContractDto) {
       const providerDID = registerDto.VerifiableCredential.credentialSubject['gax:contractOffer']['gax:permission']['gax:assigner'];
+      const validSD = await this.checkSD(providerDID, registerDto);
       const userExists = await this.checkUser(providerDID);
       const isValidSig = await this.checkSignature(registerDto.proof);
 
-      if (!userExists['isValid'] && !isValidSig) {
+      if (!userExists['isValid'] && !isValidSig && !validSD) {
         throw new ForbiddenException();
       }
 
@@ -35,6 +36,10 @@ export class RegisterService {
 
       return registerDto;
     }
+
+   async checkSD(providerDID: string, document: ContractDto) {
+     return await this.commonApi.checkSD(providerDID, document);
+   }
 
     async checkUser(providerDID: string) {
       return await this.commonApi.checkUser(providerDID);

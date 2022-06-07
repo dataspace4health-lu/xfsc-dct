@@ -8,54 +8,66 @@ import { GlobalExceptionFilter } from './exceptions/global.exception-filter';
 import { LoggerProvider } from './logs/logger.provider';
 import { ValidationExceptionFilter } from './exceptions/validation.exception-filter';
 import { CommonGateway } from 'Global/gateways/common.gateway';
+import { BullModule } from '@nestjs/bull';
 
 @Global()
 @Module({
-    imports: [
-        ThrottlerModule.forRootAsync({
-            inject: [ConfigService],
-            useFactory: (configService: ConfigService<ConfigType>) => {
-                const config = configService.get('server.throtller', { infer: true });
-                return {
-                    ...config,
-                    store: 'memory',
-                };
-            },
-        }),
-        CacheModule.registerAsync({
-            inject: [ConfigService],
-            useFactory: (configService: ConfigService<ConfigType>) => {
-                const cacheConfig = {
-                    ...configService.get('general.cache', { infer: true }),
-                    isGlobal: true,
-                };
+  imports: [
+    ThrottlerModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService<ConfigType>) => {
+        const config = configService.get('server.throtller', { infer: true });
+        return {
+          ...config,
+          store: 'memory',
+        };
+      },
+    }),
+    CacheModule.registerAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService<ConfigType>) => {
+        const cacheConfig = {
+          ...configService.get('general.cache', { infer: true }),
+          isGlobal: true,
+        };
 
-                if (cacheConfig.store === 'redis') {
-                    return {
-                        ...cacheConfig,
-                        ...configService.get('redis'),
-                        store: redisStore,
-                    };
-                }
+        if (cacheConfig.store === 'redis') {
+          return {
+            ...cacheConfig,
+            ...configService.get('redis'),
+            store: redisStore,
+          };
+        }
 
-                return cacheConfig;
-            },
-        }),
-    ],
-    providers: [
-        {
-            provide: APP_FILTER,
-            useClass: GlobalExceptionFilter,
-        },
-        {
-            provide: APP_FILTER,
-            useClass: ValidationExceptionFilter,
-        },
+        return cacheConfig;
+      },
+    }),
+    BullModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService<ConfigType>) => {
+        return {
+          redis: {
+            host: configService.get('redis.host', { infer: true }),
+            port: configService.get('redis.port', { infer: true })
+          }
+        }
+      }
+    })
+  ],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: GlobalExceptionFilter,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: ValidationExceptionFilter,
+    },
 
-        LoggerProvider,
-        Logger,
-        CommonGateway
-    ],
-    exports: [CacheModule, CommonGateway],
+    LoggerProvider,
+    Logger,
+    CommonGateway
+  ],
+  exports: [CacheModule, CommonGateway],
 })
-export class GlobalModule {}
+export class GlobalModule { }

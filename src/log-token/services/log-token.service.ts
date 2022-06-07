@@ -17,8 +17,15 @@ export class LogTokenService {
       const contractOffer = logTokenDto.VerifiableCredential.credentialSubject['gax:contractOffer'];
       const proofs: GaxProof[] = <unknown>logTokenDto.VerifiableCredential.proof as GaxProof[];
       const shouldLog = contractOffer['gax:loggingMode'];
+      const providerDID = contractOffer['gax:permission'][0]['gax:assigner'];
 
-      if (shouldLog !== 'gax:LoggingMandatory' && shouldLog !== 'gax:LoggingOptional') {
+      const validSD = await this.checkSD(providerDID, logTokenDto);
+
+      if (!validSD) {
+        throw new ForbiddenException();
+      }
+
+      if (shouldLog !== 'gax:LoggingMandatory' && shouldLog !== 'gax:LoggingOptional' && !validSD) {
         throw new ForbiddenException();
       }
 
@@ -37,5 +44,9 @@ export class LogTokenService {
 
     async getToken(id: string) {
       return await this.logTokenApi.getToken(id);
+    }
+
+    async checkSD(providerDID: string, document: ContractDto) {
+      return await this.commonApi.checkSD(providerDID, document);
     }
 }
