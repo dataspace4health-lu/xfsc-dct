@@ -2,10 +2,12 @@ import { CACHE_MANAGER, Inject, Injectable, ServiceUnavailableException } from '
 import { Cache } from 'cache-manager';
 import { ContractDto, GaxProof } from 'src/gateways/dtos/contract.dto';
 import { BaseGateway } from 'src/common/api/base.gateway';
+import { InjectQueue } from '@nestjs/bull';
+import { Queue } from 'bull';
 
 @Injectable()
 export class CommonGateway extends BaseGateway {
-  constructor(@Inject(CACHE_MANAGER) protected cache: Cache) {
+  constructor(@Inject(CACHE_MANAGER) protected cache: Cache, @InjectQueue('processSds') private readonly sdsQueue: Queue) {
     super('http://example.com');
   }
 
@@ -13,7 +15,7 @@ export class CommonGateway extends BaseGateway {
   // waiting for a valid response from FC in order to determine where is the actual ID stored before changing
   public async checkSD(providerDID: string, document: ContractDto) {
     try {
-      const cachedSD = await this.cache.get();
+      const cachedSD = await this.cache.get(providerDID);
 
       if (cachedSD !== undefined && cachedSD !== null) {
         return { isValid: true };
