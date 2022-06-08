@@ -3,15 +3,10 @@ import { ConfigService } from '@nestjs/config';
 import { ConfigType } from 'Config/config.module';
 import { CommonGateway } from 'Global/gateways/common.gateway';
 import { ContractDto, GaxProof, GaxVerifiableCredential } from 'Gateways/dtos/contract.dto';
-import { MakeContractGateway } from '../gateways/make-contract.gateway';
 
 @Injectable()
 export class MakeContractService {
-  public constructor(
-    protected makeContractApi: MakeContractGateway,
-    protected readonly configService: ConfigService<ConfigType>,
-    protected commonApi: CommonGateway,
-  ) {}
+  public constructor(protected readonly configService: ConfigService<ConfigType>, protected commonApi: CommonGateway) {}
 
   /**
    * DCS - validates the format and content of the DASD and sign it.
@@ -32,13 +27,19 @@ export class MakeContractService {
       contractDto.VerifiableCredential.credentialSubject['gax:contractOffer']['gax:permission']['gax:assigner'];
     const userExists = await this.checkUser(providerDID);
 
-    if (!userExists) {
-      throw new ForbiddenException();
-    }
+    // const proofs: GaxProof[] = (<unknown>contractDto.VerifiableCredential.proof) as GaxProof[];
+    // const areValidSignitures = await this.checkSignatures(proofs);
+    // if (!areValidSignitures) {
+    //   throw new UnauthorizedException();
+    // }
 
     const isValidSig = await this.checkSignature(contractDto.proof);
     if (!isValidSig) {
       throw new UnauthorizedException();
+    }
+
+    if (!userExists) {
+      throw new ForbiddenException();
     }
 
     if (this.isValidAgreementWithNegotiableFalse(contractDto.VerifiableCredential)) {
@@ -49,7 +50,7 @@ export class MakeContractService {
       throw new ForbiddenException();
     }
 
-    const signature = await this.addSignature(contractDto.proof.jws, contractDto.VerifiableCredential.proof.jws);
+    const signature = await this.addSignature();
 
     if (signature['example']['type'] === undefined) {
       throw new UnauthorizedException();
@@ -62,10 +63,7 @@ export class MakeContractService {
       verificationMethod: signature['example']['verificationMethod'],
       jws: signature['example']['jws'],
     };
-    // TODO: recheck/update the ContratDto structure to support array of proofs
-    // proofs.push(contractDto.proof);
-    // proofs.push(proof);
-    // contractDto.proof = proofs;
+
     contractDto.proof = proof;
 
     if (shouldLog === 'gax:LoggingMandatory') {
@@ -86,6 +84,15 @@ export class MakeContractService {
   /**
    * Check provider and consumer signitures
    * @param signatures
+   * @returns
+   */
+  async checkSignatures(signatures: GaxProof[]) {
+    return await this.commonApi.checkSignatures(signatures);
+  }
+
+  /**
+   * Check signiture
+   * @param signature
    * @returns
    */
   async checkSignature(signature: GaxProof) {
@@ -114,11 +121,9 @@ export class MakeContractService {
   }
 
   /**
-   * GX-DCS MUST sign the Agreement using a hash including the Data Provider signature and Data Consumer signature. Then it MUST be sent to both Data Provider and Data Consumer.
-   * @param providerSignature
-   * @param consumerSignature
+   * GX-DCS MUST sign the Agreement
    */
-  async addSignature(providerSignature: string, consumerSignature: string) {
-    return await this.makeContractApi.addContractSignature(providerSignature, consumerSignature);
+  async addSignature() {
+    return await this.commonApi.addSignature();
   }
 }

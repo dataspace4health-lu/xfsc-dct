@@ -95,9 +95,9 @@ export class CommonGateway extends BaseGateway {
     }
   }
 
-  public async transferContractOffer(hasLegallyBindingAddress: string) {
+  public async transferContractOffer(hasLegallyBindingAddress: string, contract: ContractDto) {
     try {
-      return await this.request('/transferContract', 'POST', hasLegallyBindingAddress);
+      return await this.request('/transferContract', 'POST', { hasLegallyBindingAddress, contract });
     } catch (e) {
       // @TODO: if e is an instace of Error check the message and throw the error based on that
       throw new ServiceUnavailableException();
