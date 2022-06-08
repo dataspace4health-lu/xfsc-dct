@@ -20,7 +20,7 @@ export class CommonGateway extends BaseGateway {
   // waiting for a valid response from FC in order to determine where is the actual ID stored before changing
   public async checkSD(document: ContractDto) {
     try {
-      const sdID = document.VerifiableCredential.credentialSubject['@id'];
+      const sdID = document.VerifiableCredential.credentialSubject['id'];
       const cachedSD = await this.cache.get(sdID);
 
       if (cachedSD !== undefined && cachedSD !== null) {
