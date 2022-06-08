@@ -4,12 +4,15 @@ import { ContractDto, GaxProof } from 'src/gateways/dtos/contract.dto';
 import { BaseGateway } from 'src/common/api/base.gateway';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
+import { ConfigService } from '@nestjs/config';
+import { ConfigType } from 'Config/config.module';
 
 @Injectable()
 export class CommonGateway extends BaseGateway {
   constructor(
     @Inject(CACHE_MANAGER) protected cache: Cache,
-    @InjectQueue('processSds') private readonly sdsQueue: Queue) {
+    @InjectQueue('processSds') private readonly sdsQueue: Queue,
+    readonly configService: ConfigService<ConfigType>) {
     super('http://example.com');
   }
 
@@ -26,8 +29,13 @@ export class CommonGateway extends BaseGateway {
       const res = await this.request('/checkSD', 'POST', document);
 
       if (res['example']['isValid']) {
-        await this.cache.set(providerDID, document, { ttl: 86400 });
-        await this.sdsQueue.add('sds', JSON.stringify(document), { repeat: { limit: 13, every: 3000 } });
+        await this.cache.set(providerDID, document, { 
+          ttl: this.configService.get('general.cache.ttl', { infer: true }) });
+        await this.sdsQueue.add('sds', JSON.stringify(document), { 
+          repeat: { 
+            limit: this.configService.get('general.sdQueueRetry', { infer: true }), 
+            every: this.configService.get('general.sdQueueDelay', { infer: true })
+          }});
       }
 
       return res['example'];
@@ -46,7 +54,7 @@ export class CommonGateway extends BaseGateway {
 
       const res = await this.request('/checkUser', 'POST', providerDID);
 
-      await this.cache.set(providerDID, res['example'], { ttl: 86400 });
+      await this.cache.set(providerDID, res['example'], { ttl: this.configService.get('general.cache.ttl', { infer: true }) });
 
       return res['example'];
     } catch (e) {
@@ -64,7 +72,7 @@ export class CommonGateway extends BaseGateway {
       }
 
       const res = await this.request('/checkSignature', 'POST', proof);
-      await this.cache.set(proof.verificationMethod, res['example'], { ttl: 86400 });
+      await this.cache.set(proof.verificationMethod, res['example'], { ttl: this.configService.get('general.cache.ttl', { infer: true }) });
 
       return res['example'];
     } catch (e) {

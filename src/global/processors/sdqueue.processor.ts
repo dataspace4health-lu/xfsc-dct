@@ -1,10 +1,14 @@
 import { Process, Processor } from "@nestjs/bull";
 import { Logger } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 import { Job } from "bull";
+import { ConfigType } from "Config/config.module";
 
 @Processor('processSds')
 export class SdqueueProcessor {
-  public constructor(private readonly logger: Logger) {}
+  public constructor(
+    private readonly logger: Logger,
+    readonly configService: ConfigService<ConfigType>) {}
 
   @Process('sds')
   handleProcessSds(job: Job) {

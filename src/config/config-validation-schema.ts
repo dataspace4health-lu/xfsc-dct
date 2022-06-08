@@ -14,12 +14,6 @@ export default Joi.object({
     ADMIN_JWT_SECRET_KEY: Joi.string().required(),
     ADMIN_JWT_EXPIRES_IN_MINUTES: Joi.number().integer().min(1).required(),
 
-    DATABASE_HOST: Joi.string().required(),
-    DATABASE_PORT: Joi.number().default(5432),
-    DATABASE_USER: Joi.string().required(),
-    DATABASE_PASSWORD: Joi.string().required(),
-    DATABASE_DATABASE: Joi.string().required(),
-
     LOGGER_TYPE: Joi.string()
         .valid(...Object.values(LoggerType))
         .default('console'),

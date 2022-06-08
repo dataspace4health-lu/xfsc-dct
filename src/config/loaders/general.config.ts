@@ -8,7 +8,11 @@ const loader = () => ({
         ttl: parseInt(process.env.CACHE_TTL),
     },
 
-    token: process.env.AUTH_TOKEN,
+    sdCacheTTL: parseInt(process.env.SD_CACHE_TTL),
+    sdQueueDelay: parseInt(process.env.SD_QUEUE_DELAY),
+    sdQueueRetry: parseInt(process.env.SD_QUEUE_RETRIES),
+
+    token: process.env.AUTH_TOKEN
 });
 
 export type ConfigType = {
