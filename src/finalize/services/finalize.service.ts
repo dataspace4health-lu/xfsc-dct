@@ -48,7 +48,7 @@ export class FinalizeService {
     const hasLegallyBindingAddress =
       contractDto.VerifiableCredential.credentialSubject['gax:distribution']['gax:hasLegallyBindingAddress'];
     if (hasLegallyBindingAddress) {
-      this.transferContractOffer(hasLegallyBindingAddress);
+      this.transferContractOffer(hasLegallyBindingAddress, contractDto);
     }
 
     return contractDto;
@@ -94,7 +94,7 @@ export class FinalizeService {
    * @param hasLegallyBindingAddress
    * @returns
    */
-  async transferContractOffer(hasLegallyBindingAddress: string) {
-    return await this.commonApi.transferContractOffer(hasLegallyBindingAddress);
+  async transferContractOffer(hasLegallyBindingAddress: string, contract: ContractDto) {
+    return await this.commonApi.transferContractOffer(hasLegallyBindingAddress, contract);
   }
 }

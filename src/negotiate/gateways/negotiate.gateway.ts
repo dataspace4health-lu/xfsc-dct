@@ -8,10 +8,6 @@ export class NegotiateGateway extends BaseGateway {
     super('http://example.com');
   }
 
-  public async transferContract(contractDto: ContractDto) {
-    return await this.request('/transferContract', 'POST', { contract: contractDto });
-  }
-
   public async notifyConsumer(contractDto: ContractDto) {
     return await this.request('/notifyConsumer', 'POST', { contract: contractDto });
   }
