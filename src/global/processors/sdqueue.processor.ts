@@ -4,7 +4,7 @@ import { Job } from "bull";
 
 @Processor('processSds')
 export class SdqueueProcessor {
-  @Process()
+  @Process('sds')
   handleProcessSds(job: Job) {
     console.log('Start processing notification...', job.data);
     console.log(job.data);
