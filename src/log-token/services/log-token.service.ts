@@ -17,8 +17,7 @@ export class LogTokenService {
       const contractOffer = logTokenDto.VerifiableCredential.credentialSubject['gax:contractOffer'];
       const proofs: GaxProof[] = <unknown>logTokenDto.VerifiableCredential.proof as GaxProof[];
       const shouldLog = contractOffer['gax:loggingMode'];
-      const providerDID = contractOffer['gax:permission'][0]['gax:assigner'];
-
+      const providerDID = contractOffer['gax:permission']['gax:assigner'];
       const validSD = await this.checkSD(providerDID, logTokenDto);
 
       if (!validSD) {

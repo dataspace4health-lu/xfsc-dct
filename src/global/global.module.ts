@@ -9,6 +9,7 @@ import { LoggerProvider } from './logs/logger.provider';
 import { ValidationExceptionFilter } from './exceptions/validation.exception-filter';
 import { CommonGateway } from 'Global/gateways/common.gateway';
 import { BullModule } from '@nestjs/bull';
+import { SdqueueProcessor } from './processors/sdqueue.processor';
 
 @Global()
 @Module({
@@ -42,17 +43,7 @@ import { BullModule } from '@nestjs/bull';
         return cacheConfig;
       },
     }),
-    BullModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService<ConfigType>) => {
-        return {
-          redis: {
-            host: configService.get('redis.host', { infer: true }),
-            port: configService.get('redis.port', { infer: true })
-          }
-        }
-      }
-    })
+    BullModule.registerQueue({ name: 'processSds' })
   ],
   providers: [
     {
@@ -66,7 +57,8 @@ import { BullModule } from '@nestjs/bull';
 
     LoggerProvider,
     Logger,
-    CommonGateway
+    CommonGateway,
+    SdqueueProcessor
   ],
   exports: [CacheModule, CommonGateway],
 })
