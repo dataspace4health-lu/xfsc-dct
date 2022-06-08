@@ -8,7 +8,7 @@ export class RegisterService {
 
     async create(registerDto: ContractDto) {
       const providerDID = registerDto.VerifiableCredential.credentialSubject['gax:contractOffer']['gax:permission']['gax:assigner'];
-      const validSD = await this.checkSD(providerDID, registerDto);
+      const validSD = await this.checkSD(registerDto);
       const userExists = await this.checkUser(providerDID);
       const isValidSig = await this.checkSignature(registerDto.proof);
 
@@ -37,8 +37,8 @@ export class RegisterService {
       return registerDto;
     }
 
-   async checkSD(providerDID: string, document: ContractDto) {
-     return await this.commonApi.checkSD(providerDID, document);
+   async checkSD(document: ContractDto) {
+     return await this.commonApi.checkSD(document);
    }
 
     async checkUser(providerDID: string) {

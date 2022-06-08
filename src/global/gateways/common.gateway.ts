@@ -18,9 +18,10 @@ export class CommonGateway extends BaseGateway {
 
   // @TODO: the providerDID might have multiple contracts -> this needs to be changed with an assed DID
   // waiting for a valid response from FC in order to determine where is the actual ID stored before changing
-  public async checkSD(providerDID: string, document: ContractDto) {
+  public async checkSD(document: ContractDto) {
     try {
-      const cachedSD = await this.cache.get(providerDID);
+      const sdID = document.VerifiableCredential.credentialSubject['@id'];
+      const cachedSD = await this.cache.get(sdID);
 
       if (cachedSD !== undefined && cachedSD !== null) {
         return { isValid: true };
@@ -29,7 +30,7 @@ export class CommonGateway extends BaseGateway {
       const res = await this.request('/checkSD', 'POST', document);
 
       if (res['example']['isValid']) {
-        await this.cache.set(providerDID, document, { 
+        await this.cache.set(sdID, document, { 
           ttl: this.configService.get('general.cache.ttl', { infer: true }) });
         await this.sdsQueue.add('sds', JSON.stringify(document), { 
           repeat: { 
