@@ -1,6 +1,6 @@
 import { CACHE_MANAGER, Inject, Injectable, ServiceUnavailableException } from '@nestjs/common';
 import { Cache } from 'cache-manager';
-import { ContractDto, GaxProof } from 'src/gateways/dtos/contract.dto';
+import { ContractDto, GaxProof } from 'Gateways/dtos/contract.dto';
 import { BaseGateway } from 'src/common/api/base.gateway';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
@@ -9,7 +9,8 @@ import { Queue } from 'bull';
 export class CommonGateway extends BaseGateway {
   constructor(
     @Inject(CACHE_MANAGER) protected cache: Cache,
-    @InjectQueue('processSds') private readonly sdsQueue: Queue) {
+    @InjectQueue('processSds') private readonly sdsQueue: Queue,
+  ) {
     super('http://example.com');
   }
 
@@ -88,6 +89,15 @@ export class CommonGateway extends BaseGateway {
   public async addSignature() {
     try {
       return await this.request('/addSignature', 'GET');
+    } catch (e) {
+      // @TODO: if e is an instace of Error check the message and throw the error based on that
+      throw new ServiceUnavailableException();
+    }
+  }
+
+  public async transferContractOffer(hasLegallyBindingAddress: string) {
+    try {
+      return await this.request('/transferContract', 'POST', hasLegallyBindingAddress);
     } catch (e) {
       // @TODO: if e is an instace of Error check the message and throw the error based on that
       throw new ServiceUnavailableException();

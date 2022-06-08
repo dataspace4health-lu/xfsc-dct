@@ -29,6 +29,7 @@
       "Negotiate/*": ["src/negotiate/*"],
       "Mocks/*": ["src/mocks/*"],
       "MakeContract/*": ["src/make-contract/*"],
+      "Finalize/*": ["src/finalize/*"],
       "Gateways/*": ["src/gateways/*"]
     }
   },

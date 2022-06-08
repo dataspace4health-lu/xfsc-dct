@@ -1,8 +1,8 @@
 import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
-import { ContractDto, GaxProof, GaxVerifiableCredential } from 'Gateways/dtos/contract.dto';
 import { ConfigService } from '@nestjs/config';
 import { ConfigType } from 'Config/config.module';
 import { CommonGateway } from 'Global/gateways/common.gateway';
+import { ContractDto, GaxProof, GaxVerifiableCredential } from 'Gateways/dtos/contract.dto';
 import { MakeContractGateway } from '../gateways/make-contract.gateway';
 
 @Injectable()
@@ -27,13 +27,12 @@ export class MakeContractService {
    */
   async create(contractDto: ContractDto) {
     const contractOffer = contractDto.VerifiableCredential.credentialSubject['gax:contractOffer'];
-    const proofs: GaxProof[] = (<unknown>contractDto.VerifiableCredential.proof) as GaxProof[];
     const shouldLog = contractOffer['gax:loggingMode'];
     const providerDID =
       contractDto.VerifiableCredential.credentialSubject['gax:contractOffer']['gax:permission']['gax:assigner'];
     const userExists = await this.checkUser(providerDID);
 
-    if (!userExists['isValid']) {
+    if (!userExists) {
       throw new ForbiddenException();
     }
 

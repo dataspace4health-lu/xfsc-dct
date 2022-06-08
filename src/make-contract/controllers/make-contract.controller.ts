@@ -1,6 +1,6 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
-import { ContractDto } from 'Gateways/dtos/contract.dto';
 import { TokenAuthGuard } from 'src/auth/guards/token.guard';
+import { ContractDto } from 'Gateways/dtos/contract.dto';
 import { MakeContractService } from '../services/make-contract.service';
 
 @UseGuards(TokenAuthGuard)

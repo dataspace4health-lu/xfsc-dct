@@ -1,27 +1,16 @@
 {
-  "@context": [
-    "https://www.w3.org/2018/credentials/v1",
-    "https://w3id.org/gaia-x/core/context/DataAsset.jsonld"
-  ],
+  "@context": ["https://www.w3.org/2018/credentials/v1", "https://w3id.org/gaia-x/core/context/DataAsset.jsonld"],
   "type": "VerifiablePresentation",
   "verifiableCredential": [
     {
-      "@context": [
-        "https://www.w3.org/2018/credentials/v1",
-        "https://w3id.org/gaia-x/core/context/DataAsset.jsonld"
-      ],
+      "@context": ["https://www.w3.org/2018/credentials/v1", "https://w3id.org/gaia-x/core/context/DataAsset.jsonld"],
       "credentialSubject": {
         "@id": "?AssetURI",
         "@type": "gax:DataAsset",
         "gax:title": "Example title",
         "gax:description": "Example description",
-        "gax:keyword": [
-          "key",
-          "word"
-        ],
-        "gax:category": [
-          "example"
-        ],
+        "gax:keyword": ["key", "word"],
+        "gax:category": ["example"],
         "gax:publisher": "?publisherDID",
         "gax:consumer": "?consumerDID",
         "gax:creator": "?creatorDID",
