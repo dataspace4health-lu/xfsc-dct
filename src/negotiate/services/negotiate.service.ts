@@ -1,7 +1,7 @@
 import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
-import { ContractDto, GaxPermission, GaxProof, GaxVerifiableCredential } from 'Gateways/dtos/contract.dto';
 import { ConfigService } from '@nestjs/config';
 import { ConfigType } from 'Config/config.module';
+import { ContractDto, GaxProof, GaxVerifiableCredential } from 'Gateways/dtos/contract.dto';
 import { CommonGateway } from 'Global/gateways/common.gateway';
 import { NegotiateGateway } from '../gateways/negotiate.gateway';
 

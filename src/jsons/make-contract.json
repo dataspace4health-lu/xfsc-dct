@@ -1,0 +1,76 @@
+{
+  "@context": ["https://www.w3.org/2018/credentials/v1", "https://w3id.org/gaia-x/core/context/DataAsset.jsonld"],
+  "type": "VerifiablePresentation",
+  "verifiableCredential": [
+    {
+      "@context": ["https://www.w3.org/2018/credentials/v1", "https://w3id.org/gaia-x/core/context/DataAsset.jsonld"],
+      "credentialSubject": {
+        "@id": "?AssetURI",
+        "@type": "gax:DataAsset",
+        "gax:title": "Example title",
+        "gax:description": "Example description",
+        "gax:keyword": ["key", "word"],
+        "gax:category": ["example"],
+        "gax:publisher": "?publisherDID",
+        "gax:consumer": "?consumerDID",
+        "gax:creator": "?creatorDID",
+        "gax:language": "http://id.loc.gov/vocabulary/iso639-1/en",
+        "gax:distribution": {
+          "gax:title": "Example distribution title",
+          "gax:description": "Example distribution description",
+          "gax:created": "2021-01-23T18:25:43.511Z",
+          "gax:modified": "2021-01-25T12:20:34.007Z",
+          "gax:mediaType": "text/csv",
+          "gax:byteSize": "100000",
+          "gax:accessURL": "www.example.com/data/example.csv"
+        },
+        "gax:created": "2021-01-23T12:21:23.876Z",
+        "gax:modified": "2021-01-24T14:45:03.517Z",
+        "gax:containsPersonalData": false,
+        "gax:sampleAvailable": false,
+        "gax:contractOffer": {
+          "@type": "gax-GX-DCS:contractOffer",
+          "gax:choiceOfLaw": "iso:Germany",
+          "gax:generalTerms": "Example text for the general terms",
+          "gax:loggingMode": "gax:LoggingMandatory",
+          "gax:confirmationRequired": false,
+          "gax:circulationDetails": "Example text for the circulation details",
+          "gax:permission": {
+            "@type": "gax:Permission",
+            "gax:assigner": "?providerDID",
+            "gax:assignee": "?consumerDID",
+            "gax:target": "?AssetURI",
+            "gax:action": "gax:USE",
+            "gax:negotiable": false,
+            "gax:postDuty": { "@type": "gax:Duty", "gax:action": { "@id": "gax:LOG" } }
+          }
+        }
+      },
+      "proof": [
+        {
+          "type": "Ed25519Signature2018",
+          "proofPurpose": "assertionMethod",
+          "created": "2019-08-23T20:21:34Z",
+          "verificationMethod": "did:provider:123456#key1",
+          "jws": "ac98eXAOOiJK...gHWFOEjXj"
+        },
+        {
+          "type": "Ed25519Signature2018",
+          "proofPurpose": "contractAgreement",
+          "created": "2019-08-23T20:22:45Z",
+          "verificationMethod": "did:consumer:123456#key1",
+          "jws": "eyJ0eXAiOiJK...gFWFOEjXk"
+        }
+      ]
+    }
+  ],
+  "proof": [
+    {
+      "type": "Ed25519Signature2018",
+      "proofPurpose": "assertionMethod",
+      "created": "2019-08-23T20:21:51Z",
+      "verificationMethod": "did:GX-DCS:123456#key1",
+      "jws": "wqiOUgf90iJK...j9I5V1jLo"
+    }
+  ]
+}
