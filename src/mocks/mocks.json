@@ -36,7 +36,6 @@
         }
       }
     },
-
     "/addSignature": {
       "onGet": {
         "status": 200,
@@ -58,7 +57,6 @@
         }
       }
     },
-
     "/getToken": {
       "onGet": {
         "status": 200,
@@ -87,7 +85,6 @@
         }
       }
     },
-
     "/transferContract": {
       "onGet": {
         "status": 400,
@@ -98,7 +95,6 @@
         "response": {}
       }
     },
-
     "/notifyConsumer": {
       "onGet": {
         "status": 400,
@@ -109,7 +105,6 @@
         "response": {}
       }
     },
-
     "/negotiationCheckOriginal": {
       "onGet": {
         "status": 400,
@@ -120,7 +115,6 @@
         "response": {}
       }
     },
-
     "/addContractSignature": {
       "onGet": {
         "status": 200,
@@ -142,7 +136,6 @@
         }
       }
     },
-
     "/checkSD": {
       "onGet": {
         "status": 200,
@@ -153,6 +146,16 @@
         }
       },
       "onPost": {
+        "status": 200,
+        "response": {
+          "example": {
+            "isValid": true
+          }
+        }
+      }
+    },
+    "/auth": {
+      "onGet": {
         "status": 200,
         "response": {
           "example": {

@@ -7,7 +7,9 @@ import { Queue } from 'bull';
 
 @Injectable()
 export class CommonGateway extends BaseGateway {
-  constructor(@Inject(CACHE_MANAGER) protected cache: Cache, @InjectQueue('processSds') private readonly sdsQueue: Queue) {
+  constructor(
+    @Inject(CACHE_MANAGER) protected cache: Cache,
+    @InjectQueue('processSds') private readonly sdsQueue: Queue) {
     super('http://example.com');
   }
 
@@ -25,7 +27,10 @@ export class CommonGateway extends BaseGateway {
 
       if (res['example']['isValid']) {
         await this.cache.set(providerDID, document, { ttl: 86400 });
+        await this.sdsQueue.add('sds', JSON.stringify(document), { repeat: { limit: 13, every: 3000 } });
       }
+
+      return res['example'];
     } catch (e) {
       throw new ServiceUnavailableException();
     }

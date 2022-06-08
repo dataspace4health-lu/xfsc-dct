@@ -1,15 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import * as moment from 'moment';
 import { ConfigType } from 'Config/config.module';
+import { AuthorizeGateway } from 'Global/gateways/authorize.gateway';
 
 @Injectable()
 export class AuthService {
     public constructor(
         protected readonly configService: ConfigService<ConfigType>,
         private readonly jwtService: JwtService,
-    ) {}
+        protected logTokenApi: AuthorizeGateway
+    ) { }
 
     async validateAdmin(username: string, pass: string): Promise<any> {
         const adminConfig = this.configService.get('admin', { infer: true });
@@ -32,6 +34,10 @@ export class AuthService {
     }
 
     async validateToken(token: string) {
-        return token === `Bearer ${this.configService.get('general.token', { infer: true })}`;
+        try {
+            return await this.logTokenApi.validateToken(token);
+        } catch {
+            throw new ForbiddenException();
+        }
     }
 }

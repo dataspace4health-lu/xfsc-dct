@@ -10,6 +10,8 @@ import { ValidationExceptionFilter } from './exceptions/validation.exception-fil
 import { CommonGateway } from 'Global/gateways/common.gateway';
 import { BullModule } from '@nestjs/bull';
 import { SdqueueProcessor } from './processors/sdqueue.processor';
+import { AuthorizeGateway } from './gateways/authorize.gateway';
+
 
 @Global()
 @Module({
@@ -58,8 +60,9 @@ import { SdqueueProcessor } from './processors/sdqueue.processor';
     LoggerProvider,
     Logger,
     CommonGateway,
+    AuthorizeGateway,
     SdqueueProcessor
   ],
-  exports: [CacheModule, CommonGateway],
+  exports: [CacheModule, CommonGateway, AuthorizeGateway, SdqueueProcessor]
 })
 export class GlobalModule { }
