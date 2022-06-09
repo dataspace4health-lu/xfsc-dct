@@ -32,6 +32,8 @@ export class LogTokenService {
     if (!isValidSig) {
       throw new UnauthorizedException();
     }
+
+    return await this.getToken(logTokenDto.VerifiableCredential.credentialSubject['@id']);
   }
 
   async checkSD(document: ContractDto) {

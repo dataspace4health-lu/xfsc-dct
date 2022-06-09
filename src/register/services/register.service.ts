@@ -31,7 +31,10 @@ export class RegisterService {
       jws: signature['example']['jws'],
     };
 
-    registerDto.proof = proof;
+    const proofs: GaxProof[] = [registerDto.proof];
+    proofs.push(proof);
+
+    (<unknown>registerDto.proof as GaxProof[]) = proofs;
 
     return registerDto;
   }

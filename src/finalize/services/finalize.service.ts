@@ -20,7 +20,7 @@ export class FinalizeService {
     const proofs: GaxProof[] = (<unknown>contractDto.VerifiableCredential.proof) as GaxProof[];
     const providerDID =
       contractDto.VerifiableCredential.credentialSubject['gax:contractOffer']['gax:permission']['gax:assigner'];
-    const validSD = await this.checkSD(providerDID, contractDto);
+    const validSD = await this.checkSD(contractDto);
     const userExists = await this.checkUser(providerDID);
 
     const isValidProviderSig = await this.checkSignature(proofs[0]);
@@ -76,8 +76,8 @@ export class FinalizeService {
    * @param document
    * @returns
    */
-  async checkSD(providerDID: string, document: ContractDto) {
-    return await this.commonApi.checkSD(providerDID, document);
+  async checkSD(document: ContractDto) {
+    return await this.commonApi.checkSD(document);
   }
 
   /**
