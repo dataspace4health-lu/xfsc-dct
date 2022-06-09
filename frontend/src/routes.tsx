@@ -22,10 +22,7 @@ const AuthenticatedRoutes: React.FunctionComponent<{
   return <Outlet />;
 };
 
-export const AppRoutes: React.FC<AppRoutesProps> = ({
-  isAuthenticated,
-  onSignOut,
-}) => {
+export const AppRoutes: React.FC<AppRoutesProps> = ({ isAuthenticated, onSignOut }) => {
   return (
     <Routes>
       <Route element={<EmptyLayout />}>

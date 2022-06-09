@@ -1,7 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { fetchBaseQuery } from '@reduxjs/toolkit/query';
 import { RootState } from '../store';
-import { AuthToken, ErrorResponse, ValidationErrorResponse } from '../../../../src/declarations/admin';
+import { ErrorResponse, ValidationErrorResponse } from '../../../../src/declarations/admin';
 
 export const isValidationErrorResponse = (response: any): response is ValidationErrorResponse => {
   return response.error === 'Bad Request' && Array.isArray(response.message);
@@ -11,8 +11,8 @@ export const isServerErrorResponse = (response: any): response is ErrorResponse 
   return parseInt(response.statusCode) >= 400 && typeof response.message === 'string';
 };
 
-export const delApiSlice = createApi({
-  reducerPath: 'del/api',
+export const dctApiSlice = createApi({
+  reducerPath: 'dct/api',
 
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_SERVER_ENDPOINT,
@@ -24,11 +24,10 @@ export const delApiSlice = createApi({
       return headers;
     },
   }),
-
   endpoints: (builder) => ({
-    login: builder.mutation<AuthToken, { username: string; password: string }>({
+    register: builder.mutation({
       query: (credentials) => ({
-        url: '/auth/login',
+        url: '/register',
         method: 'POST',
         body: credentials,
       }),
@@ -37,4 +36,4 @@ export const delApiSlice = createApi({
 });
 
 // Export the auto-generated hook for the `getPosts` query endpoint
-export const { useLoginMutation } = delApiSlice;
+export const { useRegisterMutation } = dctApiSlice;
