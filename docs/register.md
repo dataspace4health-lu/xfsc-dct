@@ -1,4 +1,4 @@
-# Register
+# Data Asset Registration
 
 ## Description
 Registers a Data Asset and on success returns a valid Data Asset Self-Description signed by GX-DCS.
