@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { ConfigType } from 'Config/config.module';
 import { CommonGateway } from 'Global/gateways/common.gateway';
 import { ContractDto, GaxProof } from 'Gateways/dtos/contract.dto';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class LogTokenService {
@@ -33,19 +34,26 @@ export class LogTokenService {
       throw new UnauthorizedException();
     }
 
-    return await this.getToken(logTokenDto.VerifiableCredential.credentialSubject['@id']);
+    const logID = uuidv4();
+
+    const logToken = {
+      'gax-dcs:logID': logID,
+      'gax-dcs:dataTransactionID': '123',
+      'gax-dcs:contractID': '123',
+      iss: '(Logging service ID)',
+      sub: '(Participant ID)',
+      aud: '(GX-DELS identifier)',
+      exp: Math.floor(new Date().getTime() / 1000) + 24 * 60 * 60
+    };
+
+    return logToken;
   }
 
   async checkSD(document: ContractDto) {
     return await this.commonApi.checkSD(document);
   }
 
-
   async checkSignatures(signatures: GaxProof[]) {
     return await this.commonApi.checkSignatures(signatures);
-  }
-
-  async getToken(id: string) {
-    return await this.logTokenApi.getToken(id);
   }
 }
