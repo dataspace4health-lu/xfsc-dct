@@ -12,6 +12,7 @@ import { RegisterModule } from 'Register/register.module';
 import { ValidateModule } from 'Validate/validate.module';
 import { LogTokenModule } from './log-token/log-token.module';
 import { NegotiateModule } from './negotiate/negotiate.module';
+import { FinalizeModule } from './finalize/finalize.module';
 import { MakeContractModule } from './make-contract/make-contract.module';
 import { BullModule } from '@nestjs/bull';
 import { ConfigService } from '@nestjs/config';
@@ -24,10 +25,10 @@ import { ConfigService } from '@nestjs/config';
         return {
           redis: {
             host: configService.get('redis.host', { infer: true }),
-            port: configService.get('redis.port', { infer: true })
-          }
-        }
-      }
+            port: configService.get('redis.port', { infer: true }),
+          },
+        };
+      },
     }),
     AppConfigModule,
     GlobalModule,
@@ -40,7 +41,8 @@ import { ConfigService } from '@nestjs/config';
     ValidateModule,
     LogTokenModule,
     NegotiateModule,
-    MakeContractModule
+    MakeContractModule,
+    FinalizeModule,
   ],
   controllers: [],
   providers: [

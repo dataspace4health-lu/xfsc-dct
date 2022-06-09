@@ -1,7 +1,7 @@
 import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
-import { ContractDto, GaxPermission, GaxProof, GaxVerifiableCredential } from 'Gateways/dtos/contract.dto';
 import { ConfigService } from '@nestjs/config';
 import { ConfigType } from 'Config/config.module';
+import { ContractDto, GaxProof, GaxVerifiableCredential } from 'Gateways/dtos/contract.dto';
 import { CommonGateway } from 'Global/gateways/common.gateway';
 import { NegotiateGateway } from '../gateways/negotiate.gateway';
 
@@ -27,19 +27,31 @@ export class NegotiateService {
    */
   async create(contractDto: ContractDto) {
     const contractOffer = contractDto.VerifiableCredential.credentialSubject['gax:contractOffer'];
-    const proofs: GaxProof[] = (<unknown>contractDto.VerifiableCredential.proof) as GaxProof[];
     const shouldLog = contractOffer['gax:loggingMode'];
+    const providerDID =
+      contractDto.VerifiableCredential.credentialSubject['gax:contractOffer']['gax:permission']['gax:assigner'];
+    const validSD = await this.checkSD(providerDID, contractDto);
+    const userExists = await this.checkUser(providerDID);
+    // const proofs: GaxProof[] = (<unknown>contractDto.VerifiableCredential.proof) as GaxProof[];
+    // const areValidSignitures = await this.checkSignatures(proofs);
+    // if (!areValidSignitures) {
+    //   throw new UnauthorizedException();
+    // }
+
+    // TODO: proof should not be array
+    const isValidSig = await this.checkSignature(contractDto.proof);
+    if (!isValidSig) {
+      throw new UnauthorizedException();
+    }
+
+    if (!validSD && !userExists) {
+      throw new UnauthorizedException();
+    }
 
     if (shouldLog !== 'gax:LoggingMandatory' && shouldLog !== 'gax:LoggingOptional') {
       throw new ForbiddenException();
     }
 
-    // TODO: proof should not be array?
-    // const isValidSig = await this.checkSignatures((<unknown>proofs) as GaxProof[]);
-    const isValidSig = await this.checkSignature(contractDto.proof);
-    if (!isValidSig) {
-      throw new UnauthorizedException();
-    }
     if (!this.isValidAgreementWithNegotiableTrue(contractDto.VerifiableCredential)) {
       throw new ForbiddenException();
     }
@@ -59,6 +71,12 @@ export class NegotiateService {
       throw new ForbiddenException();
     }
 
+    const hasLegallyBindingAddress =
+      contractDto.VerifiableCredential.credentialSubject['gax:distribution']['gax:hasLegallyBindingAddress'];
+    if (hasLegallyBindingAddress) {
+      this.transferContract(contractDto, hasLegallyBindingAddress);
+    }
+
     return contractDto;
   }
 
@@ -67,12 +85,17 @@ export class NegotiateService {
    * @param signatures
    * @returns
    */
+  async checkSignatures(signatures: GaxProof[]) {
+    return await this.commonApi.checkSignatures(signatures);
+  }
+  /**
+   * Check signiture
+   * @param signature
+   * @returns
+   */
   async checkSignature(signature: GaxProof) {
     return await this.commonApi.checkSignature(signature);
   }
-  // async checkSignatures(signatures: GaxProof[]) {
-  //   return await this.commonApi.checkSignatures(signatures);
-  // }
 
   /**
    * The GX-DCS MUST accept only Agreements that have the value true assigned to all gax:negotiable properties inside the Rules
@@ -101,10 +124,10 @@ export class NegotiateService {
    * MUST forward the Agreement to the Data Provider and MUST inform the Data Consumer about it.
    * @param contract
    */
-  async transferContract(contract: ContractDto) {
+  async transferContract(contract: ContractDto, hasLegallyBindingAddress: string) {
     if (contract) {
-      await this.negotiateApi.transferContract(contract); // to Data Provider
-      await this.negotiateApi.notifyConsumer(contract); // to Data Consumer
+      await this.commonApi.transferContractOffer(hasLegallyBindingAddress, contract); // to Data Provider
+      // notify Consumer this.negotiateApi.notifyConsumer()
     }
   }
 
@@ -131,5 +154,24 @@ export class NegotiateService {
   isPolicyConformance(contract: ContractDto): any {
     // TODO
     return true;
+  }
+
+  /**
+   * Validate SD
+   * @param providerDID
+   * @param document
+   * @returns
+   */
+  async checkSD(providerDID: string, document: ContractDto) {
+    return await this.commonApi.checkSD(providerDID, document);
+  }
+
+  /**
+   * Check GX partipipants
+   * @param providerDID
+   * @returns
+   */
+  async checkUser(providerDID: string) {
+    return await this.commonApi.checkUser(providerDID);
   }
 }

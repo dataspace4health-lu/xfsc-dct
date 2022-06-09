@@ -1,5 +1,15 @@
 import { Type } from 'class-transformer';
-import { IsArray, IsBoolean, IsDate, IsNotEmpty, IsNumber, IsObject, IsString, IsUrl } from 'class-validator';
+import {
+  IsArray,
+  IsBoolean,
+  IsDate,
+  IsNotEmpty,
+  IsNumber,
+  IsObject,
+  IsOptional,
+  IsString,
+  IsUrl,
+} from 'class-validator';
 import { Url } from 'jsonld/jsonld-spec';
 import { JSONLDContext } from 'src/gateways/decorators/context.validator.decorator';
 
@@ -83,6 +93,10 @@ class GaxDistribution {
 
   @IsUrl()
   'gax:accessURL': Url;
+
+  @IsString()
+  @IsOptional()
+  'gax:hasLegallyBindingAddress': string;
 }
 
 class CredentialSubject {
@@ -171,5 +185,6 @@ export class ContractDto {
 
   @IsObject()
   @Type(() => GaxProof)
+  @IsOptional()
   proof: GaxProof;
 }

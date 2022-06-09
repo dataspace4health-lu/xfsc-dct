@@ -9,8 +9,8 @@ export type JSONLDContext = {
   '@context': string | string[];
   '@id'?: string;
   '@type'?: string;
-  'VerifiableCredential': GaxVerifiableCredential[];
-  'proof': GaxProof[];
+  VerifiableCredential: GaxVerifiableCredential[];
+  proof: GaxProof[];
 };
 
 export function JSONLDContext(context: JSONLDContext) {
