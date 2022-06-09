@@ -11,6 +11,7 @@ const loader = () => ({
     sdCacheTTL: parseInt(process.env.SD_CACHE_TTL),
     sdQueueDelay: parseInt(process.env.SD_QUEUE_DELAY),
     sdQueueRetry: parseInt(process.env.SD_QUEUE_RETRIES),
+    tokenCacheTTL: parseInt(process.env.TOKEN_TTL),
 
     token: process.env.AUTH_TOKEN
 });

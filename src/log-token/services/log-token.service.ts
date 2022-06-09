@@ -43,7 +43,7 @@ export class LogTokenService {
       iss: '(Logging service ID)',
       sub: '(Participant ID)',
       aud: '(GX-DELS identifier)',
-      exp: Math.floor(new Date().getTime() / 1000) + 24 * 60 * 60
+      exp: Math.floor(new Date().getTime() / 1000) + this.configService.get('general.tokenCacheTTL', { infer: true })
     };
 
     return logToken;
