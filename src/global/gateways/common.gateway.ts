@@ -4,21 +4,24 @@ import { ContractDto, GaxProof } from 'Gateways/dtos/contract.dto';
 import { BaseGateway } from 'src/common/api/base.gateway';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
+import { ConfigService } from '@nestjs/config';
+import { ConfigType } from 'Config/config.module';
 
 @Injectable()
 export class CommonGateway extends BaseGateway {
   constructor(
     @Inject(CACHE_MANAGER) protected cache: Cache,
     @InjectQueue('processSds') private readonly sdsQueue: Queue,
-  ) {
+    readonly configService: ConfigService<ConfigType>) {
     super('http://example.com');
   }
 
   // @TODO: the providerDID might have multiple contracts -> this needs to be changed with an assed DID
   // waiting for a valid response from FC in order to determine where is the actual ID stored before changing
-  public async checkSD(providerDID: string, document: ContractDto) {
+  public async checkSD(document: ContractDto) {
     try {
-      const cachedSD = await this.cache.get(providerDID);
+      const sdID = document.VerifiableCredential.credentialSubject['id'];
+      const cachedSD = await this.cache.get(sdID);
 
       if (cachedSD !== undefined && cachedSD !== null) {
         return { isValid: true };
@@ -27,8 +30,13 @@ export class CommonGateway extends BaseGateway {
       const res = await this.request('/checkSD', 'POST', document);
 
       if (res['example']['isValid']) {
-        await this.cache.set(providerDID, document, { ttl: 86400 });
-        await this.sdsQueue.add('sds', JSON.stringify(document), { repeat: { limit: 13, every: 3000 } });
+        await this.cache.set(sdID, document, { 
+          ttl: this.configService.get('general.cache.ttl', { infer: true }) });
+        await this.sdsQueue.add('sds', JSON.stringify(document), { 
+          repeat: { 
+            limit: this.configService.get('general.sdQueueRetry', { infer: true }), 
+            every: this.configService.get('general.sdQueueDelay', { infer: true })
+          }});
       }
 
       return res['example'];
@@ -47,7 +55,7 @@ export class CommonGateway extends BaseGateway {
 
       const res = await this.request('/checkUser', 'POST', providerDID);
 
-      await this.cache.set(providerDID, res['example'], { ttl: 86400 });
+      await this.cache.set(providerDID, res['example'], { ttl: this.configService.get('general.cache.ttl', { infer: true }) });
 
       return res['example'];
     } catch (e) {
@@ -65,7 +73,7 @@ export class CommonGateway extends BaseGateway {
       }
 
       const res = await this.request('/checkSignature', 'POST', proof);
-      await this.cache.set(proof.verificationMethod, res['example'], { ttl: 86400 });
+      await this.cache.set(proof.verificationMethod, res['example'], { ttl: this.configService.get('general.cache.ttl', { infer: true }) });
 
       return res['example'];
     } catch (e) {

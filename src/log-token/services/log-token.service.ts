@@ -11,14 +11,13 @@ export class LogTokenService {
     protected logTokenApi: LogTokenGateway,
     protected readonly configService: ConfigService<ConfigType>,
     protected commonApi: CommonGateway,
-  ) {}
+  ) { }
 
   async create(logTokenDto: ContractDto) {
     const contractOffer = logTokenDto.VerifiableCredential.credentialSubject['gax:contractOffer'];
-    const proofs: GaxProof[] = (<unknown>logTokenDto.VerifiableCredential.proof) as GaxProof[];
+    const proofs: GaxProof[] = <unknown>logTokenDto.VerifiableCredential.proof as GaxProof[];
     const shouldLog = contractOffer['gax:loggingMode'];
-    const providerDID = contractOffer['gax:permission']['gax:assigner'];
-    const validSD = await this.checkSD(providerDID, logTokenDto);
+    const validSD = await this.checkSD(logTokenDto);
 
     if (!validSD) {
       throw new ForbiddenException();
@@ -37,15 +36,16 @@ export class LogTokenService {
     return await this.getToken(logTokenDto.VerifiableCredential.credentialSubject['@id']);
   }
 
+  async checkSD(document: ContractDto) {
+    return await this.commonApi.checkSD(document);
+  }
+
+
   async checkSignatures(signatures: GaxProof[]) {
     return await this.commonApi.checkSignatures(signatures);
   }
 
   async getToken(id: string) {
     return await this.logTokenApi.getToken(id);
-  }
-
-  async checkSD(providerDID: string, document: ContractDto) {
-    return await this.commonApi.checkSD(providerDID, document);
   }
 }
