@@ -18,11 +18,12 @@ export class SdqueueProcessor {
     console.log(job.data);
     console.log('Processing complete');
 
-    const sdID = job.data['VerifiableCredential']['credentialSubject']['id'];
+    const data = JSON.parse(job.data);
+    const sdID = data['VerifiableCredential']['credentialSubject']['id'];
     const cachedSD = await this.cache.get(sdID);
 
     if (cachedSD !== undefined && cachedSD !== null) {
-      return await this.cache.set(sdID, job.data);
+      return await this.cache.set(sdID, data);
     }
 
     return await job.remove();
