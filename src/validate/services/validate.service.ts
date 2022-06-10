@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { CommonGateway } from 'Global/gateways/common.gateway';
 import { ContractDto, GaxPermission, GaxProof } from 'Gateways/dtos/contract.dto';
 
@@ -18,6 +18,10 @@ export class ValidateService {
     let found = confirmationRequired;
 
     const validSD = await this.checkSD(validateDto);
+
+    if (!validSD) {
+      throw new ForbiddenException();
+    }
 
     if (!found) {
       for (const permission of permissions) {
