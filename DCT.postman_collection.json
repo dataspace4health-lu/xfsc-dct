@@ -1,12 +1,41 @@
 {
-  "info": {
-    "_postman_id": "933d18cf-2299-41e6-9f80-149e7c11170d",
-    "name": "DCT",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "6369598"
-  },
-  "item": [
-    {
+	"info": {
+		"_postman_id": "93c35f11-b7e2-4d01-b014-a69dd9ca3ab5",
+		"name": "DCT",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1657626"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\": \"admin\", \"password\": \"admin\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "register",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {
@@ -258,69 +287,79 @@
 			"response": []
 		},
 		{
-			"name": "/",
+			"name": "validate",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "axcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvb",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/ld+json",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"@context\": [\r\n        \"https://www.w3.org/2018/credentials/v1\",\r\n        \"https://w3id.org/gaia-x/core/context/DataAsset.jsonld\"\r\n    ],\r\n    \"type\": \"VerifiablePresentation\",\r\n    \"verifiableCredential\": [\r\n        {\r\n            \"@context\": [\r\n                \"https://www.w3.org/2018/credentials/v1\",\r\n                \"https://w3id.org/gaia-x/core/context/DataAsset.jsonld\"\r\n            ],\r\n            \"credentialSubject\": {\r\n                \"@id\": \"http://example.org/data-asset-1\",\r\n                \"@type\": \"gax:DataAsset\",\r\n                \"gax:title\": \"Example title\",\r\n                \"gax:description\": \"Example description\",\r\n                \"gax:keyword\": [\r\n                    \"key\",\r\n                    \"word\"\r\n                ],\r\n                \"gax:category\": [\r\n                    \"example\"\r\n                ],\r\n                \"gax:publisher\": \"?publisherDID\",\r\n                \"gax:creator\": \"?creatorDID\",\r\n                \"gax:language\": \"http://id.loc.gov/vocabulary/iso639-1/en\",\r\n                \"gax:distribution\": {\r\n                    \"gax:title\": \"Example distribution title\",\r\n                    \"gax:description\": \"Example distribution description\",\r\n                    \"gax:created\": \"2021-01-23T18:25:43.511Z\",\r\n                    \"gax:modified\": \"2021-01-25T12:20:34.007Z\",\r\n                    \"gax:mediaType\": \"text/csv\",\r\n                    \"gax:byteSize\": \"100000\",\r\n                    \"gax:accessURL\": \"www.example.com/data/example.csv\"\r\n                },\r\n                \"gax:created\": \"2021-01-23T12:21:23.876Z\",\r\n                \"gax:modified\": \"2021-01-24T14:45:03.517Z\",\r\n                \"gax:containsPersonalData\": false,\r\n                \"gax:sampleAvailable\": false,\r\n                \"gax:contractOffer\": {\r\n                    \"@type\": \"gax-GX-DCS:contractOffer\",\r\n                    \"gax:choiceOfLaw\": \"iso:Germany\",\r\n                    \"gax:generalTerms\": \"Example text for the general terms\",\r\n                    \"gax:confirmationRequired\": false,\r\n                    \"gax:loggingMode\": \"gax:LoggingMandatory\",\r\n                    \"gax:circulationDetails\": \"Example text for the circulation details\",\r\n                    \"gax:permission\": {\r\n                        \"@type\": \"gax:Permission\",\r\n                        \"gax:assigner\": \"?providerDID\",\r\n                        \"gax:target\": \"?AssetURI\",\r\n                        \"gax:action\": \"gax:USE\",\r\n                        \"gax:negotiable\": false,\r\n                        \"gax:postDuty\": {\r\n                            \"@type\": \"gax:Duty\",\r\n                            \"gax:action\": {\r\n                                \"@id\": \"gax:LOG\"\r\n                            }\r\n                        }\r\n                    }\r\n                }\r\n            }\r\n        }\r\n    ],\r\n    \"proof\": [\r\n        {\r\n            \"type\": \"Ed25519Signature2018\",\r\n            \"proofPurpose\": \"assertionMethod\",\r\n            \"created\": \"2019-08-23T20:21:34Z\",\r\n            \"verificationMethod\": \"did:provider:123456#key1\",\r\n            \"jws\": \"eyJ0eXAiOiJK...gFWFOEjXk\"\r\n        }\r\n    ]\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					"raw": "{\r\n    \"@context\": [\r\n        \"https://www.w3.org/2018/credentials/v1\"\r\n    ],\r\n    \"type\": \"VerifiablePresentation\",\r\n    \"VerifiableCredential\": [\r\n        {\r\n            \"@context\": [\r\n                \"https://www.w3.org/2018/credentials/v1\"\r\n            ],\r\n            \"credentialSubject\": {\r\n                \"@id\": \"?AssetURI\",\r\n                \"@type\": \"gax:DataAsset\",\r\n                \"gax:title\": \"Example title\",\r\n                \"gax:description\": \"Example description\",\r\n                \"gax:keyword\": [\r\n                    \"key\",\r\n                    \"word\"\r\n                ],\r\n                \"gax:category\": [\r\n                    \"example\"\r\n                ],\r\n                \"gax:publisher\": \"?publisherDID\",\r\n                \"gax:consumer\": \"?consumerDID\",\r\n                \"gax:creator\": \"?creatorDID\",\r\n                \"gax:language\": \"http://id.loc.gov/vocabulary/iso639-1/en\",\r\n                \"gax:distribution\": {\r\n                    \"gax:title\": \"Example distribution title\",\r\n                    \"gax:description\": \"Example distribution description\",\r\n                    \"gax:created\": \"2021-01-23T18:25:43.511Z\",\r\n                    \"gax:modified\": \"2021-01-25T12:20:34.007Z\",\r\n                    \"gax:mediaType\": \"text/csv\",\r\n                    \"gax:byteSize\": \"100000\",\r\n                    \"gax:accessURL\": \"www.example.com/data/example.csv\"\r\n                },\r\n                \"gax:created\": \"2021-01-23T12:21:23.876Z\",\r\n                \"gax:modified\": \"2021-01-24T14:45:03.517Z\",\r\n                \"gax:containsPersonalData\": false,\r\n                \"gax:sampleAvailable\": false,\r\n                \"gax:contractOffer\": {\r\n                    \"@type\": \"gax:contractOffer\",\r\n                    \"gax:choiceOfLaw\": \"iso:Germany\",\r\n                    \"gax:generalTerms\": \"Example text for the general terms\",\r\n                    \"gax:confirmationRequired\": false,\r\n                    \"gax:loggingMode\": \"gax:LoggingMandatory\",\r\n                    \"gax:circulationDetails\": \"Example text for the circulation details\",\r\n                    \"gax:permission\": [\r\n                        {\r\n                            \"@type\": \"gax:Permission\",\r\n                            \"gax:assigner\": \"?providerDID\",\r\n                            \"gax:target\": \"?someDataAssetID\",\r\n                            \"gax:action\": \"gax:COMPENSATE\",\r\n                            \"gax:negotiable\": false,\r\n                            \"gax:constraint\": {\r\n                                \"@type\": \"gax:Constraint\",\r\n                                \"gax:leftOperand\": \"gax: PAY_AMOUNT\",\r\n                                \"gax:operator\": \"gax:EQ\",\r\n                                \"gax:rightOperand\": {\r\n                                    \"@value\": \"?price\",\r\n                                    \"@type\": \"http://www.w3.org/2001/XMLSchema#double\"\r\n                                }\r\n                            }\r\n                        },\r\n                        {\r\n                            \"@type\": \"gax:Permission\",\r\n                            \"gax:assigner\": \"?providerDID\",\r\n                            \"gax:target\": \"?someDataAssetID\",\r\n                            \"gax:action\": \"gax:COMPENSATE\",\r\n                            \"gax:negotiable\": false,\r\n                            \"gax:constraint\": {\r\n                                \"@type\": \"gax:Constraint\",\r\n                                \"gax:leftOperand\": \"gax: PAY_AMOUNT\",\r\n                                \"gax:operator\": \"gax:EQ\",\r\n                                \"gax:rightOperand\": {\r\n                                    \"@value\": \"?price\",\r\n                                    \"@type\": \"http://www.w3.org/2001/XMLSchema#double\"\r\n                                }\r\n                            }\r\n                        }\r\n                    ]\r\n                }\r\n            },\r\n            \"proof\": [\r\n                {\r\n                    \"type\": \"Ed25519Signature2018\",\r\n                    \"proofPurpose\": \"contractAgreement\",\r\n                    \"created\": \"2019-08-23T20:21:34Z\",\r\n                    \"verificationMethod\": \"did:consumer:123456#key2\",\r\n                    \"jws\": \"eyJ0eXAiOiJK...gFWFOEjXk\"\r\n                },\r\n                {\r\n                    \"type\": \"Ed25519Signature2018\",\r\n                    \"proofPurpose\": \"contractAgreement\",\r\n                    \"created\": \"2019-08-23T20:56:03Z\",\r\n                    \"verificationMethod\": \"did:provider:123456#key1\",\r\n                    \"jws\": \"iyJheXXiOiJK...gFWFOEoXk\"\r\n                }\r\n            ]\r\n        }\r\n    ],\r\n    \"proof\": [\r\n        {\r\n            \"type\": \"Ed25519Signature2018\",\r\n            \"proofPurpose\": \"assertionMethod\",\r\n            \"created\": \"2019-08-23T20:56:10Z\",\r\n            \"verificationMethod\": \"did:GX-DCS:123456#key1\",\r\n            \"jws\": \"eyJ0Ugf29iJK...j9ZFOEjXk\"\r\n        }\r\n    ]\r\n}"
 				},
 				"url": {
-					"raw": "http://localhost:3000/register",
+					"raw": "http://localhost:3000/validate",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
-						"register"
+						"validate"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Login",
+			"name": "log-token",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "axcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvb",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/ld+json",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"username\": \"admin\", \"password\": \"admin\"}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					"raw": "{\r\n  \"@context\": [\r\n    \"https://www.w3.org/2018/credentials/v1\"\r\n  ],\r\n  \"type\": \"VerifiablePresentation\",\r\n  \"VerifiableCredential\": [\r\n    {\r\n      \"@context\": [\r\n        \"https://www.w3.org/2018/credentials/v1\"\r\n      ],\r\n      \"credentialSubject\": {\r\n        \"@id\": \"?AssetURI\",\r\n        \"@type\": \"gax:DataAsset\",\r\n        \"gax:title\": \"Example title\",\r\n        \"gax:description\": \"Example description\",\r\n        \"gax:keyword\": [\r\n          \"key\",\r\n          \"word\"\r\n        ],\r\n        \"gax:category\": [\r\n          \"example\"\r\n        ],\r\n        \"gax:publisher\": \"?publisherDID\",\r\n        \"gax:consumer\": \"?consumerDID\",\r\n        \"gax:creator\": \"?creatorDID\",\r\n        \"gax:language\": \"http://id.loc.gov/vocabulary/iso639-1/en\",\r\n        \"gax:distribution\": {\r\n          \"gax:title\": \"Example distribution title\",\r\n          \"gax:description\": \"Example distribution description\",\r\n          \"gax:created\": \"2021-01-23T18:25:43.511Z\",\r\n          \"gax:modified\": \"2021-01-25T12:20:34.007Z\",\r\n          \"gax:mediaType\": \"text/csv\",\r\n          \"gax:byteSize\": \"100000\",\r\n          \"gax:accessURL\": \"www.example.com/data/example.csv\"\r\n        },\r\n        \"gax:created\": \"2021-01-23T12:21:23.876Z\",\r\n        \"gax:modified\": \"2021-01-24T14:45:03.517Z\",\r\n        \"gax:containsPersonalData\": false,\r\n        \"gax:sampleAvailable\": false,\r\n        \"gax:contractOffer\": {\r\n          \"@type\": \"gax:contractOffer\",\r\n          \"gax:choiceOfLaw\": \"iso:Germany\",\r\n          \"gax:generalTerms\": \"Example text for the general terms\",\r\n          \"gax:confirmationRequired\": true,\r\n          \"gax:loggingMode\": \"gax:LoggingMandatory\",\r\n          \"gax:circulationDetails\": \"Example text for the circulation details\",\r\n          \"gax:permission\": [\r\n            {\r\n              \"@type\": \"gax:Permission\",\r\n              \"gax:assigner\": \"?providerDID\",\r\n              \"gax:target\": \"?someDataAssetID\",\r\n              \"gax:action\": \"gax:COMPENSATE\",\r\n              \"gax:negotiable\": true,\r\n              \"gax:constraint\": {\r\n                \"@type\": \"gax:Constraint\",\r\n                \"gax:leftOperand\": \"gax: PAY_AMOUNT\",\r\n                \"gax:operator\": \"gax:EQ\",\r\n                \"gax:rightOperand\": {\r\n                  \"@value\": \"?price\",\r\n                  \"@type\": \"http://www.w3.org/2001/XMLSchema#double\"\r\n                }\r\n              }\r\n            }\r\n          ]\r\n        }\r\n      },\r\n      \"proof\": [\r\n        {\r\n          \"type\": \"Ed25519Signature2018\",\r\n          \"proofPurpose\": \"contractAgreement\",\r\n          \"created\": \"2019-08-23T20:21:34Z\",\r\n          \"verificationMethod\": \"did:consumer:123456#key1\",\r\n          \"jws\": \"eyJ0eXAiOiJK...gFWFOEjXk\"\r\n        },\r\n        {\r\n          \"type\": \"Ed25519Signature2018\",\r\n          \"proofPurpose\": \"contractAgreement\",\r\n          \"created\": \"2019-08-23T20:56:03Z\",\r\n          \"verificationMethod\": \"did:provider:123456#key1\",\r\n          \"jws\": \"iyJheXXiOiJK...gFWFOEoXk\"\r\n        }\r\n      ]\r\n    }\r\n  ],\r\n  \"proof\": [\r\n    {\r\n      \"type\": \"Ed25519Signature2018\",\r\n      \"proofPurpose\": \"assertionMethod\",\r\n      \"created\": \"2019-08-23T20:56:10Z\",\r\n      \"verificationMethod\": \"did:GX-DCS:123456#key1\",\r\n      \"jws\": \"eyJ0Ugf29iJK...j9ZFOEjXk\"\r\n    }\r\n  ]\r\n}"
 				},
 				"url": {
-					"raw": "http://localhost:3000/auth/login",
-					"protocol": "http",
+					"raw": "localhost:3000/log/token",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
-						"auth",
-						"login"
+						"log",
+						"token"
 					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Profile",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": ""
 				}
 			},
 			"response": []
