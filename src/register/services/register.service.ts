@@ -3,12 +3,11 @@ import { CommonGateway } from 'Global/gateways/common.gateway';
 import { ContractDto, GaxProof } from 'Gateways/dtos/contract.dto';
 @Injectable()
 export class RegisterService {
-  public constructor(protected commonApi: CommonGateway) {}
+  public constructor(protected commonApi: CommonGateway) { }
 
   async create(registerDto: ContractDto) {
-    const providerDID =
-      registerDto.VerifiableCredential.credentialSubject['gax:contractOffer']['gax:permission']['gax:assigner'];
-    const validSD = await this.checkSD(providerDID, registerDto);
+    const providerDID = registerDto.VerifiableCredential.credentialSubject['gax:contractOffer']['gax:permission']['gax:assigner'];
+    const validSD = await this.checkSD(registerDto);
     const userExists = await this.checkUser(providerDID);
     const isValidSig = await this.checkSignature(registerDto.proof);
 
@@ -32,13 +31,16 @@ export class RegisterService {
       jws: signature['example']['jws'],
     };
 
-    registerDto.proof = proof;
+    const proofs: GaxProof[] = [registerDto.proof];
+    proofs.push(proof);
+
+    (<unknown>registerDto.proof as GaxProof[]) = proofs;
 
     return registerDto;
   }
 
-  async checkSD(providerDID: string, document: ContractDto) {
-    return await this.commonApi.checkSD(providerDID, document);
+  async checkSD(document: ContractDto) {
+    return await this.commonApi.checkSD(document);
   }
 
   async checkUser(providerDID: string) {

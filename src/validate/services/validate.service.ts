@@ -4,7 +4,7 @@ import { ContractDto, GaxPermission, GaxProof } from 'Gateways/dtos/contract.dto
 
 @Injectable()
 export class ValidateService {
-  public constructor(protected commonApi: CommonGateway) {}
+  public constructor(protected commonApi: CommonGateway) { }
 
   async create(validateDto: ContractDto) {
     // differentiate negotiable / non-negotiable contract
@@ -13,12 +13,11 @@ export class ValidateService {
 
     const contractOffer = validateDto.VerifiableCredential.credentialSubject['gax:contractOffer'];
     const confirmationRequired = contractOffer['gax:confirmationRequired'];
-    const providerDID = contractOffer['gax:permission'][0]['gax:assigner'];
-    const permissions: GaxPermission[] = (<unknown>contractOffer['gax:permission']) as GaxPermission[];
+    const permissions: GaxPermission[] = <unknown>contractOffer['gax:permission'] as GaxPermission[];
     const proofs = validateDto.VerifiableCredential.proof;
     let found = confirmationRequired;
 
-    const validSD = await this.checkSD(providerDID, validateDto);
+    const validSD = await this.checkSD(validateDto);
 
     if (!found) {
       for (const permission of permissions) {
@@ -48,7 +47,7 @@ export class ValidateService {
     return await this.commonApi.checkSignatures(signatures);
   }
 
-  async checkSD(providerDID: string, document: ContractDto) {
-    return await this.commonApi.checkSD(providerDID, document);
+  async checkSD(document: ContractDto) {
+    return await this.commonApi.checkSD(document);
   }
 }

@@ -1,13 +1,30 @@
 import { Process, Processor } from "@nestjs/bull";
-import { Logger } from "@nestjs/common";
+import { Cache } from 'cache-manager';
+import { CACHE_MANAGER, Inject } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 import { Job } from "bull";
+import { ConfigType } from "Config/config.module";
 
 @Processor('processSds')
 export class SdqueueProcessor {
+  public constructor(
+    readonly configService: ConfigService<ConfigType>,
+    @Inject(CACHE_MANAGER) protected cache: Cache) {}
+
   @Process('sds')
-  handleProcessSds(job: Job) {
+  async handleProcessSds(job: Job) {
+    console.log(job.id);
     console.log('Start processing notification...', job.data);
     console.log(job.data);
     console.log('Processing complete');
+
+    const sdID = job.data['VerifiableCredential']['credentialSubject']['id'];
+    const cachedSD = await this.cache.get(sdID);
+
+    if (cachedSD !== undefined && cachedSD !== null) {
+      return await this.cache.set(sdID, job.data);
+    }
+
+    return await job.remove();
   }
 }
