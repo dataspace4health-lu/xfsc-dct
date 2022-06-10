@@ -52,6 +52,12 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Running UI in dev mode
+
+- Start `api` app in one of desired mode from above;
+- Open separate terminal into `./frontend`
+- run `npm run start` it will spin up the CRA app on port `3001` connected to your currently running `api` app
+
 ## Test
 
 ```bash

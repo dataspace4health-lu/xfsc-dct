@@ -1,21 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useDispatch, useSelector } from './redux/store';
+
+import { AppRoutes } from './routes';
+
+import './App.scss';
+import 'primereact/resources/primereact.css';
+import 'primeicons/primeicons.css';
+import 'primeflex/primeflex.css';
+import 'prismjs/themes/prism-coy.css';
+import './assets/layout/layout.scss';
+import { setAuthToken } from './redux/slices/auth.slice';
 
 function App() {
-    return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>
-                    Edit <code>src/App.tsx</code> and save to reload.
-                </p>
-                <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-                    Server endpoint {process.env.REACT_APP_SERVER_ENDPOINT}
-                </a>
-            </header>
-        </div>
-    );
+    const { token } = useSelector((store) => store.auth);
+    const dispatch = useDispatch();
+
+    const onSignOut = () => {
+        dispatch(setAuthToken());
+    };
+
+    return <AppRoutes isAuthenticated={!!token} onSignOut={onSignOut} />;
 }
 
 export default App;
