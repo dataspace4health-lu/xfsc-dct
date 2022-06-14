@@ -59,7 +59,7 @@ export class NegotiateService {
     if (!this.isValidContractWithGeneralTerms(contractDto)) {
       throw new ForbiddenException();
     }
-    if (this.noConfirmationRequired(contractDto)) {
+    if (!this.noConfirmationRequired(contractDto)) {
       throw new ForbiddenException();
     }
 
