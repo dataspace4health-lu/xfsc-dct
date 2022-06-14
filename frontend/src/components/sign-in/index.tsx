@@ -30,9 +30,7 @@ export const SignIn: React.FC<SignInProps> = ({ error, onSubmit }) => {
   return (
     <>
       <div className="text-center mb-5">
-        <div className="text-900 text-3xl font-medium mb-3">
-          Welcome to DCT!
-        </div>
+        <div className="text-900 text-3xl font-medium mb-3">Welcome to DCT!</div>
         <span className="text-600 font-medium">Sign in to continue</span>
       </div>
 
@@ -75,12 +73,7 @@ export const SignIn: React.FC<SignInProps> = ({ error, onSubmit }) => {
               />
             )}
           />
-          <Button
-            label="Login"
-            type="submit"
-            loading={isSubmitting}
-            className="w-full p-3 text-xl"
-          />
+          <Button label="Login" type="submit" loading={isSubmitting} className="w-full p-3 text-xl" />
         </form>
       </div>
     </>
