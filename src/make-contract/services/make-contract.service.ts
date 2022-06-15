@@ -1,8 +1,9 @@
-import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ConfigType } from 'Config/config.module';
 import { CommonGateway } from 'Global/gateways/common.gateway';
 import { ContractDto, GaxProof, GaxVerifiableCredential } from 'Gateways/dtos/contract.dto';
+import { ValidationException } from 'Common/exceptions/validation.exception';
 
 @Injectable()
 export class MakeContractService {
@@ -35,19 +36,19 @@ export class MakeContractService {
 
     const isValidSig = await this.checkSignature(contractDto.proof);
     if (!isValidSig) {
-      throw new UnauthorizedException();
+      throw new ValidationException('Invalid signiture.', 431);
     }
 
     if (!userExists) {
-      throw new ForbiddenException();
+      throw new UnauthorizedException('user');
     }
 
     if (this.isValidAgreementWithNegotiableFalse(contractDto.VerifiableCredential)) {
-      throw new ForbiddenException();
+      throw new ValidationException('Negotiable must be false.', 430);
     }
 
     if (!this.isConfirmationRequiredFalse(contractDto.VerifiableCredential)) {
-      throw new ForbiddenException();
+      throw new ValidationException('No confirmation should be required.', 430);
     }
 
     const signature = await this.addSignature();

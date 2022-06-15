@@ -1,5 +1,7 @@
-import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { UnauthorizedException } from 'Common/exceptions/unauthorized.exception';
+import { ValidationException } from 'Common/exceptions/validation.exception';
 import { ConfigType } from 'Config/config.module';
 import { ContractDto, GaxProof, GaxVerifiableCredential } from 'Gateways/dtos/contract.dto';
 import { CommonGateway } from 'Global/gateways/common.gateway';
@@ -41,11 +43,11 @@ export class NegotiateService {
     // TODO: proof should not be array
     const isValidSig = await this.checkSignature(contractDto.proof);
     if (!isValidSig) {
-      throw new UnauthorizedException();
+      throw new ValidationException('Invalid signiture.', 431);
     }
 
     if (!validSD && !userExists) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Data Provider DID or Data Consumer DID could not be resolved.');
     }
 
     if (shouldLog !== 'gax:LoggingMandatory' && shouldLog !== 'gax:LoggingOptional') {
@@ -53,18 +55,20 @@ export class NegotiateService {
     }
 
     if (!this.isValidAgreementWithNegotiableTrue(contractDto.VerifiableCredential)) {
-      throw new ForbiddenException();
+      throw new ValidationException('Negotiable must be true.', 430);
     }
 
     if (!this.isValidContractWithGeneralTerms(contractDto)) {
-      throw new ForbiddenException();
+      throw new ForbiddenException(
+        'The “general terms” are not empty, but the requesting Participant is not a human being (this restriction might be removed in future versions)',
+      );
     }
     if (!this.noConfirmationRequired(contractDto)) {
-      throw new ForbiddenException();
+      throw new ValidationException('No Confirmation required.', 430);
     }
 
     if (!this.isNegotiationCheckOriginal(contractDto)) {
-      throw new ForbiddenException();
+      throw new ValidationException('Negotiation check failed.', 500);
     }
 
     if (!this.isPolicyConformance(contractDto)) {
