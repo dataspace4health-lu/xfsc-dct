@@ -1,26 +1,26 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AuthToken } from '../../../../src/declarations/admin';
-import { delApiSlice } from '../apis/del.api';
+import { dctApiSlice } from '../apis/dct.api';
 
 export interface AuthSlice {
-    token?: AuthToken;
+  token?: AuthToken;
 }
 
 const initialState: AuthSlice = {};
 
 const authSlice = createSlice({
-    name: 'auth',
-    initialState,
-    reducers: {
-        setAuthToken: (state, action: PayloadAction<AuthToken | undefined>) => {
-            state.token = action.payload;
-        },
+  name: 'auth',
+  initialState,
+  reducers: {
+    setAuthToken: (state, action: PayloadAction<AuthToken | undefined>) => {
+      state.token = action.payload;
     },
-    extraReducers: (builder) => {
-        builder.addMatcher(delApiSlice.endpoints.login.matchFulfilled, (state, action) => {
-            state.token = action.payload;
-        });
-    },
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(dctApiSlice.endpoints.login.matchFulfilled, (state, action) => {
+      state.token = action.payload;
+    });
+  },
 });
 
 export const { setAuthToken } = authSlice.actions;

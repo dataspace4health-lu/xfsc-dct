@@ -1,6 +1,6 @@
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { Message } from 'primereact/message';
-import React, { useEffect } from 'react';
+import React from 'react';
 import Button from '../../components/form/button';
 import styles from './register-page.module.scss';
 import cx from 'classnames';
@@ -21,13 +21,15 @@ const RegisterPage = () => {
 
   const handleSubmit = async (event: any) => {
     try {
+      const baseUrl = process.env.REACT_APP_SERVER_ENDPOINT;
+      const authToken = process.env.TOKEN;
       event.preventDefault();
-      const response = await axiosInstance.post('http://localhost:3000/register', contractJson, {
+      const response = await axiosInstance.post(baseUrl + '/register', contractJson, {
         headers: {
           'Content-Type': 'application/ld+json',
           'Accept-Version': 1,
           Accept: 'application/ld+json',
-          Authorization: 'Bearer axcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvb',
+          Authorization: 'Bearer ' + authToken,
         },
       });
       if (response.status === 201) {
@@ -73,7 +75,6 @@ const RegisterPage = () => {
             className="textInputForm w-full p-3"
             onChange={(e) => setContractJson(e.target.value)}
           />
-          <Button onClick={handleSubmit} label="Register Contract" type="submit" className="w-full p-3 text-xl my-2" />
           {success !== '' && <Message className="mx-auto w-full my-2" severity="success" text={success} />}
           <div className={cx('m-0', 'py-2', 'px-4', styles.registerResponse)}>
             {!responseJson.type && error !== '' && (
@@ -86,6 +87,8 @@ const RegisterPage = () => {
             )}
             {responseJson.jws && <div>{`JWT: ${JSON.stringify(responseJson.jws)}`}</div>}
           </div>
+
+          <Button onClick={handleSubmit} label="Register Contract" type="submit" className="w-full p-3 text-xl" />
         </form>
       </div>
     </>

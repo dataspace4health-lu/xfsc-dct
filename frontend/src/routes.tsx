@@ -29,11 +29,11 @@ export const AppRoutes: React.FC<AppRoutesProps> = ({ isAuthenticated, onSignOut
         <Route path="/login" element={<LoginPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
-      <Route element={<AuthenticatedRoutes isAuthenticated={true} />}>
+      <Route element={<AuthenticatedRoutes isAuthenticated={isAuthenticated} />}>
         <Route element={<BaseLayout onSignOut={onSignOut} />}>
           <Route path="/register-contract" element={<RegisterPage />} />
         </Route>
-        <Route index element={<Navigate to="/dashboard" replace />} />
+        <Route index element={<Navigate to="/register-contract" replace />} />
       </Route>
     </Routes>
   );
