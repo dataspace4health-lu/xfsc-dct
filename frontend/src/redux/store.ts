@@ -2,29 +2,29 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { TypedUseSelectorHook, useDispatch as ReduxUseDispatch, useSelector as ReduxUseSelector } from 'react-redux';
-import { delApiSlice } from './apis/del.api';
+import { dctApiSlice } from './apis/dct.api';
 import authSlice from './slices/auth.slice';
 
 const rootReducer = combineReducers({
-    [authSlice.name]: authSlice.reducer,
-    [delApiSlice.reducerPath]: delApiSlice.reducer,
+  [authSlice.name]: authSlice.reducer,
+  [dctApiSlice.reducerPath]: dctApiSlice.reducer,
 });
 
 const persistConfig = {
-    key: 'root',
-    storage,
+  key: 'root',
+  storage,
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-    reducer: persistedReducer,
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware({
-            serializableCheck: {
-                ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-            },
-        }).concat(delApiSlice.middleware),
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }).concat(dctApiSlice.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
