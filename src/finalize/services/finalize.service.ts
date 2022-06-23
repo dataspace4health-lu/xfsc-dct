@@ -1,5 +1,7 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { UnauthorizedException } from 'Common/exceptions/unauthorized.exception';
+import { ValidationException } from 'Common/exceptions/validation.exception';
 import { ConfigType } from 'Config/config.module';
 import { ContractDto, GaxProof } from 'Gateways/dtos/contract.dto';
 import { CommonGateway } from 'Global/gateways/common.gateway';
@@ -26,14 +28,17 @@ export class FinalizeService {
     const isValidProviderSig = await this.checkSignature(proofs[0]);
     const isValidConsumerSig = await this.checkSignature(proofs[1]);
 
-    if (!isValidProviderSig && !isValidConsumerSig && !validSD && !userExists) {
-      throw new UnauthorizedException();
+    if (!isValidProviderSig && !isValidConsumerSig) {
+      throw new ValidationException('Invalid signitures.', 431);
+    }
+    if (!validSD && !userExists) {
+      throw new UnauthorizedException('Data Provider DID or Data Consumer DID could not be resolved.');
     }
 
     const signature = await this.addSignature();
 
     if (signature['example']['type'] === undefined) {
-      throw new UnauthorizedException();
+      throw new ValidationException('Error generating signiture.', 500);
     }
 
     const proof = {
