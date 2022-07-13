@@ -45,6 +45,9 @@ $ git config core.hooksPath .github/hooks
 # development
 $ npm run start
 
+# docker
+$ docker-compose up --build
+
 # watch mode
 $ npm run start:dev
 
@@ -56,7 +59,9 @@ $ npm run start:prod
 
 - Start `api` app in one of desired mode from above;
 - Open separate terminal into `./frontend`
-- run `npm run start` it will spin up the CRA app on port `3001` connected to your currently running `api` app
+- run `npm install`
+- run `npm start` it will spin up the CRA app on port `3001` connected to your currently running `api` app
+- available routes: `http://localhost:3001/login` and `http://localhost:3001/register-contract`
 
 ## Test
 
@@ -77,9 +82,9 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 ## Stay in touch
 
--   Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
--   Website - [https://nestjs.com](https://nestjs.com/)
--   Twitter - [@nestframework](https://twitter.com/nestframework)
+- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
+- Website - [https://nestjs.com](https://nestjs.com/)
+- Twitter - [@nestframework](https://twitter.com/nestframework)
 
 ## License
 

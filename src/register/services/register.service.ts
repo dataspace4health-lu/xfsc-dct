@@ -1,24 +1,26 @@
-import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CommonGateway } from 'Global/gateways/common.gateway';
 import { ContractDto, GaxProof } from 'Gateways/dtos/contract.dto';
+import { UnauthorizedException } from 'Common/exceptions/unauthorized.exception';
 @Injectable()
 export class RegisterService {
-  public constructor(protected commonApi: CommonGateway) { }
+  public constructor(protected commonApi: CommonGateway) {}
 
   async create(registerDto: ContractDto) {
-    const providerDID = registerDto.VerifiableCredential.credentialSubject['gax:contractOffer']['gax:permission']['gax:assigner'];
+    const providerDID =
+      registerDto.VerifiableCredential.credentialSubject['gax:contractOffer']['gax:permission']['gax:assigner'];
     const validSD = await this.checkSD(registerDto);
     const userExists = await this.checkUser(providerDID);
     const isValidSig = await this.checkSignature(registerDto.proof);
 
     if (!userExists['isValid'] && !isValidSig && !validSD) {
-      throw new ForbiddenException();
+      throw new UnauthorizedException('Data Provider DID or Data Consumer DID could not be resolved.');
     }
 
     const signature = await this.addSignature();
 
     if (signature['example']['type'] === undefined) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Invalid Signiture.');
     }
 
     // @TODO: this should be checked when implemented with the live service
@@ -34,7 +36,7 @@ export class RegisterService {
     const proofs: GaxProof[] = [registerDto.proof];
     proofs.push(proof);
 
-    (<unknown>registerDto.proof as GaxProof[]) = proofs;
+    ((<unknown>registerDto.proof) as GaxProof[]) = proofs;
 
     return registerDto;
   }
