@@ -17,11 +17,16 @@
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
 
 variables:
-  DOCKER_DRIVER: overlay
+  DOCKER_DRIVER: overlay2
+  DOCKER_HOST: tcp://localhost:2375
 
 
 include:
   - template: Code-Quality.gitlab-ci.yml
+  
+
+services:
+- docker:dind
 
 # stages:          # List of stages for jobs, and their order of execution
 #   - build
