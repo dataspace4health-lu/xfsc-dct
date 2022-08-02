@@ -21,7 +21,7 @@ const RegisterPage = () => {
 
   const handleSubmit = async (event: any) => {
     try {
-      const baseUrl = process.env.REACT_APP_SERVER_ENDPOINT;
+      const baseUrl = process.env.NX_API_ENDPOINT;
       const authToken = process.env.TOKEN;
       event.preventDefault();
       const response = await axiosInstance.post(baseUrl + '/register', contractJson, {

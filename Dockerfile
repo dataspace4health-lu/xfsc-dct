@@ -2,7 +2,7 @@ FROM node:16-alpine
 ENV NODE_ENV=development
 WORKDIR /dct_local
 COPY ["package.json", "package-lock.json", "./"]
-RUN npm i -g @nestjs/cli
+RUN npm i -g @nrwl/cli
 RUN npm install --legacy-peer-deps
 COPY . .
 EXPOSE 3000

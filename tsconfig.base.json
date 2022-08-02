@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "one": ["packages/one/index"],
+      "one/*": ["packages/one/*"],
+      "two": ["packages/two/index"],
+      "two/*": ["packages/two/*"]
+    }
+  }
+}
