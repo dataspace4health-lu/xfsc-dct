@@ -24,7 +24,7 @@ include:
 #   - test
 #   - deploy
 
-code_quality:
-  services:            # Shut off Docker-in-Docker
+# code_quality:
+  # services:            # Shut off Docker-in-Docker
   # tags:
   #   - cq-sans-dind     # Set this job to only run on our new specialized runner
