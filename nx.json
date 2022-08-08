@@ -1,26 +1,45 @@
 {
-  "extends": "nx/presets/npm.json",
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "npmScope": "dct",
+  "affected": {
+    "defaultBase": "master"
+  },
+  "implicitDependencies": {
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    ".eslintrc.json": "*"
+  },
   "tasksRunnerOptions": {
     "default": {
       "runner": "@nrwl/nx-cloud",
       "options": {
-        "cacheableOperations": [
-          "build",
-          "test",
-          "eject"
-        ],
-        "accessToken": "OGZiZGU1YTctNjIyOS00OTk4LWEzNmMtMTg0YTgyMjJlYWVifHJlYWQtd3JpdGU="
+        "cacheableOperations": ["build", "lint", "test"],
+        "accessToken": "ZGJhMjdkYmMtZGU5Yy00ZmZmLWE0Y2YtODNiMjI0MzZjZjVlfHJlYWQtd3JpdGU="
       }
     }
   },
   "targetDefaults": {
     "build": {
-      "dependsOn": [
-        "^build"
-      ]
+      "dependsOn": ["^build"]
     }
   },
-  "affected": {
-    "defaultBase": "main"
+  "defaultProject": "api",
+  "generators": {
+    "@nrwl/react": {
+      "application": {
+        "style": "none",
+        "linter": "eslint",
+        "babel": true
+      },
+      "component": {
+        "style": "none"
+      },
+      "library": {
+        "style": "none",
+        "linter": "eslint"
+      }
+    }
   }
 }
