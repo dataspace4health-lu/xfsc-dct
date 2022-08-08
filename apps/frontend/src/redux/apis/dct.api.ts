@@ -15,7 +15,7 @@ export const dctApiSlice = createApi({
   reducerPath: 'dct/api',
 
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.REACT_APP_SERVER_ENDPOINT,
+    baseUrl: process.env.NX_API_ENDPOINT,
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.token;
       if (token) {
