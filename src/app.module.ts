@@ -16,6 +16,7 @@ import { FinalizeModule } from './finalize/finalize.module';
 import { MakeContractModule } from './make-contract/make-contract.module';
 import { BullModule } from '@nestjs/bull';
 import { ConfigService } from '@nestjs/config';
+import { ContractsModule } from './contracts/contracts.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { ConfigService } from '@nestjs/config';
     NegotiateModule,
     MakeContractModule,
     FinalizeModule,
+    ContractsModule,
   ],
   controllers: [],
   providers: [
