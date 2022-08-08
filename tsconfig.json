@@ -30,6 +30,7 @@
       "Mocks/*": ["src/mocks/*"],
       "MakeContract/*": ["src/make-contract/*"],
       "Finalize/*": ["src/finalize/*"],
+      "Contracts/*": ["src/contracts/*"],
       "Gateways/*": ["src/gateways/*"]
     }
   },
