@@ -19,6 +19,8 @@
 #---
 
 code_quality:
+  tags:
+    - docker
   image: docker:stable
   variables:
     DOCKER_DRIVER: overlay2
