@@ -21,12 +21,6 @@
 include:
   - template: Code-Quality.gitlab-ci.yml
   
-artifacts:
-   paths:
-     - gl-code-quality-report.json
-   reports:
-     codequality: gl-code-quality-report.json
-
 #services:
 #- docker:dind
 
