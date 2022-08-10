@@ -21,8 +21,9 @@
 include:
   - template: Code-Quality.gitlab-ci.yml
   
-#services:
-#- docker:dind
+services:
+- name: "docker:dind"
+  command: ['--tls=false', '--host=tcp://0.0.0.0:2375']
 
 # stages:          # List of stages for jobs, and their order of execution
 #   - build
