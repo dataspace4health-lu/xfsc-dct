@@ -16,17 +16,33 @@
 # This specific template is located at:
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
 
+#---
+
+code_quality:
+  image: docker:stable
+  variables:
+    DOCKER_DRIVER: overlay2
+  allow_failure: true
+  services:
+    - docker:stable-dind
+  script:
+    - export SP_VERSION=$(echo "$CI_SERVER_VERSION" | sed 's/^\([0-9]*\)\.\([0-9]*\).*/\1-\2-stable/')
+    - docker run
+        --env SOURCE_CODE="$PWD"
+        --volume "$PWD":/code
+        --volume /var/run/docker.sock:/var/run/docker.sock
+        "registry.gitlab.com/gitlab-org/security-products/codequality:$SP_VERSION" /code
+  artifacts:
+    paths: [gl-code-quality-report.json]
 
 
-include:
-  - template: Code-Quality.gitlab-ci.yml
+#---
 
-before_script:
-- export DOCKER_HOST="tcp://localhost:2375"
+#include:
+#  - template: Code-Quality.gitlab-ci.yml
 
-services:
-- name: "docker:dind"
-  command: ['--tls=false', '--host=tcp://0.0.0.0:2375']
+#services:
+#- docker:dind
 
 # stages:          # List of stages for jobs, and their order of execution
 #   - build
