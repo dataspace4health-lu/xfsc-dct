@@ -20,7 +20,7 @@
 
 code_quality:
   tags:
-    - docker
+    - gitlab-org-docker
   image: docker:stable
   variables:
     DOCKER_DRIVER: overlay2
