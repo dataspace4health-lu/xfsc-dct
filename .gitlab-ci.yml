@@ -16,47 +16,11 @@
 # This specific template is located at:
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
 
-#---
+include:
+  - template: Code-Quality.gitlab-ci.yml
 
-stages:
-  - build
-
-
-
-code_quality:
-  stage: build
-  image: docker:stable
-  allow_failure: true
-  services:
-    - docker:stable-dind
-  variables:
-    DOCKER_DRIVER: overlay2
-    DOCKER_TLS_CERTDIR: ""
-  script:
-    - docker info
-    - docker run 
-       --env CODECLIMATE_DEBUG=1 
-       --env CODECLIMATE_CODE="$PWD" 
-       --volume "$PWD":/code 
-       --volume /var/run/docker.sock:/var/run/docker.sock 
-       --volume /tmp/cc:/tmp/cc 
-       codeclimate/codeclimate:0.85.13 analyze -f html > report.html
-    #- cat report.html
-
-  artifacts:
-    paths: [report.html]
-    expire_in: 10 weeks
-  dependencies: []
-  except:
-    variables:
-      - $CODE_QUALITY_DISABLED
-    
-
-
-#---
-
-#include:
-#  - template: Code-Quality.gitlab-ci.yml
+services:
+  - name:
 
 #services:
 #- docker:dind
