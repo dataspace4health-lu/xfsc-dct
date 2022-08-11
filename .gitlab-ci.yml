@@ -20,10 +20,7 @@ include:
   - template: Code-Quality.gitlab-ci.yml
 
 services:
-  - name:
-
-#services:
-#- docker:dind
+- docker:dind
 
 # stages:          # List of stages for jobs, and their order of execution
 #   - build
