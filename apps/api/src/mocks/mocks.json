@@ -1,165 +1,88 @@
 {
-  "http://example.com": {
-    "/checkUser": {
+  "https://trust-service.com": {
+    "/get-participant?did=did:provider": {
       "onGet": {
         "status": 200,
         "response": {
-          "example": {
-            "key": "value"
-          }
-        }
-      },
-      "onPost": {
-        "status": 200,
-        "response": {
-          "example": {
-            "isValid": true
-          }
+          "exists": true,
+          "isRevoked": false
         }
       }
     },
-    "/checkSignature": {
+    "/get-key?did=did:provider:key:123": {
       "onGet": {
         "status": 200,
         "response": {
-          "example": {
-            "key": "value"
-          }
-        }
-      },
-      "onPost": {
-        "status": 200,
-        "response": {
-          "example": {
-            "isValid": true
-          }
+          "id": "did:provider:key:123",
+          "type": "Ed25519VerificationKey2018",
+          "controller": "did:provider:controller",
+          "publicKeyBase58": "Hera6o42v5TtK5pAXVJyCF1yGFnrPedPLGL3YuQUALmp"
         }
       }
-    },
-    "/addSignature": {
+    }
+  },
+  "https://federated-catalog.com": {
+    "/get-data-asset?id=http://example.org/data-asset-1": {
       "onGet": {
         "status": 200,
         "response": {
-          "example": {
-            "type": "Ed25519Signature2018",
-            "proofPurpose": "assertionMethod",
-            "verificationMethod": "did:DCS:123456#key2",
-            "jws": "eyJ0eXAiOiJK...gFWFOEjXk"
-          }
-        }
-      },
-      "onPost": {
-        "status": 200,
-        "response": {
-          "example": {
-            "isValid": true
-          }
-        }
-      }
-    },
-    "/getToken": {
-      "onGet": {
-        "status": 200,
-        "response": {
-          "header": {
-            "alg": "HS256",
-            "typ": "JWT"
+          "@id": "http://example.org/data-asset-1",
+          "@type": "gax:DataAsset",
+          "gax:title": "Example title",
+          "gax:description": "Example description",
+          "gax:keyword": [
+            "key",
+            "word"
+          ],
+          "gax:category": [
+            "example"
+          ],
+          "gax:publisher": "did:provider",
+          "gax:creator": "?creatorDID",
+          "gax:language": "http://id.loc.gov/vocabulary/iso639-1/en",
+          "gax:distribution": {
+            "gax:title": "Example distribution title",
+            "gax:description": "Example distribution description",
+            "gax:created": "2021-01-23T18:25:43.511Z",
+            "gax:modified": "2021-01-25T12:20:34.007Z",
+            "gax:mediaType": "text/csv",
+            "gax:byteSize": "100000",
+            "gax:accessURL": "www.example.com/data/example.csv"
           },
-          "body": {
-            "gax-dcs:logID": "(128-bit UUID)",
-            "gax-dcs:dataTransactionID": "(Transaction ID)",
-            "gax-dcs:contractID": "(contract ID)",
-            "iss": "(Logging Service ID)",
-            "sub": "(Participant ID)",
-            "aud": "(GX-DELS identifier)",
-            "exp": "Token lifetime"
+          "gax:created": "2021-01-23T12:21:23.876Z",
+          "gax:modified": "2021-01-24T14:45:03.517Z",
+          "gax:containsPersonalData": false,
+          "gax:sampleAvailable": false,
+          "gax:contractOffer": {
+            "@type": "gax-GX-DCS:contractOffer",
+            "gax:choiceOfLaw": "iso:Germany",
+            "gax:generalTerms": "Example text for the general terms",
+            "gax:confirmationRequired": false,
+            "gax:loggingMode": "gax:LoggingMandatory",
+            "gax:circulationDetails": "Example text for the circulation details",
+            "gax:permission": {
+              "@type": "gax:Permission",
+              "gax:assigner": "?providerDID",
+              "gax:target": "?AssetURI",
+              "gax:action": "gax:USE",
+              "gax:negotiable": false,
+              "gax:postDuty": {
+                "@type": "gax:Duty",
+                "gax:action": {
+                  "@id": "gax:LOG"
+                }
+              }
+            }
           }
         }
-      },
-      "onPost": {
-        "status": 400,
-        "response": {
-          "example": {
-            "key": "value"
-          }
-        }
       }
     },
-    "/transferContract": {
-      "onGet": {
-        "status": 400,
-        "response": {}
-      },
-      "onPost": {
-        "status": 200,
-        "response": {}
-      }
-    },
-    "/notifyConsumer": {
-      "onGet": {
-        "status": 400,
-        "response": {}
-      },
-      "onPost": {
-        "status": 200,
-        "response": {}
-      }
-    },
-    "/negotiationCheckOriginal": {
-      "onGet": {
-        "status": 400,
-        "response": {}
-      },
-      "onPost": {
-        "status": 200,
-        "response": {}
-      }
-    },
-    "/addContractSignature": {
+    "/get-data-asset?id=not-valid-data-asset": {
       "onGet": {
         "status": 200,
         "response": {
           "example": {
             "key": "value"
-          }
-        }
-      },
-      "onPost": {
-        "status": 200,
-        "response": {
-          "example": {
-            "type": "Ed25519Signature2018",
-            "proofPurpose": "assertionMethod",
-            "verificationMethod": "did:DCS:123456#key2",
-            "jws": "eyJ0eXAiOiJK...gFWFOEjXk"
-          }
-        }
-      }
-    },
-    "/checkSD": {
-      "onGet": {
-        "status": 200,
-        "response": {
-          "example": {
-            "key": "value"
-          }
-        }
-      },
-      "onPost": {
-        "status": 200,
-        "response": {
-          "example": {
-            "isValid": true
-          }
-        }
-      }
-    },
-    "/auth": {
-      "onGet": {
-        "status": 200,
-        "response": {
-          "example": {
-            "isValid": true
           }
         }
       }

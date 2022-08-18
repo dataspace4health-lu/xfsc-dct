@@ -1,4 +1,5 @@
 FROM node:16-alpine
+RUN apk --no-cache add --virtual .builds-deps build-base python3
 ENV NODE_ENV=development
 WORKDIR /dct_local
 COPY ["package.json", "package-lock.json", "./"]

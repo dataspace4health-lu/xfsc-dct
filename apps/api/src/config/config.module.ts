@@ -6,15 +6,17 @@ import generalConfig, { ConfigType as GeneralConfig } from './loaders/general.co
 import redisConfig, { ConfigType as RedisConfig } from './loaders/redis.config';
 import adminConfig, { ConfigType as AdminConfig } from './loaders/admin.config';
 import serverConfig, { ConfigType as ServerConfig } from './loaders/server.config';
+import gatewayConfig, { ConfigType as GatewayConfig } from './loaders/gateways.config';
+import signatureConfig, { ConfigType as SignatureConfig } from './loaders/signature.config';
 
-export type ConfigType = LoggerConfig & GeneralConfig & RedisConfig & AdminConfig & ServerConfig;
+export type ConfigType = LoggerConfig & GeneralConfig & RedisConfig & AdminConfig & ServerConfig & GatewayConfig & SignatureConfig;
 
 @Module({
     imports: [
         ConfigModule.forRoot({
             isGlobal: true,
             validationSchema,
-            load: [generalConfig, loggerConfig, redisConfig, adminConfig, serverConfig],
+            load: [generalConfig, loggerConfig, redisConfig, adminConfig, serverConfig, gatewayConfig, signatureConfig],
         }),
     ],
 })

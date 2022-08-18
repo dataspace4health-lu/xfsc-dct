@@ -1,21 +1,14 @@
-import { ClassSerializerInterceptor, MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
-// import { ConfigModule, ConfigService } from '@nestjs/config';
+import { BullModule } from '@nestjs/bull';
+import { ClassSerializerInterceptor, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
-import { NegotiateModule } from './negotiate/negotiate.module';
-import { FinalizeModule } from './finalize/finalize.module';
-import { MakeContractModule } from './make-contract/make-contract.module';
-import { BullModule } from '@nestjs/bull';
-import { ConfigService } from '@nestjs/config';
-import { ContractsModule } from './contracts/contracts.module';
-import { AppConfigModule, ConfigType } from './config/config.module';
-import { GlobalModule } from './global/global.module';
+import { AgreementModule } from './agreement/agreement.module';
 import { AuthModule } from './auth/auth.module';
-import { RegisterModule } from './register/register.module';
-import { ValidateModule } from './validate/validate.module';
-import { LogTokenModule } from './log-token/log-token.module';
-import { RdfBodyParserMiddleware } from './global/middlewares/rdf.parser.middleware';
+import { AppConfigModule, ConfigType } from './config/config.module';
+import { ContractsModule } from './contracts/contracts.module';
+import { GlobalModule } from './global/global.module';
 import { JsonBodyParserMiddleware } from './global/middlewares/json.parser.middleware';
 
 @Module({
@@ -31,16 +24,16 @@ import { JsonBodyParserMiddleware } from './global/middlewares/json.parser.middl
         };
       },
     }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'ui'), // "ui" is the folder where the UI application is builded
+      exclude: ['/auth/*', '/register', '/validate', '/log-token', '/make-contract', '/finalize', '/contracts', '/negotiate'],
+      serveRoot: '/ui'
+    }),
     AppConfigModule,
     GlobalModule,
     AuthModule,
-    RegisterModule,
-    ValidateModule,
-    LogTokenModule,
-    NegotiateModule,
-    MakeContractModule,
-    FinalizeModule,
     ContractsModule,
+    AgreementModule
   ],
   controllers: [],
   providers: [
@@ -52,7 +45,9 @@ import { JsonBodyParserMiddleware } from './global/middlewares/json.parser.middl
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(RdfBodyParserMiddleware).exclude( 'auth/login').forRoutes('*');
-    consumer.apply(JsonBodyParserMiddleware).forRoutes('*');
+    // consumer.apply(RdfBodyParserMiddleware).exclude('auth/login', '/ui.*').forRoutes(
+    //   RegisterController
+    // );
+    consumer.apply(JsonBodyParserMiddleware).forRoutes('*', '/ui*');
   }
 }
