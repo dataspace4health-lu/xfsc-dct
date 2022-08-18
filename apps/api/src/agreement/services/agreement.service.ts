@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { ConfigService } from '@nestjs/config';
 import { ConfigType } from '../../config/config.module';
 import { DataAsset, DataAssetPresentation, GaxPermission } from '../dtos/data-asset.dto';
+import { LogTokenService } from './log-token.service';
 
 export enum ParticipantType {
   PROVIDER = 'provider',
@@ -18,7 +19,8 @@ export class AgreementService {
     private readonly validateService: AgreementValidationService,
     private readonly signatureService: AgreementSignatureService,
     private readonly configService: ConfigService<ConfigType>,
-  ) {}
+    private readonly logTokenService: LogTokenService,
+  ) { }
 
   /**
    * Register contract API
@@ -148,25 +150,13 @@ export class AgreementService {
     await this.validate(dataAssetPresentation);
     const dataAsset = dataAssetPresentation.verifiableCredential[0].credentialSubject;
     const isLoggingEnabled =
-      dataAsset['gax:logging_mandatory'] || dataAsset['gax:loggingMode'] === 'gax:logging_optional';
+      dataAsset['gax:contractOffer']['gax:logging_mandatory'] || ['gax:LoggingMandatory', 'gax:logging_optional'].includes(dataAsset['gax:contractOffer']['gax:loggingMode']);
 
     if (!isLoggingEnabled) {
       throw new ValidationException('Forbidden – Finalized Agreement indicates the logging is not allowed', 403);
     }
 
-    const logID = uuidv4();
-
-    const logToken = {
-      'gax-dcs:logID': logID,
-      'gax-dcs:dataTransactionID': '123',
-      'gax-dcs:contractID': '123',
-      iss: '(Logging service ID)',
-      sub: '(Participant ID)',
-      aud: '(GX-DELS identifier)',
-      exp: Math.floor(new Date().getTime() / 1000) + this.configService.get('general.tokenCacheTTL', { infer: true }),
-    };
-
-    return logToken;
+    return this.logTokenService.getLogToken(dataAsset);
   }
 
   /**
@@ -179,7 +169,7 @@ export class AgreementService {
     //TBD
     const hasLegallyBindingAddress =
       dataAssetPresentation.verifiableCredential[0].credentialSubject['gax:distribution'][
-        'gax:hasLegallyBindingAddress'
+      'gax:hasLegallyBindingAddress'
       ];
     if (hasLegallyBindingAddress) {
       //POST to legally binding address

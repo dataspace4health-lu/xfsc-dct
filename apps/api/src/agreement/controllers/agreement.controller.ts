@@ -1,12 +1,14 @@
 import { Body, Controller, HttpCode, Post, Res } from "@nestjs/common";
 import { DataAssetPresentation } from "../dtos/data-asset.dto";
+import { ValidateLogTokenDto } from "../dtos/validate-log-token.dto";
 import { AgreementService } from "../services/agreement.service";
+import { LogTokenService } from "../services/log-token.service";
 
 
 @Controller()
 export class AgreementController {
 
-    constructor(private readonly agreementService: AgreementService) { }
+    constructor(private readonly agreementService: AgreementService, private readonly logTokenService: LogTokenService) { }
 
     @Post('/register')
     async register(@Body() dataAsset: DataAssetPresentation) {
@@ -37,6 +39,12 @@ export class AgreementController {
     @Post('/log/token')
     async logToken(@Body() dataAsset: DataAssetPresentation) {
         return this.agreementService.logToken(dataAsset);
+    }
+
+    @Post('/log/token/validate')
+    @HttpCode(200)
+    async validateLogToken(@Body() dto: ValidateLogTokenDto) {
+        return this.logTokenService.validate(dto.logToken)
     }
 
 }

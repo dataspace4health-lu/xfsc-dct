@@ -8,15 +8,16 @@ import adminConfig, { ConfigType as AdminConfig } from './loaders/admin.config';
 import serverConfig, { ConfigType as ServerConfig } from './loaders/server.config';
 import gatewayConfig, { ConfigType as GatewayConfig } from './loaders/gateways.config';
 import signatureConfig, { ConfigType as SignatureConfig } from './loaders/signature.config';
+import logTokenConfig, { ConfigType as LogTokenConfig } from './loaders/log-token.config';
 
-export type ConfigType = LoggerConfig & GeneralConfig & RedisConfig & AdminConfig & ServerConfig & GatewayConfig & SignatureConfig;
+export type ConfigType = LoggerConfig & GeneralConfig & RedisConfig & AdminConfig & ServerConfig & GatewayConfig & SignatureConfig & LogTokenConfig;
 
 @Module({
     imports: [
         ConfigModule.forRoot({
             isGlobal: true,
             validationSchema,
-            load: [generalConfig, loggerConfig, redisConfig, adminConfig, serverConfig, gatewayConfig, signatureConfig],
+            load: [generalConfig, loggerConfig, redisConfig, adminConfig, serverConfig, gatewayConfig, signatureConfig, logTokenConfig],
         }),
     ],
 })

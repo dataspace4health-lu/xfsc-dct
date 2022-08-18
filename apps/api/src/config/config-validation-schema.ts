@@ -40,4 +40,7 @@ export default Joi.object({
     SIGNATURE_TYPE: Joi.string().required(),
     SIGNATURE_PUBLIC_KEY_BASE58: Joi.string().required(),
     SIGNATURE_PRIVATE_KEY_BASE58: Joi.string().required(),
+
+    LOG_TOKEN_JWT_SECRET_KEY: Joi.string().required(),
+    LOG_TOKEN_EXPIRES_IN_MINUTES: Joi.number().integer().min(1).required(),
 });

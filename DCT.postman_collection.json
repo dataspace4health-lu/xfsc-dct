@@ -46,6 +46,87 @@
 			"response": []
 		},
 		{
+			"name": "log-token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": " application/ld+json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": " Bearer axcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvb",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"@context\": [\r\n        \"https://www.w3.org/2018/credentials/v1\",\r\n        {\r\n            \"@id\": \"https://gaia-dataasset.com/\",\r\n            \"@context\": {\r\n                \"@version\": 1.1,\r\n                \"id\": \"@id\",\r\n                \"type\": \"@type\",\r\n                \"credentialSubject\": {\r\n                    \"@id\": \"https://gaia-dataasset.com/credentialSubject\",\r\n                    \"@context\": {\r\n                        \"gax\": \"https://gaia-dataasset.com/\"\r\n                    }\r\n                }\r\n            }\r\n        }\r\n    ],\r\n    \"type\": \"VerifiablePresentation\",\r\n    \"verifiableCredential\": [\r\n      {\"@context\":[\"https://www.w3.org/2018/credentials/v1\",{\"@id\":\"https://gaia-dataasset.com/\",\"@context\":{\"@version\":1.1,\"id\":\"@id\",\"type\":\"@type\",\"credentialSubject\":{\"@id\":\"https://gaia-dataasset.com/credentialSubject\",\"@context\":{\"gax\":\"https://gaia-dataasset.com/\"}}}}],\"type\":[\"VerifiableCredential\"],\"credentialSubject\":{\"@id\":\"http://example.org/data-asset-1\",\"@type\":\"gax:DataAsset\",\"gax:title\":\"Example title\",\"gax:description\":\"Example description\",\"gax:keyword\":[\"key\",\"word\"],\"gax:category\":[\"example\"],\"gax:publisher\":\"did:provider\",\"gax:creator\":\"?creatorDID\",\"gax:language\":\"http://id.loc.gov/vocabulary/iso639-1/en\",\"gax:distribution\":{\"gax:title\":\"Example distribution title\",\"gax:description\":\"Example distribution description\",\"gax:created\":\"2021-01-23T18:25:43.511Z\",\"gax:modified\":\"2021-01-25T12:20:34.007Z\",\"gax:mediaType\":\"text/csv\",\"gax:byteSize\":\"100000\",\"gax:accessURL\":\"www.example.com/data/example.csv\"},\"gax:created\":\"2021-01-23T12:21:23.876Z\",\"gax:modified\":\"2021-01-24T14:45:03.517Z\",\"gax:containsPersonalData\":false,\"gax:sampleAvailable\":false,\"gax:contractOffer\":{\"@type\":\"gax-GX-DCS:contractOffer\",\"gax:choiceOfLaw\":\"iso:Germany\",\"gax:generalTerms\":\"Example text for the general terms\",\"gax:confirmationRequired\":true,\"gax:loggingMode\":\"gax:LoggingMandatory\",\"gax:circulationDetails\":\"Example text for the circulation details\",\"gax:permission\":{\"@type\":\"gax:Permission\",\"gax:assigner\":\"?providerDID\",\"gax:target\":\"?AssetURI\",\"gax:action\":\"gax:USE\",\"gax:negotiable\":true,\"gax:postDuty\":{\"@type\":\"gax:Duty\",\"gax:action\":{\"@id\":\"gax:LOG\"}}}},\"gax:consumer\":\"did:consumer\"},\"issuanceDate\":\"2021-01-23T12:21:23.876Z\",\"issuer\":\"did:consumer:controller\",\"proof\":[{\"type\":\"Ed25519Signature2018\",\"created\":\"2022-08-18T11:44:00Z\",\"verificationMethod\":\"did:provider:key:123\",\"proofPurpose\":\"assertionMethod\",\"jws\":\"eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..ieCyMp8oMtVE2zMDYWL07hkANsz5syIC0Yaw87Jdx2YAUKVHiirk6VLUulWrDCZ8-iKXJv46opITve-JPMLkBA\"},{\"type\":\"Ed25519Signature2018\",\"created\":\"2022-08-18T11:44:00Z\",\"verificationMethod\":\"did:consumer:key:123\",\"proofPurpose\":\"assertionMethod\",\"jws\":\"eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..hbbqErEopdA7UACef6agezOzHavpqybGRkFVdZFJpARgY2_khDvHN8iq5_48u50u-vN5A4RNQXyf0L65h8S_Cw\"}]}\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/log/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"log",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "log-token-validate",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": " application/ld+json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": " Bearer axcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvb",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"logToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJnYXgtZGNzOmxvZ0lEIjoiY2M0N2YzNTUtOTFiMS00MDU0LWE0NGQtMDE5ZmI3NzY4MjMxIiwiZ2F4LWRjczpkYXRhVHJhbnNhY3Rpb25JRCI6IjEyMyIsImdheC1kY3M6Y29udHJhY3RJRCI6Imh0dHA6Ly9leGFtcGxlLm9yZy9kYXRhLWFzc2V0LTEiLCJpc3MiOiIoTG9nZ2luZyBzZXJ2aWNlIElEKSIsInN1YiI6IihQYXJ0aWNpcGFudCBJRCkiLCJhdWQiOiIoR1gtREVMUyBpZGVudGlmaWVyKSIsImV4cCI6MTY2MTI1NjI1MSwiaWF0IjoxNjYwODI0MjUxfQ.Yp44_sOj7RsElrp65ig3AsZh7w_hPRMTRc5ejszG0kU\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/log/token/validate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"log",
+						"token",
+						"validate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "make/contract",
 			"request": {
 				"method": "POST",

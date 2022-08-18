@@ -16,7 +16,7 @@ import { LocalStrategy } from './strategies/local.strategy';
                 const auth = config.get('admin.auth', { infer: true });
                 return {
                     secret: auth.secret,
-                    signOptions: { expiresIn: auth.expiresIn },
+                    signOptions: { expiresIn: auth.expiresIn }
                 };
             },
         }),

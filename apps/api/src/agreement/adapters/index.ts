@@ -23,16 +23,30 @@ export type Controller = {
     "assertionMethod": string[]
 }
 
+export type LogToken = {
+    'gax-dcs:logID': string
+    'gax-dcs:dataTransactionID': string
+    'gax-dcs:contractID': string
+    iss: string
+    sub: string
+    aud: string
+    exp: number
+}
+
 export abstract class AbstractTrustServiceAdapter {
     abstract validateParticipant(dataAsset: DataAsset, type: ParticipantType): Promise<ParticipantStatus>;
     abstract getParticipantPublicKey(participantDID: string): Promise<DidDocument<PublicKey>>;
     abstract isParticipantKeyDID(participantDID: string): Promise<boolean>;
-    abstract getControllerDIDDocument(controllerDID:string): Promise<DidDocument<Controller>>;
-    abstract isControllerDID(controllerDID:string): Promise<boolean>;
+    abstract getControllerDIDDocument(controllerDID: string): Promise<DidDocument<Controller>>;
+    abstract isControllerDID(controllerDID: string): Promise<boolean>;
 }
 
 export abstract class AbstractFederatedCatalogAdapter {
     abstract validateDataAsset(dataAsset: DataAsset): Promise<DataAssetStatus>;
     abstract removeConsumerDetails(dataAsset: IVerifiableCredential<DataAsset>): Promise<IVerifiableCredential<DataAsset>>;
     abstract getProviderProof(dataAsset: DataAsset): Promise<{ verificationMethod: string }>;
+}
+
+export abstract class AbstractLogTokenAdapter {
+    abstract getLogToken(dataAsset: DataAsset): Promise<LogToken>;
 }
