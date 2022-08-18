@@ -14,3 +14,4 @@ nav:
   - Make Contract: make-contract.md
   - Contract Negotiation: contract-negotiation.md
   - Finalization of a Contract: contract-finalize.md
+  - DELS inbox discovery: contracts-inbox.md

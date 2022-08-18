@@ -9,4 +9,4 @@
 - [/make/contract](make-contract.md)
 - [/negotiate](contract-negotiation.md)
 - [/finalize](contract-finalize.md)
-- [/contracts](contracts-inbox.md)
+- [/contracts/inbox-discovery](contracts-inbox.md)

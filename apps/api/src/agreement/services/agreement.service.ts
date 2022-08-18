@@ -7,6 +7,7 @@ import { ConfigService } from '@nestjs/config';
 import { ConfigType } from '../../config/config.module';
 import { DataAsset, DataAssetPresentation, GaxPermission } from '../dtos/data-asset.dto';
 import { LogTokenService } from './log-token.service';
+import { AbstractFederatedCatalogAdapter } from '../adapters';
 
 export enum ParticipantType {
   PROVIDER = 'provider',
@@ -20,7 +21,8 @@ export class AgreementService {
     private readonly signatureService: AgreementSignatureService,
     private readonly configService: ConfigService<ConfigType>,
     private readonly logTokenService: LogTokenService,
-  ) { }
+    private readonly federatedCatalogAdapter: AbstractFederatedCatalogAdapter
+  ) {}
 
   /**
    * Register contract API
@@ -56,7 +58,7 @@ export class AgreementService {
     if (this.isNegotiable(dataAsset)) {
       throw new ValidationException('Data Asset is negotiable', 400);
     }
-    if (!this.isConfirmationRequired(dataAsset)) {
+    if (this.isConfirmationRequired(dataAsset)) {
       throw new ValidationException('Confirmation is required', 500);
     }
     if (!this.isGeneralTermsEmpty(dataAsset)) {
@@ -90,20 +92,27 @@ export class AgreementService {
   async negotiate(negotiateDto: DataAssetPresentation) {
     const dataAsset = negotiateDto.verifiableCredential[0].credentialSubject;
     await this.validateService.assertParticipant(dataAsset, ParticipantType.CONSUMER);
+    // move to adapter
     if (!this.isNegotiable(dataAsset)) {
       throw new HttpException('Data Asset is not negotiable', 430);
     }
     if (!this.isConfirmationRequired(dataAsset)) {
       throw new ValidationException('Data Asset should have confirmation required', 430);
     }
-    if (!this.isConsumerConformPolicies(dataAsset)) {
+    if (!this.federatedCatalogAdapter.isConsumerConformPolicies(dataAsset)) {
       // what should we check here? souldn't be enoght the signiture validation for consumer
       throw new ValidationException('Forbidden – the requesting Participant is not conform to the policies', 403);
     }
-    await this.signatureService.validateSignature(negotiateDto, ParticipantType.PROVIDER);
+    if (!this.isGeneralTermsEmpty(dataAsset)) {
+      throw new ValidationException(
+        'Forbidden – the “general terms” are not empty, but the requesting Participant is not a human being',
+        403,
+      );
+    }
     await this.signatureService.validateSignature(negotiateDto, ParticipantType.CONSUMER);
     await this.validateService.assertDataAsset(dataAsset);
-    return this.sendDataAsset(negotiateDto, ParticipantType.PROVIDER);
+    await this.sendDataAsset(negotiateDto, ParticipantType.PROVIDER);
+    return negotiateDto;
   }
 
   /**
@@ -133,10 +142,14 @@ export class AgreementService {
    * @returns
    */
   async validate(dataAsset: DataAssetPresentation) {
-    await this.signatureService.validateSignature(dataAsset, ParticipantType.PROVIDER);
-    await this.signatureService.validateSignature(dataAsset, ParticipantType.CONSUMER);
-    await this.signatureService.validateSignature(dataAsset, 'DCT');
-    return dataAsset;
+    try {
+      await this.signatureService.validateSignature(dataAsset, ParticipantType.PROVIDER);
+      await this.signatureService.validateSignature(dataAsset, ParticipantType.CONSUMER);
+      await this.signatureService.validateSignature(dataAsset, 'DCT');
+    } catch (error) {
+      return { isValid: false, errorMessage: error.message };
+    }
+    return { isValid: true };
   }
 
   /**
@@ -150,7 +163,8 @@ export class AgreementService {
     await this.validate(dataAssetPresentation);
     const dataAsset = dataAssetPresentation.verifiableCredential[0].credentialSubject;
     const isLoggingEnabled =
-      dataAsset['gax:contractOffer']['gax:logging_mandatory'] || ['gax:LoggingMandatory', 'gax:logging_optional'].includes(dataAsset['gax:contractOffer']['gax:loggingMode']);
+      dataAsset['gax:contractOffer']['gax:logging_mandatory'] ||
+      ['gax:LoggingMandatory', 'gax:logging_optional'].includes(dataAsset['gax:contractOffer']['gax:loggingMode']);
 
     if (!isLoggingEnabled) {
       throw new ValidationException('Forbidden – Finalized Agreement indicates the logging is not allowed', 403);
@@ -165,16 +179,15 @@ export class AgreementService {
    * MUST forward the Agreement to the Data Provider and MUST inform the Data Consumer about it.
    * @param contract
    */
-  protected sendDataAsset(dataAssetPresentation: DataAssetPresentation, type: ParticipantType): DataAssetPresentation {
+  protected sendDataAsset(dataAssetPresentation: DataAssetPresentation, type: ParticipantType) {
     //TBD
     const hasLegallyBindingAddress =
       dataAssetPresentation.verifiableCredential[0].credentialSubject['gax:distribution'][
-      'gax:hasLegallyBindingAddress'
+        'gax:hasLegallyBindingAddress'
       ];
     if (hasLegallyBindingAddress) {
       //POST to legally binding address
-      // here we have decide that the transfer will be done as response - we return the contract on each request
-      return dataAssetPresentation;
+      // send signed contract to provider
     }
   }
 
@@ -212,13 +225,5 @@ export class AgreementService {
     }
     return true;
   }
-
-  /**
-   * GX-DCS MUST check if the Consumer conforms to the policies, insofar that is technically feasible with fungible effort.
-   * @param dataAsset
-   * @returns
-   */
-  protected isConsumerConformPolicies(dataAsset: DataAsset): boolean {
-    return true;
-  }
+ 
 }
