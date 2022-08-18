@@ -1,4 +1,4 @@
-# Data Asset Finalize Contract
+# Data Asset DELS Inbox Descovery - Contracts
 
 ## Description
 
@@ -24,13 +24,9 @@ None
 ### Response GET
 
 ```
-Link: <https://dels.gaia-x.com/inbox/>; rel="http://www.w3.org/ns/ldp#inbox"
-```
-
-### Response HEAD
-
-```
 {
+    "@link": "https://dels.gaia-x.com/inbox/",
+    "@rel": "http://www.w3.org/ns/ldp",
     "@context": "https://www.w3.org/ns/ldp",
     "@id": "https://dcs.gaia-x.com/contracts/1001",
     "inbox": "https://dels.gaia-x.com/inbox/"

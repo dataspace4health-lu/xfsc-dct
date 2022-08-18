@@ -9,6 +9,15 @@
         }
       }
     },
+    "/get-participant?did=did:consumer": {
+      "onGet": {
+        "status": 200,
+        "response": {
+          "exists": true,
+          "isRevoked": false
+        }
+      }
+    },
     "/get-key?did=did:provider:key:123": {
       "onGet": {
         "status": 200,
@@ -17,6 +26,17 @@
           "type": "Ed25519VerificationKey2018",
           "controller": "did:provider:controller",
           "publicKeyBase58": "Hera6o42v5TtK5pAXVJyCF1yGFnrPedPLGL3YuQUALmp"
+        }
+      }
+    },
+    "/get-key?did=did:consumer:key:123": {
+      "onGet": {
+        "status": 200,
+        "response": {
+          "id": "did:consumer:key:123",
+          "type": "Ed25519VerificationKey2018",
+          "controller": "did:consumer:controller",
+          "publicKeyBase58": "DKtCMG25dPChEPSWkStZqRXLgUo1j4JSeB8rJyLPDzwn"
         }
       }
     }
@@ -30,13 +50,8 @@
           "@type": "gax:DataAsset",
           "gax:title": "Example title",
           "gax:description": "Example description",
-          "gax:keyword": [
-            "key",
-            "word"
-          ],
-          "gax:category": [
-            "example"
-          ],
+          "gax:keyword": ["key", "word"],
+          "gax:category": ["example"],
           "gax:publisher": "did:provider",
           "gax:creator": "?creatorDID",
           "gax:language": "http://id.loc.gov/vocabulary/iso639-1/en",

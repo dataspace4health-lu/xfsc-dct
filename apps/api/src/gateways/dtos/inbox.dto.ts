@@ -11,4 +11,12 @@ export class InboxDto {
   @IsString()
   @IsOptional()
   'inbox': string;
+
+  @IsString()
+  @IsOptional()
+  'link': string;
+
+  @IsString()
+  @IsOptional()
+  'rel': string;
 }

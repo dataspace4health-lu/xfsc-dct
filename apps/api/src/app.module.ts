@@ -7,7 +7,6 @@ import { join } from 'path';
 import { AgreementModule } from './agreement/agreement.module';
 import { AuthModule } from './auth/auth.module';
 import { AppConfigModule, ConfigType } from './config/config.module';
-import { ContractsModule } from './contracts/contracts.module';
 import { GlobalModule } from './global/global.module';
 import { JsonBodyParserMiddleware } from './global/middlewares/json.parser.middleware';
 
@@ -26,14 +25,22 @@ import { JsonBodyParserMiddleware } from './global/middlewares/json.parser.middl
     }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'ui'), // "ui" is the folder where the UI application is builded
-      exclude: ['/auth/*', '/register', '/validate', '/log-token', '/make-contract', '/finalize', '/contracts', '/negotiate'],
-      serveRoot: '/ui'
+      exclude: [
+        '/auth/*',
+        '/register',
+        '/validate',
+        '/log-token',
+        '/make-contract',
+        '/finalize',
+        '/contracts',
+        '/negotiate',
+      ],
+      serveRoot: '/ui',
     }),
     AppConfigModule,
     GlobalModule,
     AuthModule,
-    ContractsModule,
-    AgreementModule
+    AgreementModule,
   ],
   controllers: [],
   providers: [
