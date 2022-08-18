@@ -2,14 +2,14 @@ import { SetMetadata } from '@nestjs/common';
 
 export const CONTEXT_METADATA_KEY = 'jsonld';
 
+export type JSONLSContextType = string | object;
+
 export type JSONLDContext = {
-  '@context': string | string[];
+  '@context': JSONLSContextType | JSONLSContextType[];
   '@id'?: string;
   '@type'?: string;
-  'verifiableCredential': object | object[];
-  'proof': object | object[];
 };
 
-export function JSONLDContext(context: JSONLDContext) {
+export function JSONLDContext<C extends JSONLDContext>(context: C) {
   return SetMetadata(CONTEXT_METADATA_KEY, context);
 }

@@ -2,11 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ConfigType } from '../../config/config.module';
 import { InboxDto } from '../../gateways/dtos/inbox.dto';
-import { CommonGateway } from '../../global/gateways/common.gateway';
 
 @Injectable()
 export class ContractsService {
-  public constructor(protected readonly configService: ConfigService<ConfigType>, protected commonApi: CommonGateway) {}
+  public constructor(protected readonly configService: ConfigService<ConfigType>) { }
 
   /**
    *

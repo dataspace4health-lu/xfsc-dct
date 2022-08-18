@@ -3,14 +3,12 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import * as moment from 'moment';
 import { ConfigType } from '../../config/config.module';
-import { AuthorizeGateway } from '../../global/gateways/authorize.gateway';
 
 @Injectable()
 export class AuthService {
     public constructor(
         protected readonly configService: ConfigService<ConfigType>,
-        private readonly jwtService: JwtService,
-        protected logTokenApi: AuthorizeGateway
+        private readonly jwtService: JwtService
     ) { }
 
     async validateAdmin(username: string, pass: string): Promise<any> {
@@ -31,13 +29,5 @@ export class AuthService {
                 .add(this.configService.get('admin.auth.expiresIn', { infer: true }), 'seconds')
                 .unix(),
         };
-    }
-
-    async validateToken(token: string) {
-        try {
-            return await this.logTokenApi.validateToken(token);
-        } catch {
-            throw new ForbiddenException();
-        }
     }
 }

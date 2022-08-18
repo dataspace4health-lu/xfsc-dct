@@ -7,8 +7,6 @@ import { AuthController } from './controllers/auth.controller';
 import { AuthService } from './services/auth.service';
 import { AdminStrategy } from './strategies/admin.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
-import { TokenStrategy } from './strategies/token.strategy';
-
 @Module({
     imports: [
         PassportModule,
@@ -23,7 +21,7 @@ import { TokenStrategy } from './strategies/token.strategy';
             },
         }),
     ],
-    providers: [AuthService, LocalStrategy, AdminStrategy, TokenStrategy],
+    providers: [AuthService, LocalStrategy, AdminStrategy],
     controllers: [AuthController],
 })
-export class AuthModule {}
+export class AuthModule { }

@@ -3,15 +3,10 @@ import { ConfigService } from '@nestjs/config';
 import { APP_FILTER } from '@nestjs/core';
 import { ThrottlerModule } from '@nestjs/throttler';
 import * as redisStore from 'cache-manager-redis-store';
-import { GlobalExceptionFilter } from './exceptions/global.exception-filter';
-import { LoggerProvider } from './logs/logger.provider';
-import { ValidationExceptionFilter } from './exceptions/validation.exception-filter';
-import { BullModule } from '@nestjs/bull';
-import { SdqueueProcessor } from './processors/sdqueue.processor';
-import { AuthorizeGateway } from './gateways/authorize.gateway';
 import { ConfigType } from '../config/config.module';
-import { CommonGateway } from './gateways/common.gateway';
-
+import { GlobalExceptionFilter } from './exceptions/global.exception-filter';
+import { ValidationExceptionFilter } from './exceptions/validation.exception-filter';
+import { LoggerProvider } from './logs/logger.provider';
 
 @Global()
 @Module({
@@ -44,8 +39,7 @@ import { CommonGateway } from './gateways/common.gateway';
 
         return cacheConfig;
       },
-    }),
-    BullModule.registerQueue({ name: 'processSds' })
+    })
   ],
   providers: [
     {
@@ -56,13 +50,9 @@ import { CommonGateway } from './gateways/common.gateway';
       provide: APP_FILTER,
       useClass: ValidationExceptionFilter,
     },
-
     LoggerProvider,
     Logger,
-    CommonGateway,
-    AuthorizeGateway,
-    SdqueueProcessor
   ],
-  exports: [CacheModule, CommonGateway, AuthorizeGateway, SdqueueProcessor]
+  exports: [CacheModule]
 })
 export class GlobalModule { }
