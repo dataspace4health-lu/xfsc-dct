@@ -26,7 +26,8 @@ Error-checked, and validated Data Asset Self-Description (as JSON-LD) signed by 
 curl --location --request POST 'http://localhost:3000/register' \
 --header 'Content-Type: application/ld+json' \
 --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNjU0Njc4NDE1LCJleHAiOjE2NTQ2ODU2MTV9.Ide29-ZulR-W11avaW3oa-6tRCDD3lGq1rQUOTqkE8k' \
---data-raw '{
+--data-raw '
+{
     "@context": [
         "https://www.w3.org/2018/credentials/v1",
         {
@@ -128,7 +129,8 @@ curl --location --request POST 'http://localhost:3000/register' \
         }
     }
     ]
-}'
+}
+'
 ```
 
 ### Response
@@ -198,19 +200,21 @@ curl --location --request POST 'http://localhost:3000/register' \
                     "gax:confirmationRequired": false,
                     "gax:loggingMode": "gax:LoggingMandatory",
                     "gax:circulationDetails": "Example text for the circulation details",
-                    "gax:permission": {
-                        "@type": "gax:Permission",
-                        "gax:assigner": "?providerDID",
-                        "gax:target": "?AssetURI",
-                        "gax:action": "gax:USE",
-                        "gax:negotiable": false,
-                        "gax:postDuty": {
-                            "@type": "gax:Duty",
-                            "gax:action": {
-                                "@id": "gax:LOG"
+                    "gax:permission": [
+                        {
+                            "@type": "gax:Permission",
+                            "gax:assigner": "?providerDID",
+                            "gax:target": "?AssetURI",
+                            "gax:action": "gax:USE",
+                            "gax:negotiable": false,
+                            "gax:postDuty": {
+                                "@type": "gax:Duty",
+                                "gax:action": {
+                                    "@id": "gax:LOG"
+                                }
                             }
                         }
-                    }
+                    ]
                 }
             },
             "issuanceDate": "2021-01-23T12:21:23.876Z",
@@ -228,10 +232,10 @@ curl --location --request POST 'http://localhost:3000/register' \
     ],
     "proof": {
         "type": "Ed25519Signature2018",
-        "created": "2022-08-17T10:03:18Z",
+        "created": "2022-08-19T07:43:09Z",
         "verificationMethod": "did:dcs:key:123",
         "proofPurpose": "assertionMethod",
-        "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..872do_aYSTSytqRtbJbri0sKBbVnKhShzn5BSZaHHD59P6tUPtZeY0Ls002VJ96-alGLgGSdEn4c47Zz1TIMBA"
+        "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..yYzOnAhA4Ole_Eg-OkYg69kSxsMtA2Kdsr46mlQY1uxaYCe-hNlfRvAvt3l0u1rkQjgBYprwFEUsl3T88LkkDw"
     }
 }
 ```

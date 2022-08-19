@@ -1,33 +1,71 @@
 # Contract Validation
 
 ## Request
-### Header
-  Must have ```Content-Type``` specified as ```application/ld+json```.
-### Body
-  A valid Data Asset Self-Description as JSON-LD.
 
+### Header
+
+Must have `Content-Type` specified as `application/ld+json`.
+
+### Body
+
+A valid Data Asset Self-Description as JSON-LD.
 
 ## Response
+
 JSON
 
 ## Example
+
 ### Request
+
 ```
 curl --location --request POST 'http://localhost:3000/validate' \
 --header 'Content-Type: application/ld+json' \
 --header 'Authorization: Bearer axcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvb' \
---data-raw '{
+--data-raw '
+{
     "@context": [
-        "https://www.w3.org/2018/credentials/v1"
+        "https://www.w3.org/2018/credentials/v1",
+        {
+            "@id": "https://gaia-dataasset.com/",
+            "@context": {
+                "@version": 1.1,
+                "id": "@id",
+                "type": "@type",
+                "credentialSubject": {
+                    "@id": "https://gaia-dataasset.com/credentialSubject",
+                    "@context": {
+                        "gax": "https://gaia-dataasset.com/"
+                    }
+                }
+            }
+        }
     ],
     "type": "VerifiablePresentation",
-    "VerifiableCredential": [
+    "verifiableCredential": [
         {
             "@context": [
-                "https://www.w3.org/2018/credentials/v1"
+                "https://www.w3.org/2018/credentials/v1",
+                {
+                    "@id": "https://gaia-dataasset.com/",
+                    "@context": {
+                        "@version": 1.1,
+                        "id": "@id",
+                        "type": "@type",
+                        "credentialSubject": {
+                            "@id": "https://gaia-dataasset.com/credentialSubject",
+                            "@context": {
+                                "gax": "https://gaia-dataasset.com/"
+                            }
+                        }
+                    }
+                }
+            ],
+            "type": [
+                "VerifiableCredential"
             ],
             "credentialSubject": {
-                "@id": "?AssetURI",
+                "@id": "http://example.org/data-asset-1",
                 "@type": "gax:DataAsset",
                 "gax:title": "Example title",
                 "gax:description": "Example description",
@@ -38,8 +76,7 @@ curl --location --request POST 'http://localhost:3000/validate' \
                 "gax:category": [
                     "example"
                 ],
-                "gax:publisher": "?publisherDID",
-                "gax:consumer": "?consumerDID",
+                "gax:publisher": "did:provider",
                 "gax:creator": "?creatorDID",
                 "gax:language": "http://id.loc.gov/vocabulary/iso639-1/en",
                 "gax:distribution": {
@@ -49,87 +86,75 @@ curl --location --request POST 'http://localhost:3000/validate' \
                     "gax:modified": "2021-01-25T12:20:34.007Z",
                     "gax:mediaType": "text/csv",
                     "gax:byteSize": "100000",
-                    "gax:accessURL": "www.example.com/data/example.csv"
+                    "gax:accessURL": "www.example.com/data/example.csv",
+                    "gax:hasLegallyBindingAddress": "www.example.com/fc/transfer-contract-offers?hasLegallyBindingAddress=something"
                 },
                 "gax:created": "2021-01-23T12:21:23.876Z",
                 "gax:modified": "2021-01-24T14:45:03.517Z",
                 "gax:containsPersonalData": false,
                 "gax:sampleAvailable": false,
                 "gax:contractOffer": {
-                    "@type": "gax:contractOffer",
+                    "@type": "gax-GX-DCS:contractOffer",
                     "gax:choiceOfLaw": "iso:Germany",
-                    "gax:generalTerms": "Example text for the general terms",
-                    "gax:confirmationRequired": false,
+                    "gax:generalTerms": "General terms",
+                    "gax:confirmationRequired": true,
                     "gax:loggingMode": "gax:LoggingMandatory",
                     "gax:circulationDetails": "Example text for the circulation details",
-                    "gax:permission": [
-                        {
-                            "@type": "gax:Permission",
-                            "gax:assigner": "?providerDID",
-                            "gax:target": "?someDataAssetID",
-                            "gax:action": "gax:COMPENSATE",
-                            "gax:negotiable": false,
-                            "gax:constraint": {
-                                "@type": "gax:Constraint",
-                                "gax:leftOperand": "gax: PAY_AMOUNT",
-                                "gax:operator": "gax:EQ",
-                                "gax:rightOperand": {
-                                    "@value": "?price",
-                                    "@type": "http://www.w3.org/2001/XMLSchema#double"
-                                }
-                            }
-                        },
-                        {
-                            "@type": "gax:Permission",
-                            "gax:assigner": "?providerDID",
-                            "gax:target": "?someDataAssetID",
-                            "gax:action": "gax:COMPENSATE",
-                            "gax:negotiable": false,
-                            "gax:constraint": {
-                                "@type": "gax:Constraint",
-                                "gax:leftOperand": "gax: PAY_AMOUNT",
-                                "gax:operator": "gax:EQ",
-                                "gax:rightOperand": {
-                                    "@value": "?price",
-                                    "@type": "http://www.w3.org/2001/XMLSchema#double"
-                                }
+                    "gax:permission": {
+                        "@type": "gax:Permission",
+                        "gax:assigner": "?providerDID",
+                        "gax:target": "?AssetURI",
+                        "gax:action": "gax:USE",
+                        "gax:negotiable": true,
+                        "gax:postDuty": {
+                            "@type": "gax:Duty",
+                            "gax:action": {
+                                "@id": "gax:LOG"
                             }
                         }
-                    ]
-                }
+                    }
+                },
+                "gax:consumer": "did:consumer"
             },
+            "issuanceDate": "2021-01-23T12:21:23.876Z",
+            "issuer": "did:consumer:controller",
             "proof": [
                 {
                     "type": "Ed25519Signature2018",
-                    "proofPurpose": "contractAgreement",
-                    "created": "2019-08-23T20:21:34Z",
-                    "verificationMethod": "did:consumer:123456#key2",
-                    "jws": "eyJ0eXAiOiJK...gFWFOEjXk"
+                    "created": "2022-08-18T12:21:27Z",
+                    "verificationMethod": "did:provider:key:123",
+                    "proofPurpose": "assertionMethod",
+                    "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..OkFFKeG-5-2DFpjyQcXfRN7F1B-Fz1B79PVJEiKI6Yj4-TuYCdvYCUKQwqlP_qcfsKrVvO9lOkBSsL8JKUDBCA"
                 },
                 {
                     "type": "Ed25519Signature2018",
-                    "proofPurpose": "contractAgreement",
-                    "created": "2019-08-23T20:56:03Z",
-                    "verificationMethod": "did:provider:123456#key1",
-                    "jws": "iyJheXXiOiJK...gFWFOEoXk"
+                    "created": "2022-08-18T12:21:27Z",
+                    "verificationMethod": "did:consumer:key:123",
+                    "proofPurpose": "assertionMethod",
+                    "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..8DQsBqiQDtGI6_77WLqTiEwmW73hA5-Rd57pm959nokHDF1nujEATcYkR8n4oL3QfzZWcyWw0LxDFyCLGmqhAQ"
                 }
             ]
         }
-    ],
-    "proof": [
-        {
-            "type": "Ed25519Signature2018",
-            "proofPurpose": "assertionMethod",
-            "created": "2019-08-23T20:56:10Z",
-            "verificationMethod": "did:GX-DCS:123456#key1",
-            "jws": "eyJ0Ugf29iJK...j9ZFOEjXk"
-        }
     ]
-}'
+}
+'
 ```
+
 ### Response
+
+#### Success 200
+
 ```
 {
     "isValid": true
+}
+```
+
+#### Success 200 but invalid contract
+
+```
+{
+    "isValid": false,
+    "errorMessage": "Unauthorized – invalid provider signature"
 }
 ```
