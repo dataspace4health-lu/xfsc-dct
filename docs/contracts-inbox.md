@@ -25,10 +25,10 @@ None
 
 ```
 {
-    "@link": "https://dels.gaia-x.com/inbox/",
-    "@rel": "http://www.w3.org/ns/ldp",
     "@context": "https://www.w3.org/ns/ldp",
     "@id": "https://dcs.gaia-x.com/contracts/1001",
-    "inbox": "https://dels.gaia-x.com/inbox/"
+    "inbox": "https://dels.gaia-x.com/inbox/",
+    "link": "https://dels.gaia-x.com/inbox/",
+    "rel": "http://www.w3.org/ns/ldp#inbox"
 }
 ```
