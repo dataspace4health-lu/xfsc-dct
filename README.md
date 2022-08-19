@@ -55,13 +55,21 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Running UI in dev mode
+#### API in dev mode
 
-- Start `api` app in one of desired mode from above;
-- Open separate terminal into `./frontend`
-- run `npm install`
-- run `npm start` it will spin up the CRA app on port `3001` connected to your currently running `api` app
-- available routes: `http://localhost:3001/login` and `http://localhost:3001/register-contract`
+Available APIs:
+
+- `http://localhost:3000/register`
+- `http://localhost:3000/make/contract`
+- `http://localhost:3000/negotiate`
+- `http://localhost:3000/finalize`
+- `http://localhost:3000/validate`
+- `http://localhost:3000/log/token/validate`
+- `http://localhost:3000/contracts/inbox-discovery`
+
+#### UI in dev mode
+
+- Available route: `http://localhost:3001/ui`
 
 ## Test
 
@@ -74,6 +82,13 @@ $ npm run test:e2e
 
 # test coverage
 $ npm run test:cov
+```
+
+## Documentation
+
+```
+# available route: `http://localhost:8000/contracts-inbox/`
+$ docker compose up
 ```
 
 ## Support
