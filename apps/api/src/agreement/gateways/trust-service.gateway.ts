@@ -19,8 +19,9 @@ export class TrustServiceGateway extends BaseGateway {
       if (cachedProof !== undefined && cachedProof !== null) {
         return cachedProof;
       }
-
+      // For request we are using mocks, make sure you remove the mocks once TS is reary
       const res = await this.request(`/get-participant?did=${participantDID}`, 'GET');
+      console.warn('Trust Services integration impremented with mocks.');
 
       await this.cache.set(`participant-${participantDID}`, res, {
         ttl: this.configService.get('general.cache.ttl', { infer: true }),
