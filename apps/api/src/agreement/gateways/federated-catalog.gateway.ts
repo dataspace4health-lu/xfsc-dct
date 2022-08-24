@@ -26,7 +26,9 @@ export class FederatedCatalogGateway extends BaseGateway {
         return cachedSD;
       }
 
+      // For request we are using mocks, make sure you remove the mocks once FC is reary
       const res = await this.request(`/get-data-asset?id=${dataAssetId}`, 'GET');
+      console.warn('Federated Catalog integration impremented with mocks.');
 
       if (res) {
         await this.cache.set(dataAssetId, res, {

@@ -20,6 +20,12 @@ export class AgreementSignatureService {
     this.documentLoader = this.documentLoaderService.loader;
   }
 
+  /**
+   * GX-DCS MUST ensure that the completed Data Asset Self-Description contains valid signature(s).
+   * Checks PROVIDER, CONSUMER, DCT signatures based on type.
+   * @param presentation
+   * @param type
+   */
   async validateSignature(presentation: DataAssetPresentation, type: ParticipantType | 'DCT') {
     let isValid = true;
     switch (type) {
@@ -37,6 +43,13 @@ export class AgreementSignatureService {
     }
   }
 
+  /**
+   * If the validation of the Data Asset Self-Description and the providers signature were correct,
+   * the GX-DCS MUST add its signature to the Data Asset Self-Description using a hash that includes
+   * the signature of the Data Provider and send the resulting signed SD back to the Data Provider (for both interfaces).
+   * @param presentationDataAsset
+   * @returns
+   */
   async sign(presentationDataAsset: DataAssetPresentation): Promise<DataAssetPresentation> {
     const presentation = vc.createPresentation({
       verifiableCredential: [presentationDataAsset.verifiableCredential[0]],
@@ -51,6 +64,11 @@ export class AgreementSignatureService {
     return verifiablePresentation;
   }
 
+  /**
+   * Validates Provider Signature from presentation
+   * @param presentation
+   * @returns
+   */
   protected async validateProviderSignature(presentation: DataAssetPresentation) {
     const credential = await this.federatedCatalogAdapter.removeConsumerDetails(presentation.verifiableCredential[0]);
     const providerProof = await this.federatedCatalogAdapter.getProviderProof(
@@ -68,6 +86,12 @@ export class AgreementSignatureService {
       false
     );
   }
+
+  /**
+   * Validates Consumer Signature from presentation
+   * @param presentation
+   * @returns
+   */
   protected async validateConsumerSignature(presentation: DataAssetPresentation) {
     const consumerProof = await this.federatedCatalogAdapter.getConsumerProof(
       presentation.verifiableCredential[0].credentialSubject,
