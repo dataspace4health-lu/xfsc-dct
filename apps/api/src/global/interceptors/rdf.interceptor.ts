@@ -2,12 +2,11 @@ import {
     BadRequestException,
     CallHandler,
     ExecutionContext,
-    NestInterceptor,
-    PlainLiteralObject,
+    NestInterceptor
 } from '@nestjs/common';
-import { map } from 'rxjs';
-import rdfSerializer from 'rdf-serialize';
 import rdfParser from 'rdf-parse';
+import rdfSerializer from 'rdf-serialize';
+import { map } from 'rxjs';
 import { Readable } from 'stream';
 import * as streamToString from 'stream-to-string';
 

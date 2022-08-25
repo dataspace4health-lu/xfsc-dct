@@ -3,7 +3,6 @@ import { InboxDto } from '../../gateways/dtos/inbox.dto';
 
 @Injectable()
 export class UtilsService {
-  constructor() {}
 
   async getInboxDiscovery(): Promise<InboxDto> {
     const headInboxDto: InboxDto = new InboxDto();

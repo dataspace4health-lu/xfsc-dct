@@ -74,7 +74,7 @@ export class AgreementSignatureService {
     const providerProof = await this.federatedCatalogAdapter.getProviderProof(
       presentation.verifiableCredential[0].credentialSubject,
     );
-    const { results, error } = await vc.verifyCredential({
+    const { results } = await vc.verifyCredential({
       credential,
       challenge: uuidv4(),
       documentLoader: this.documentLoader,
@@ -96,7 +96,7 @@ export class AgreementSignatureService {
     const consumerProof = await this.federatedCatalogAdapter.getConsumerProof(
       presentation.verifiableCredential[0].credentialSubject,
     );
-    const { results, error } = await vc.verifyCredential({
+    const { results } = await vc.verifyCredential({
       credential: presentation.verifiableCredential[0],
       challenge: uuidv4(),
       documentLoader: this.documentLoader,

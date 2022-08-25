@@ -1,13 +1,12 @@
 import { HttpException, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { ValidationException } from '../../common/exceptions/validation.exception';
+import { ConfigType } from '../../config/config.module';
+import { AbstractFederatedCatalogAdapter } from '../adapters';
+import { DataAsset, DataAssetPresentation, GaxPermission } from '../dtos/data-asset.dto';
 import { AgreementSignatureService } from './agreement-signature.service';
 import { AgreementValidationService } from './agreement-validation.service';
-import { ValidationException } from '../../common/exceptions/validation.exception';
-import { v4 as uuidv4 } from 'uuid';
-import { ConfigService } from '@nestjs/config';
-import { ConfigType } from '../../config/config.module';
-import { DataAsset, DataAssetPresentation, GaxPermission } from '../dtos/data-asset.dto';
 import { LogTokenService } from './log-token.service';
-import { AbstractFederatedCatalogAdapter } from '../adapters';
 
 export enum ParticipantType {
   PROVIDER = 'provider',
@@ -179,7 +178,7 @@ export class AgreementService {
    * MUST forward the Agreement to the Data Provider and MUST inform the Data Consumer about it.
    * @param contract
    */
-  protected sendDataAsset(dataAssetPresentation: DataAssetPresentation, type: ParticipantType) {
+  protected async sendDataAsset(dataAssetPresentation: DataAssetPresentation, type: ParticipantType) {
     //TBD
     const hasLegallyBindingAddress =
       dataAssetPresentation.verifiableCredential[0].credentialSubject['gax:distribution'][

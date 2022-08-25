@@ -1,6 +1,6 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { ConfigType } from '../../config/config.module';
 
 @Catch()
@@ -10,7 +10,6 @@ export class GlobalExceptionFilter implements ExceptionFilter<Error> {
     catch(exception: Error, host: ArgumentsHost) {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse<Response>();
-        const request = ctx.getRequest<Request>();
         const status = exception instanceof HttpException ? exception.getStatus() : 500;
 
         this.logger.error(exception.message, exception.stack);

@@ -10,17 +10,12 @@ interface BaseLayoutProps {
   onSignOut: () => void;
 }
 
+let layoutMode = 'static';
+let layoutColorMode: 'light' | 'dark' = 'light';
+let inputStyle = 'outlined';
+let ripple = true;
+
 export const BaseLayout: React.FC<BaseLayoutProps> = ({ onSignOut }) => {
-  const [layoutMode, setLayoutMode] = React.useState<'static' | 'overlay'>(
-    'static',
-  );
-  const [layoutColorMode, setLayoutColorMode] = React.useState<
-    'light' | 'dark'
-  >('light');
-  const [inputStyle, setInputStyle] = React.useState<'outlined' | 'filled'>(
-    'outlined',
-  );
-  const [ripple, setRipple] = React.useState(true);
   const [staticMenuInactive, setStaticMenuInactive] = React.useState(false);
   const [overlayMenuActive, setOverlayMenuActive] = React.useState(false);
   const [mobileMenuActive, setMobileMenuActive] = React.useState(false);
@@ -61,17 +56,12 @@ export const BaseLayout: React.FC<BaseLayoutProps> = ({ onSignOut }) => {
         }
         setOverlayMenuActive((prevState) => !prevState);
         setMobileMenuActive(false);
-      } else if (layoutMode === 'static') {
-        setStaticMenuInactive((prevState) => !prevState);
       }
+      setStaticMenuInactive((prevState) => !prevState);
     } else {
       setMobileMenuActive((prevState) => !prevState);
     }
     event.preventDefault();
-  };
-
-  const onSidebarClick = () => {
-    menuClick = true;
   };
 
   const onMobileTopbarMenuClick = (event: React.MouseEvent) => {

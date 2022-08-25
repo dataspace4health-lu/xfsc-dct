@@ -1,8 +1,6 @@
 import { CACHE_MANAGER, Inject, Injectable, ServiceUnavailableException } from '@nestjs/common';
-import { Cache } from 'cache-manager';
-import { InjectQueue } from '@nestjs/bull';
-import { Queue } from 'bull';
 import { ConfigService } from '@nestjs/config';
+import { Cache } from 'cache-manager';
 import { BaseGateway } from '../../common/api/base.gateway';
 import { ConfigType } from '../../config/config.module';
 

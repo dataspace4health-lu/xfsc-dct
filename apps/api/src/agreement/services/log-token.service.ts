@@ -24,6 +24,6 @@ export class LogTokenService {
    * @returns
    */
   async validate(logToken: string): Promise<LogToken> {
-    return await this.jwtService.verify(logToken);
+    return this.jwtService.verify(logToken);
   }
 }

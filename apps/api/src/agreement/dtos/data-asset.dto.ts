@@ -1,16 +1,12 @@
 import { Type } from 'class-transformer';
 import {
   IsArray,
-  IsBoolean,
-  IsDate,
-  IsDateString,
-  IsNumber,
-  IsNumberString,
+  IsBoolean, IsDateString, IsNumberString,
   IsObject,
   IsOptional,
   IsString,
   IsUrl,
-  ValidateNested,
+  ValidateNested
 } from 'class-validator';
 import { Arrayify } from '../../global/decorators/arrayify.decorator';
 import { VerifiablePresentation } from './verifiable-presentation.dto';

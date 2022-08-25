@@ -5,7 +5,6 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { AgreementModule } from './agreement/agreement.module';
-import { AuthModule } from './auth/auth.module';
 import { AppConfigModule, ConfigType } from './config/config.module';
 import { GlobalModule } from './global/global.module';
 import { JsonBodyParserMiddleware } from './global/middlewares/json.parser.middleware';
@@ -39,7 +38,6 @@ import { JsonBodyParserMiddleware } from './global/middlewares/json.parser.middl
     }),
     AppConfigModule,
     GlobalModule,
-    AuthModule,
     AgreementModule,
   ],
   controllers: [],
@@ -52,9 +50,6 @@ import { JsonBodyParserMiddleware } from './global/middlewares/json.parser.middl
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    // consumer.apply(RdfBodyParserMiddleware).exclude('auth/login', '/ui.*').forRoutes(
-    //   RegisterController
-    // );
     consumer.apply(JsonBodyParserMiddleware).forRoutes('*', '/ui*');
   }
 }

@@ -4,12 +4,12 @@ export const CONTEXT_METADATA_KEY = 'jsonld';
 
 export type JSONLSContextType = string | object;
 
-export type JSONLDContext = {
+export type JSONLDContextType = {
   '@context': JSONLSContextType | JSONLSContextType[];
   '@id'?: string;
   '@type'?: string;
 };
 
-export function JSONLDContext<C extends JSONLDContext>(context: C) {
+export function JSONLDContext<C extends JSONLDContextType>(context: C) {
   return SetMetadata(CONTEXT_METADATA_KEY, context);
 }

@@ -1,11 +1,10 @@
-import axios from 'axios';
+import cx from 'classnames';
 import { Message } from 'primereact/message';
 import React from 'react';
-import Button from '../../components/form/button';
-import styles from './register-page.module.scss';
-import cx from 'classnames';
-import { useRegisterMutation } from '../../redux/apis/dct.api';
 import { JSONTree } from 'react-json-tree';
+import Button from '../../components/form/button';
+import { useRegisterMutation } from '../../redux/apis/dct.api';
+import styles from './register-page.module.scss';
 
 
 const RegisterPage = () => {

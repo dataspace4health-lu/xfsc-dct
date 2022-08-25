@@ -3,11 +3,11 @@ import { Outlet } from 'react-router-dom';
 import styles from './empty-layout.module.scss';
 import cx from 'classnames';
 
-interface EmptyLayout {
+interface EmptyLayoutProps {
     children?: React.ReactNode;
 }
 
-export const EmptyLayout: React.FunctionComponent<EmptyLayout> = ({}) => {
+export const EmptyLayout: React.FunctionComponent<EmptyLayoutProps> = () => {
     return (
         <div className="surface-0 flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
             <div className={cx('grid justify-content-center p-2 lg:p-0', styles.inner)}>

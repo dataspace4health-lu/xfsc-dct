@@ -4,20 +4,19 @@ import validationSchema from './config-validation-schema';
 import loggerConfig, { ConfigType as LoggerConfig } from './loaders/logger.config';
 import generalConfig, { ConfigType as GeneralConfig } from './loaders/general.config';
 import redisConfig, { ConfigType as RedisConfig } from './loaders/redis.config';
-import adminConfig, { ConfigType as AdminConfig } from './loaders/admin.config';
 import serverConfig, { ConfigType as ServerConfig } from './loaders/server.config';
 import gatewayConfig, { ConfigType as GatewayConfig } from './loaders/gateways.config';
 import signatureConfig, { ConfigType as SignatureConfig } from './loaders/signature.config';
 import logTokenConfig, { ConfigType as LogTokenConfig } from './loaders/log-token.config';
 
-export type ConfigType = LoggerConfig & GeneralConfig & RedisConfig & AdminConfig & ServerConfig & GatewayConfig & SignatureConfig & LogTokenConfig;
+export type ConfigType = LoggerConfig & GeneralConfig & RedisConfig  & ServerConfig & GatewayConfig & SignatureConfig & LogTokenConfig;
 
 @Module({
     imports: [
         ConfigModule.forRoot({
             isGlobal: true,
             validationSchema,
-            load: [generalConfig, loggerConfig, redisConfig, adminConfig, serverConfig, gatewayConfig, signatureConfig, logTokenConfig],
+            load: [generalConfig, loggerConfig, redisConfig, serverConfig, gatewayConfig, signatureConfig, logTokenConfig],
         }),
     ],
 })

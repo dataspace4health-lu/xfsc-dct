@@ -24,7 +24,7 @@ export class RdfBodyParserMiddleware implements NestMiddleware {
         switch (req.headers['content-type']) {
             case 'application/ld+json':
             case 'application/json': {
-                this.jsonMiddleware(req as any, res as any, next);
+                this.jsonMiddleware(req, res as any, next);
                 return;
             }
             default: {

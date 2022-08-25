@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Post } from '@nestjs/common';
 import { DataAssetPresentation } from '../dtos/data-asset.dto';
 import { ValidateLogTokenDto } from '../dtos/validate-log-token.dto';
 import { AgreementService } from '../services/agreement.service';

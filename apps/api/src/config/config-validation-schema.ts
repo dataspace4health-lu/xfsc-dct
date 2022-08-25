@@ -9,11 +9,6 @@ export default Joi.object({
     SERVER_THROTLLER_TTL: Joi.number().integer().min(1).max(300).default(60),
     SERVER_THROTLLER_LIMIT: Joi.number().integer().min(1).default(10),
 
-    ADMIN_USERNAME: Joi.string().required(),
-    ADMIN_PASSWORD: Joi.string().required(),
-    ADMIN_JWT_SECRET_KEY: Joi.string().required(),
-    ADMIN_JWT_EXPIRES_IN_MINUTES: Joi.number().integer().min(1).required(),
-
     LOGGER_TYPE: Joi.string()
         .valid(...Object.values(LoggerType))
         .default('console'),

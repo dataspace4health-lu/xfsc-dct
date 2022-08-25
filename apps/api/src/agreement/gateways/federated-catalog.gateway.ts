@@ -16,8 +16,6 @@ export class FederatedCatalogGateway extends BaseGateway {
     super(configService.get('gateway', { infer: true }).federatedCatalog);
   }
 
-  // @TODO: the providerDID might have multiple contracts -> this needs to be changed with an assed DID
-  // waiting for a valid response from FC in order to determine where is the actual ID stored before changing
   public async getDataAsset(dataAssetId: string) {
     try {
       const cachedSD = await this.cache.get(dataAssetId);

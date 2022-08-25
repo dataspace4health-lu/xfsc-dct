@@ -9,7 +9,7 @@ import { ConfigType } from "../../config/config.module";
 export class SdqueueProcessor {
   public constructor(
     readonly configService: ConfigService<ConfigType>,
-    @Inject(CACHE_MANAGER) protected cache: Cache) {}
+    @Inject(CACHE_MANAGER) protected cache: Cache) { }
 
   @Process('sds')
   async handleProcessSds(job: Job) {
@@ -23,9 +23,9 @@ export class SdqueueProcessor {
     const cachedSD = await this.cache.get(sdID);
 
     if (cachedSD !== undefined && cachedSD !== null) {
-      return await this.cache.set(sdID, data);
+      return this.cache.set(sdID, data);
     }
 
-    return await job.remove();
+    return job.remove();
   }
 }

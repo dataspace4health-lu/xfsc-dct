@@ -10,8 +10,7 @@ async function bootstrap() {
   });
   const logger = app.get(LoggerProvider).logger;
   app.useLogger(logger);
-  await app.useGlobalPipes(await new JSONLDValidationPipe({ transform: true }));
-  // app.setGlobalPrefix('api');
+  app.useGlobalPipes(new JSONLDValidationPipe({ transform: true }));
   app.enableCors();
   await app.listen(3000);
 }
