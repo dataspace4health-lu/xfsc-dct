@@ -8,16 +8,17 @@ import serverConfig, { ConfigType as ServerConfig } from './loaders/server.confi
 import gatewayConfig, { ConfigType as GatewayConfig } from './loaders/gateways.config';
 import signatureConfig, { ConfigType as SignatureConfig } from './loaders/signature.config';
 import logTokenConfig, { ConfigType as LogTokenConfig } from './loaders/log-token.config';
+import delsDiscoryConfig, { ConfigType as DelsDiscoryConfig } from './loaders/dels-discovey.config';
 
-export type ConfigType = LoggerConfig & GeneralConfig & RedisConfig  & ServerConfig & GatewayConfig & SignatureConfig & LogTokenConfig;
+export type ConfigType = LoggerConfig & GeneralConfig & RedisConfig & ServerConfig & GatewayConfig & SignatureConfig & LogTokenConfig & DelsDiscoryConfig;
 
 @Module({
     imports: [
         ConfigModule.forRoot({
             isGlobal: true,
             validationSchema,
-            load: [generalConfig, loggerConfig, redisConfig, serverConfig, gatewayConfig, signatureConfig, logTokenConfig],
+            load: [generalConfig, loggerConfig, redisConfig, serverConfig, gatewayConfig, signatureConfig, logTokenConfig, delsDiscoryConfig],
         }),
     ],
 })
-export class AppConfigModule {}
+export class AppConfigModule { }

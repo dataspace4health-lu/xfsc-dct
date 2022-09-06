@@ -8,8 +8,7 @@ import {
   IsUrl,
   ValidateNested
 } from 'class-validator';
-import { Arrayify } from '../../global/decorators/arrayify.decorator';
-import { VerifiablePresentation } from './verifiable-presentation.dto';
+import { VerifiablePresentation, Arrayify } from '@gaia-x/gaia-x-vc';
 
 class GaxAction {
   @IsString()
@@ -153,4 +152,7 @@ export class DataAsset {
   'gax:contractOffer': GaxContractOffer;
 }
 
-export class DataAssetPresentation extends VerifiablePresentation(DataAsset) {}
+export class DataAssetPresentation extends VerifiablePresentation(DataAsset) { 
+
+  
+}

@@ -1,14 +1,17 @@
-import * as vc from '@digitalcredentials/vc';
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from '@nestjs/config';
+import { DocumentLoaderService as GaiaxDocumentLoaderService } from '@gaia-x/gaia-x-vc';
 import { extendContextLoader } from 'jsonld-signatures';
 import { ConfigType } from '../../config/config.module';
-import { AbstractTrustServiceAdapter } from "../adapters";
+
 
 @Injectable()
 export class DocumentLoaderService {
+    protected gaiaxDocumentLoader: (url:string)=>Promise<any>
 
-    constructor(private readonly trustServiceAdapter: AbstractTrustServiceAdapter, private readonly configService: ConfigService<ConfigType>) { }
+    constructor( private readonly configService: ConfigService<ConfigType>, documentLoaderService: GaiaxDocumentLoaderService) {
+        this.gaiaxDocumentLoader = documentLoaderService.loader
+     }
 
     get loader(): () => Promise<any> {
         const dcsSigntureKP = this.configService.get('signature', { infer: true });
@@ -36,13 +39,8 @@ export class DocumentLoaderService {
                     }
                 }
             }
-            if (await this.trustServiceAdapter.isControllerDID(url)) {
-                return this.trustServiceAdapter.getControllerDIDDocument(url);
-            }
-            if (await this.trustServiceAdapter.isParticipantKeyDID(url)) {
-                return this.trustServiceAdapter.getParticipantPublicKey(url);
-            }
-            return vc.defaultDocumentLoader(url);
+            // TODO: add library document loader
+            return this.gaiaxDocumentLoader(url);
         })
     }
 }

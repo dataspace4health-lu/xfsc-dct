@@ -6,6 +6,7 @@ import * as vc from '@digitalcredentials/vc';
 import { purposes } from 'jsonld-signatures';
 import { v4 as uuidv4 } from 'uuid';
 import { AbstractFederatedCatalogAdapter } from '../adapters';
+import { SignatureService } from '@gaia-x/gaia-x-vc';
 
 @Injectable()
 export class AgreementSignatureService {
@@ -15,7 +16,7 @@ export class AgreementSignatureService {
     private readonly documentLoaderService: DocumentLoaderService,
     private readonly federatedCatalogAdapter: AbstractFederatedCatalogAdapter,
     private readonly dcsSuite: any,
-    private readonly trustServiceSuite: any,
+    private readonly signatureService: SignatureService,
   ) {
     this.documentLoader = this.documentLoaderService.loader;
   }
@@ -74,13 +75,7 @@ export class AgreementSignatureService {
     const providerProof = await this.federatedCatalogAdapter.getProviderProof(
       presentation.verifiableCredential[0].credentialSubject,
     );
-    const { results } = await vc.verifyCredential({
-      credential,
-      challenge: uuidv4(),
-      documentLoader: this.documentLoader,
-      suite: this.trustServiceSuite,
-      purpose: new purposes.AssertionProofPurpose(),
-    });
+    const { results } = await this.signatureService.verifyCredential(credential);
     return (
       results?.find((result: any) => result.proof.verificationMethod === providerProof.verificationMethod)?.verified ??
       false
@@ -96,13 +91,7 @@ export class AgreementSignatureService {
     const consumerProof = await this.federatedCatalogAdapter.getConsumerProof(
       presentation.verifiableCredential[0].credentialSubject,
     );
-    const { results } = await vc.verifyCredential({
-      credential: presentation.verifiableCredential[0],
-      challenge: uuidv4(),
-      documentLoader: this.documentLoader,
-      suite: this.trustServiceSuite,
-      purpose: new purposes.AssertionProofPurpose(),
-    });
+    const { results } = await this.signatureService.verifyCredential(presentation.verifiableCredential[0]);
     return (
       results?.find((result: any) => result.proof.verificationMethod === consumerProof.verificationMethod)?.verified ??
       false

@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { AbstractLogTokenAdapter, LogToken } from '.';
+import { AbstractLogTokenAdapter, } from '.';
 import { DataAsset } from '../dtos/data-asset.dto';
 import { v4 as uuidv4 } from 'uuid';
 import { ConfigService } from '@nestjs/config';
 import { ConfigType } from '../../config/config.module';
 import * as moment from 'moment';
+import { LogToken } from '../dtos/log-token.dto';
 
 @Injectable()
 export class LogTokenAdapter extends AbstractLogTokenAdapter {

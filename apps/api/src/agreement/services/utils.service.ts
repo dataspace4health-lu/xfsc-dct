@@ -1,16 +1,14 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { ConfigType } from '../../config/config.module';
 import { InboxDto } from '../../gateways/dtos/inbox.dto';
 
 @Injectable()
 export class UtilsService {
 
+  constructor(private readonly configService: ConfigService<ConfigType>){}
+
   async getInboxDiscovery(): Promise<InboxDto> {
-    const headInboxDto: InboxDto = new InboxDto();
-    headInboxDto['@context'] = process.env.DELS_CONTEXT;
-    headInboxDto['@id'] = process.env.DELS_ID;
-    headInboxDto['inbox'] = process.env.DELS_INBOX;
-    headInboxDto['link'] = process.env.DELS_LINK;
-    headInboxDto['rel'] = process.env.DELS_REL;
-    return headInboxDto;
+    return this.configService.get('dels', {infer:true})
   }
 }

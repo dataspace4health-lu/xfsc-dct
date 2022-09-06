@@ -3,9 +3,10 @@ import { ConfigService } from '@nestjs/config';
 import { Cache } from 'cache-manager';
 import { BaseGateway } from '../../common/api/base.gateway';
 import { ConfigType } from '../../config/config.module';
+import { DIDTrustServiceGateway } from '@gaia-x/gaia-x-vc';
 
 @Injectable()
-export class TrustServiceGateway extends BaseGateway {
+export class TrustServiceGateway extends BaseGateway implements DIDTrustServiceGateway {
   constructor(@Inject(CACHE_MANAGER) protected cache: Cache, readonly configService: ConfigService<ConfigType>) {
     super(configService.get('gateway', { infer: true }).trustService);
   }

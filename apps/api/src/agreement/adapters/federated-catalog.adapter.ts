@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { AbstractFederatedCatalogAdapter } from '.';
 import { DataAsset } from '../dtos/data-asset.dto';
-import { IVerifiableCredential } from '../dtos/verifiable-presentation.dto';
 import { FederatedCatalogGateway } from '../gateways/federated-catalog.gateway';
 import { DataAssetStatus } from '../services/agreement-validation.service';
 import { isEqual, omit, pick } from 'lodash';
+import { IVerifiableCredential } from '@gaia-x/gaia-x-vc';
 
 /**
  *
