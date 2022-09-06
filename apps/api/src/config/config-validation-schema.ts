@@ -3,9 +3,7 @@ import { LoggerType } from '../global/logs/logger.provider';
 
 export default Joi.object({
     NODE_ENV: Joi.string().valid('development', 'production').default('production'),
-    AUTH_TOKEN: Joi.string().required(),
 
-    SERVER_ENDPOINT: Joi.string().uri().default('http://localhost:3000'),
     SERVER_THROTLLER_TTL: Joi.number().integer().min(1).max(300).default(60),
     SERVER_THROTLLER_LIMIT: Joi.number().integer().min(1).default(10),
 
@@ -38,4 +36,10 @@ export default Joi.object({
 
     LOG_TOKEN_JWT_SECRET_KEY: Joi.string().required(),
     LOG_TOKEN_EXPIRES_IN_MINUTES: Joi.number().integer().min(1).required(),
+
+    DELS_CONTEXT:Joi.string().optional(),
+    DELS_ID:Joi.string().optional(),
+    DELS_INBOX: Joi.string().uri(),
+    DELS_LINK: Joi.string().uri(),
+    DELS_REL: Joi.string().uri()
 });

@@ -16,3 +16,8 @@ client
 #docker
 .config
 .npm
+
+
+.yalc
+yalc.lock
+yalc.sig

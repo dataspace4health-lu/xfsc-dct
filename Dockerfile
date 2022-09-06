@@ -3,6 +3,7 @@ RUN apk --no-cache add --virtual .builds-deps build-base python3
 ENV NODE_ENV=development
 WORKDIR /dct_local
 COPY ["package.json", "package-lock.json", "./"]
+RUN npm config set @gaia-x:registry https://gitlab.com/api/v4/projects/38989724/packages/npm/
 RUN npm i -g @nrwl/cli
 RUN npm install --legacy-peer-deps
 COPY . .

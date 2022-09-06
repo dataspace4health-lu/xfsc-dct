@@ -1,26 +1,3 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
-
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
 ## Description
 
@@ -29,6 +6,7 @@
 ## Installation
 
 ```bash
+$ npm config set @gaia-x:registry https://gitlab.com/api/v4/projects/38989724/packages/npm/
 $ npm install
 ```
 
@@ -40,6 +18,45 @@ $ git config core.hooksPath .github/hooks
 ```
 
 ## Running the app
+
+### Environment Variables
+```
+# General
+NODE_ENV=development # development/production
+REQUEST_SIZE=1000000 # request max size in bytes 
+NX_API_ENDPOINT=http://localhost:3000/ # used in Frontend App to connect to api
+SERVER_THROTLLER_TTL=60 # throtller period
+SERVER_THROTLLER_LIMIT=10 # maximum number of requests for specified period
+LOGGER_TYPE=console # types "console"/"winston"
+LOGGER_WINSTON_LEVEL=info
+LOGGER_WINSTON_TRANSPORTS_CONSOLE=true
+LOGGER_WINSTON_TRANSPORTS_FILE=logs/app.log # filename to store logs
+CACHE_TYPE=redis # types "memory"/"redis"
+CACHE_TTL=86400 # cache time to live for gateways
+SD_CACHE_TTL=1209600000 # 14 days in milliseconds
+SD_QUEUE_DELAY=86400000 # 24 hours in milliseconds
+SD_QUEUE_RETRIES=13 # QUEUE RETRIES
+REDIS_HOST=redis-server
+REDIS_PORT=6379
+REDIS_PREFIX=cache:
+DELS_LINK=https://dels.gaia-x.com/inbox/
+DELS_REL=http://www.w3.org/ns/ldp#inbox
+DELS_CONTEXT=https://www.w3.org/ns/ldp
+DELS_ID=https://dcs.gaia-x.com/contracts/1001
+DELS_INBOX=https://dels.gaia-x.com/inbox/
+TRUST_SERVICE_URL=https://trust-service.com # Trust Service Url 
+FEDERATED_CATALOG_URL=https://federated-catalog.com # Federated Catalog Url
+#Ed25519 signature configuration 
+SIGNATURE_ID=did:dcs:key:123
+SIGNATURE_TYPE=Ed25519VerificationKey2018
+SIGNATURE_CONTROLLER=did:dcs:controller
+SIGNATURE_PUBLIC_KEY_BASE58=45dxsXGjMixWNfmXBtWwPnCfGgV1THf6qhdLixUmgrVZ
+SIGNATURE_PRIVATE_KEY_BASE58=3hJ4PNJm6pzUwRLDpummeZCZGeqE7c9DMdD6qSNB4qBfxrnkAUmZ1CQMpifvihdiSv8pepijdCzR5C2eAHC4Vqf9
+
+LOG_TOKEN_JWT_SECRET_KEY=somesecretkey # secret key 
+LOG_TOKEN_EXPIRES_IN_MINUTES=120 # log token expiration time
+
+```
 
 ```bash
 # development
@@ -91,16 +108,3 @@ $ npm run test:cov
 $ docker compose up
 ```
 
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).

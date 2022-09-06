@@ -1,3 +1,4 @@
+import { Expose } from 'class-transformer';
 import { IsOptional, IsString } from 'class-validator';
 export class InboxDto {
   @IsString()
@@ -6,6 +7,9 @@ export class InboxDto {
 
   @IsString()
   @IsOptional()
+  @Expose({
+    
+  })
   '@id': string;
 
   @IsString()

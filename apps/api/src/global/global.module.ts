@@ -1,11 +1,12 @@
 import { CacheModule, Global, Logger, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { ThrottlerModule } from '@nestjs/throttler';
 import * as redisStore from 'cache-manager-redis-store';
 import { ConfigType } from '../config/config.module';
 import { GlobalExceptionFilter } from './exceptions/global.exception-filter';
 import { ValidationExceptionFilter } from './exceptions/validation.exception-filter';
+import { SizeLimitInterceptor } from './interceptors/size-limit.interceptor';
 import { LoggerProvider } from './logs/logger.provider';
 
 @Global()
@@ -49,6 +50,10 @@ import { LoggerProvider } from './logs/logger.provider';
     {
       provide: APP_FILTER,
       useClass: ValidationExceptionFilter,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: SizeLimitInterceptor,
     },
     LoggerProvider,
     Logger,
