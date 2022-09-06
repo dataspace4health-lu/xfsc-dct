@@ -20,7 +20,7 @@ function initSwagger(app: INestApplication) {
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     bufferLogs: true,
-    bodyParser: false
+    bodyParser: false,
   });
   const logger = app.get(LoggerProvider).logger;
   app.useLogger(logger);

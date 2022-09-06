@@ -7,7 +7,7 @@ import { ConfigType } from '../../config/config.module';
 export class GlobalExceptionFilter implements ExceptionFilter<Error> {
     public constructor(private logger: Logger, private readonly configService: ConfigService<ConfigType>) {}
 
-    catch(exception: Error, host: ArgumentsHost) {
+    catch(exception: Error, host: ArgumentsHost){
         const ctx = host.switchToHttp();
         const response = ctx.getResponse<Response>();
         const status = exception instanceof HttpException ? exception.getStatus() : 500;
@@ -15,11 +15,12 @@ export class GlobalExceptionFilter implements ExceptionFilter<Error> {
         this.logger.error(exception.message, exception.stack);
 
         if (this.configService.get('general.isDevelopment', { infer: true })) {
-            return response.status(status).json({
+            response.status(status).json({
                 statusCode: status,
                 message: exception.message,
                 stack: exception.stack,
             });
+            return;
         }
 
         response.status(500).json({

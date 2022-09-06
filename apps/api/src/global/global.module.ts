@@ -2,9 +2,10 @@ import { CacheModule, Global, Logger, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { ThrottlerModule } from '@nestjs/throttler';
-import * as redisStore from 'cache-manager-redis-store';
+import redisStore from '../common/redis.store';
 import { ConfigType } from '../config/config.module';
 import { GlobalExceptionFilter } from './exceptions/global.exception-filter';
+import { ServiceUnavailableFilter } from './exceptions/service-unavailable.exception-filter';
 import { ValidationExceptionFilter } from './exceptions/validation.exception-filter';
 import { SizeLimitInterceptor } from './interceptors/size-limit.interceptor';
 import { LoggerProvider } from './logs/logger.provider';
@@ -40,7 +41,7 @@ import { LoggerProvider } from './logs/logger.provider';
 
         return cacheConfig;
       },
-    })
+    }),
   ],
   providers: [
     {
@@ -52,12 +53,16 @@ import { LoggerProvider } from './logs/logger.provider';
       useClass: ValidationExceptionFilter,
     },
     {
+      provide: APP_FILTER,
+      useClass: ServiceUnavailableFilter,
+    },
+    {
       provide: APP_INTERCEPTOR,
       useClass: SizeLimitInterceptor,
     },
     LoggerProvider,
     Logger,
   ],
-  exports: [CacheModule]
+  exports: [CacheModule],
 })
-export class GlobalModule { }
+export class GlobalModule {}

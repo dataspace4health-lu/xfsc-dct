@@ -1,13 +1,23 @@
 import { BullModule } from '@nestjs/bull';
-import { ClassSerializerInterceptor, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import {
+  CACHE_MANAGER,
+  ClassSerializerInterceptor,
+  Inject,
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { TerminusModule } from '@nestjs/terminus';
 import { join } from 'path';
 import { AgreementModule } from './agreement/agreement.module';
 import { AppConfigModule, ConfigType } from './config/config.module';
 import { GlobalModule } from './global/global.module';
 import { JsonBodyParserMiddleware } from './global/middlewares/json.parser.middleware';
+import { HealthController } from './health/health.controller';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -33,14 +43,17 @@ import { JsonBodyParserMiddleware } from './global/middlewares/json.parser.middl
         '/finalize',
         '/contracts',
         '/negotiate',
+        '/health',
       ],
       serveRoot: '/ui',
     }),
     AppConfigModule,
     GlobalModule,
     AgreementModule,
+    TerminusModule,
+    HealthModule,
   ],
-  controllers: [],
+  controllers: [HealthController],
   providers: [
     {
       provide: APP_INTERCEPTOR,
@@ -49,6 +62,13 @@ import { JsonBodyParserMiddleware } from './global/middlewares/json.parser.middl
   ],
 })
 export class AppModule implements NestModule {
+  constructor(@Inject(CACHE_MANAGER) cacheManager) {
+    const client = cacheManager.store.getClient();
+
+    client.on('error', (error) => {
+      console.log(error);
+    });
+  }
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(JsonBodyParserMiddleware).forRoutes('*', '/ui*');
   }

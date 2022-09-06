@@ -42,7 +42,8 @@ export class TrustServiceAdapter extends AbstractTrustServiceAdapter {
    * Verifies if Service is healthy
    * @returns
    */
-  async isHealthy(): Promise<boolean> {
-    return true;
+  public async isHealthy(): Promise<boolean> {
+    const healtyStatus = await this.trustServiceGateway.getHealthStatus();
+    return healtyStatus['status'] === 'ok';
   }
 }

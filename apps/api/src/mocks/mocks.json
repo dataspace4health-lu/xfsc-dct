@@ -39,6 +39,37 @@
           "publicKeyBase58": "DKtCMG25dPChEPSWkStZqRXLgUo1j4JSeB8rJyLPDzwn"
         }
       }
+    },
+    "/health-check": {
+      "onGet": {
+        "status": 200,
+        "response": {
+          "status": "ok",
+          "info": {
+            "database": {
+              "status": "up"
+            },
+            "storage": {
+              "status": "up"
+            },
+            "memory_heap": {
+              "status": "up"
+            }
+          },
+          "error": {},
+          "details": {
+            "database": {
+              "status": "up"
+            },
+            "storage": {
+              "status": "up"
+            },
+            "memory_heap": {
+              "status": "up"
+            }
+          }
+        }
+      }
     }
   },
   "https://federated-catalog.com": {
@@ -98,6 +129,37 @@
         "response": {
           "example": {
             "key": "value"
+          }
+        }
+      }
+    },
+    "/health-check": {
+      "onGet": {
+        "status": 200,
+        "response": {
+          "status": "ok",
+          "info": {
+            "database": {
+              "status": "up"
+            },
+            "storage": {
+              "status": "up"
+            },
+            "memory_heap": {
+              "status": "up"
+            }
+          },
+          "error": {},
+          "details": {
+            "database": {
+              "status": "up"
+            },
+            "storage": {
+              "status": "up"
+            },
+            "memory_heap": {
+              "status": "up"
+            }
           }
         }
       }

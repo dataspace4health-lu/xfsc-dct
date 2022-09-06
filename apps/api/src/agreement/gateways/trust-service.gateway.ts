@@ -55,4 +55,16 @@ export class TrustServiceGateway extends BaseGateway implements DIDTrustServiceG
       throw new ServiceUnavailableException();
     }
   }
+
+  public async getHealthStatus() {
+    try {
+      const res = await this.request(`/health-check`, 'GET');
+      return res;
+    } catch (e) {
+      if (e instanceof Error) {
+        throw new ServiceUnavailableException(e.message);
+      }
+      throw new ServiceUnavailableException();
+    }
+  }
 }

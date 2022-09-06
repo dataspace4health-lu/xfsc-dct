@@ -20,7 +20,7 @@ export class AgreementService {
     private readonly signatureService: AgreementSignatureService,
     private readonly configService: ConfigService<ConfigType>,
     private readonly logTokenService: LogTokenService,
-    private readonly federatedCatalogAdapter: AbstractFederatedCatalogAdapter
+    private readonly federatedCatalogAdapter: AbstractFederatedCatalogAdapter,
   ) {}
 
   /**
@@ -224,5 +224,4 @@ export class AgreementService {
     }
     return true;
   }
- 
 }

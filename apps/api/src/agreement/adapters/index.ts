@@ -8,6 +8,7 @@ import { ParticipantType } from '../services/agreement.service';
 
 export abstract class AbstractTrustServiceAdapter {
   abstract validateParticipant(dataAsset: DataAsset, type: ParticipantType): Promise<ParticipantStatus>;
+  abstract isHealthy(): Promise<boolean>;
 }
 
 export abstract class AbstractFederatedCatalogAdapter {
@@ -18,6 +19,7 @@ export abstract class AbstractFederatedCatalogAdapter {
   abstract getProviderProof(dataAsset: DataAsset): Promise<{ verificationMethod: string }>;
   abstract getConsumerProof(dataAsset: DataAsset): Promise<{ verificationMethod: string }>;
   abstract isConsumerConformPolicies(dataAsset: DataAsset): Promise<boolean>;
+  abstract isHealthy(): Promise<boolean>;
 }
 
 export abstract class AbstractLogTokenAdapter {
