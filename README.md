@@ -1,8 +1,53 @@
 
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
+## Open Items:
+- FederatedCatalogAdapter needs to be implemented
+```
+/**
+*  Should return Data Asset validation result "DataAssetStatus",consisting of retrieving original Data Asset and compare them and check if provided Data Asset is still supported
+*/
+validateDataAsset(dataAsset: DataAsset): Promise<DataAssetStatus>;
+/**
+* Return Data Asset without consumer details that should be applied in provider's signature validation
+*/
+removeConsumerDetails(dataAsset: IVerifiableCredential<DataAsset>):Promise<IVerifiableCredential<DataAsset>>;
+/**
+* Return proof that was signed by provider
+*/
+getProviderProof(dataAsset: DataAsset): Promise<{ verificationMethod: string }>;
+/**
+* Return proof that was signed by consumer
+*/
+getConsumerProof(dataAsset: DataAsset): Promise<{ verificationMethod: string }>;
+/**
+* The GX-DCS MUST check if the Consumer conforms to the policies, insofar that is technically feasible with fungible effort.
+*/
+isConsumerConformPolicies(dataAsset: DataAsset): Promise<boolean>;
+/**
+* Return true if Federated Catalog service is UP, otherwise false
+*/
+isHealthy(): Promise<boolean>;
+```
+- AbstractLogTokenAdapter
+```
+/**
+* Generate Log Token for provided Data Asset
+*/
+getLogToken(dataAsset: DataAsset): Promise<LogToken>;
+```
+- AbstractTrustServiceAdapter
+```
+/**
+* Validate participant verifies that the user is a GX Participant
+* In general, only Gaia-X Participants must be able to interact with the GX-DCS.
+* Each participant shall be capable of registering Data Assets, negotiate,
+* or make a Data Contracts for a Data Asset and get a validation confirmation
+* for a finalized Agreement.
+*/
+validateParticipant(dataAsset: DataAsset, type: ParticipantType): Promise<ParticipantStatus>;
+/**
+* Return true if Trust Service service is UP, otherwise false
+*/
+isHealthy(): Promise<boolean>;
 ## Installation
 
 ```bash
