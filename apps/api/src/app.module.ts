@@ -28,6 +28,7 @@ import { HealthModule } from './health/health.module';
           redis: {
             host: configService.get('redis.host', { infer: true }),
             port: configService.get('redis.port', { infer: true }),
+            password: configService.get('redis.password', {infer:true})
           },
         };
       },

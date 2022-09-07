@@ -22,6 +22,7 @@ export default Joi.object({
         then: Joi.required(),
         otherwise: Joi.optional().allow(''),
     }),
+    REDIS_PASSWORD: Joi.string().optional(),
     REDIS_PORT: Joi.number().default(6379),
     REDIS_PREFIX: Joi.string().default('cache'),
 
