@@ -18,6 +18,6 @@ export class ServiceUnavailableFilter extends GlobalExceptionFilter implements E
             response.status(exception.getStatus()).json(exception.getResponse())
             return;
         }
-        super.catch(exception, host);
+        return super.catch(exception, host);
     }
 }
