@@ -5,9 +5,9 @@ COPY ["package.json", "package-lock.json", "./"]
 RUN npm config set @gaia-x:registry https://gitlab.com/api/v4/projects/38989724/packages/npm/
 RUN npm i -g @nrwl/cli
 RUN npm install --legacy-peer-deps
-COPY . .
-EXPOSE 3000
 ENV NX_DAEMON=false
 ENV NODE_ENV=production
 RUN npm run build
+COPY . .
+EXPOSE 3000
 CMD ["npm", "run", "start"]
