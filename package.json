@@ -12,7 +12,7 @@
     "test": "nx test",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start:dev": "env-cmd -f .env.custom_local nx run-many --target=serve --projects='ui,api' --parallel=2",
-    "start:prod": "node dist/main",
+    "start:prod": "node dist/apps/api/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
