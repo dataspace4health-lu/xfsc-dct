@@ -54,7 +54,6 @@ import { HealthModule } from './health/health.module';
     TerminusModule,
     HealthModule,
   ],
-  controllers: [HealthController],
   providers: [
     {
       provide: APP_INTERCEPTOR,

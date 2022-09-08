@@ -8,7 +8,6 @@ import { TrustServiceHealthService } from './trust.service.health.service';
 export class HealthController {
   constructor(
     private healthCheckService: HealthCheckService,
-    private http: HttpHealthIndicator,
     private readonly memory: MemoryHealthIndicator,
     private readonly redisHealthCheckService: RedisHealthService,
     private readonly trustServicesHealthCheckService: TrustServiceHealthService,
@@ -19,7 +18,6 @@ export class HealthController {
   @HealthCheck()
   check() {
     return this.healthCheckService.check([
-      () => this.http.pingCheck('documentation', process.env.API_DOCUMENTATION_URL),
       () => this.memory.checkHeap('memory_heap', 150 * 1024 * 1024),
       () => this.redisHealthCheckService.isHealthy('redis'),
       () => this.trustServicesHealthCheckService.isHealthy('trust-services'),
