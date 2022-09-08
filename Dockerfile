@@ -8,7 +8,7 @@ RUN npm ci --legacy-peer-deps
 ENV NX_DAEMON=false
 ENV NX_SKIP_NX_CACHE=true
 COPY --chown=node:node . .
-RUN npm run build
+RUN --chown=node:node npm run build
 ENV NODE_ENV=production
 EXPOSE 3000
 CMD ["npm", "run", "start"]
