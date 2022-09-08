@@ -7,6 +7,9 @@ RUN npm i -g @nrwl/cli
 RUN npm install --legacy-peer-deps
 COPY . .
 EXPOSE 3000
+RUN mkdir .cache
+ENV NX_CACHE_DIRECTORY=/dct_local/.cache
+ENV NX_DAEMON=false
 ENV NODE_ENV=production
 RUN npm run build
 CMD ["npm", "run", "start"]
