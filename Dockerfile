@@ -6,7 +6,7 @@ RUN npm config set @gaia-x:registry https://gitlab.com/api/v4/projects/38989724/
 # RUN npm i -g @nrwl/cli
 RUN npm ci --legacy-peer-deps
 ENV NX_DAEMON=false
-COPY . .
+COPY --chown=node:node . .
 RUN npm run build
 ENV NODE_ENV=production
 EXPOSE 3000
