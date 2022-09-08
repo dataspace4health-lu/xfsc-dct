@@ -10,6 +10,7 @@ EXPOSE 3000
 # RUN mkdir .cache
 # ENV NX_CACHE_DIRECTORY=/dct_local/.cache
 ENV NX_DAEMON=false
+ENV NX_CACHE_PROJECT_GRAPH=false
 ENV NODE_ENV=production
 RUN npm run build
 CMD ["npm", "run", "start"]
