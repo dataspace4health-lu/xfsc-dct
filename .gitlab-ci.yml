@@ -6,7 +6,7 @@ build:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
   tags:
-    - own
+    - dct-runner
   stage: build
   when: manual
   before_script: []
