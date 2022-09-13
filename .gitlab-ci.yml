@@ -22,6 +22,6 @@ build:
     - echo CI_COMMIT_SHORT_SHA=$CI_COMMIT_SHORT_SHA >> build.env
   artifacts:
     paths:
-    - dct_local/
+    - /dct_local/
   #  reports:
   #    dotenv: build.env
