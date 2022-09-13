@@ -8,8 +8,8 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "start": "nx serve",
-    "build": "nx run-many --target=build --all",
-    "test": "nx run-many --target=test --all",
+    "build": "nx run-many --target=build --projects='ui,api' --parallel=100 --skip-nx-cache",
+    "test": "nx test",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start:dev": "env-cmd -f .env.custom_local nx run-many --target=serve --projects='ui,api' --parallel=2",
     "start:prod": "node dist/apps/api/main",
