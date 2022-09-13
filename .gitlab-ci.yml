@@ -23,5 +23,5 @@ build:
   artifacts:
     paths:
     - dct_local/
-    reports:
-      dotenv: build.env
+  #  reports:
+  #    dotenv: build.env
