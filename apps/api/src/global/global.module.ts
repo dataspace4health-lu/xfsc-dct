@@ -9,6 +9,7 @@ import { ServiceUnavailableFilter } from './exceptions/service-unavailable.excep
 import { ValidationExceptionFilter } from './exceptions/validation.exception-filter';
 import { SizeLimitInterceptor } from './interceptors/size-limit.interceptor';
 import { LoggerProvider } from './logs/logger.provider';
+import { IoRedisStore, Store } from '@tirke/node-cache-manager-ioredis'
 
 @Global()
 @Module({
@@ -32,11 +33,28 @@ import { LoggerProvider } from './logs/logger.provider';
         };
 
         if (cacheConfig.store === 'redis') {
+          const nodes = [
+            {
+              ...configService.get('redis'),
+              
+            }
+          ]
           return {
             ...cacheConfig,
-            ...configService.get('redis'),
-            store: redisStore,
-          };
+            store: IoRedisStore as any,
+            clusterConfig:{
+              nodes,
+              
+            },
+            options:{
+              showFriendlyErrorStack: true,
+            }
+          }
+          // return {
+          //   ...cacheConfig,
+          //   ...configService.get('redis'),
+          //   store: redisStore,
+          // };
         }
 
         return cacheConfig;
