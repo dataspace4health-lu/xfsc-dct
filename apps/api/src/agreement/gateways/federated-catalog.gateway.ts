@@ -26,12 +26,10 @@ export class FederatedCatalogGateway extends BaseGateway {
 
       // For request we are using mocks, make sure you remove the mocks once FC is reary
       const res = await this.request(`/get-data-asset?id=${dataAssetId}`, 'GET');
-      console.warn('Federated Catalog integration impremented with mocks.');
+      console.warn('Federated Catalog integration impremented with mocks.', JSON.stringify({res}));
 
       if (res) {
-        await this.cache.set(dataAssetId, res, {
-          ttl: this.configService.get('general.cache.ttl', { infer: true }),
-        });
+        await this.cache.set(dataAssetId, res);
         await this.sdsQueue.add('sds', JSON.stringify(res), {
           repeat: {
             limit: this.configService.get('general.sdQueueRetry', { infer: true }),

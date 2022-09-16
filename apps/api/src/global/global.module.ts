@@ -2,14 +2,13 @@ import { CacheModule, Global, Logger, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { ThrottlerModule } from '@nestjs/throttler';
-import redisStore from '../common/redis.store';
+import { IoRedisStore } from '@tirke/node-cache-manager-ioredis';
 import { ConfigType } from '../config/config.module';
 import { GlobalExceptionFilter } from './exceptions/global.exception-filter';
 import { ServiceUnavailableFilter } from './exceptions/service-unavailable.exception-filter';
 import { ValidationExceptionFilter } from './exceptions/validation.exception-filter';
 import { SizeLimitInterceptor } from './interceptors/size-limit.interceptor';
 import { LoggerProvider } from './logs/logger.provider';
-import { IoRedisStore, Store } from '@tirke/node-cache-manager-ioredis'
 
 @Global()
 @Module({
@@ -33,36 +32,25 @@ import { IoRedisStore, Store } from '@tirke/node-cache-manager-ioredis'
         };
 
         if (cacheConfig.store === 'redis') {
-          const nodes = [
-            {
-              port: configService.get('redis.port', { infer: true }),
-              host: configService.get('redis.host', { infer: true }),
+          const { type, host, port, password, nodes, options, prefix } = configService.get('redis', { infer: true })
+          if (type === 'cluster'){
+            return {
+              ...cacheConfig,
+              store: IoRedisStore as any,
+              clusterConfig: {
+                nodes,
+                options
+              },
             }
-          ]
+          }
           return {
             ...cacheConfig,
+            host,
+            port,
+            password,
             store: IoRedisStore as any,
-            clusterConfig: {
-              nodes,
-              options: {
-                maxRedirections: 16,
-                slotsRefreshTimeout: 2000,
-                dnsLookup: (address, callback) => callback(null, address),
-                scaleReads: 'slave',
-                redisOptions: {
-                  password: configService.get('redis.password', { infer: true }),
-                  connectTimeout: 10000
-                },
-                keyPrefix: configService.get('redis.prefix', { infer: true }),
-              }
-            },
-
-          }
-          // return {
-          //   ...cacheConfig,
-          //   ...configService.get('redis'),
-          //   store: redisStore,
-          // };
+            keyPrefix: prefix
+          };
         }
 
         return cacheConfig;

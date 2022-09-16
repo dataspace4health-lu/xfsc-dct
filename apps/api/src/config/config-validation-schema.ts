@@ -25,6 +25,7 @@ export default Joi.object({
     REDIS_PASSWORD: Joi.string().optional(),
     REDIS_PORT: Joi.number().default(6379),
     REDIS_PREFIX: Joi.string().default('cache'),
+    REDIS_TYPE: Joi.string().valid('node', 'cluster').default('node'),
 
     TRUST_SERVICE_URL: Joi.string().uri().required(),
     FEDERATED_CATALOG_URL: Joi.string().uri().required(),

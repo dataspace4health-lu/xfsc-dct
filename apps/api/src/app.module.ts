@@ -25,32 +25,19 @@ import { HealthModule } from './health/health.module';
     BullModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService<ConfigType>) => {
-        return {
-          createClient: () => {
-            return new Redis.Cluster([
-              {
-                port: configService.get('redis.port', { infer: true }),
-                host: configService.get('redis.host', { infer: true }),
-              }
-            ],
-              {
-                maxRedirections: 16,
-                slotsRefreshTimeout: 2000,
-                dnsLookup: (address, callback) => callback(null, address),
-                scaleReads: 'slave',
-                redisOptions: {
-                  password: configService.get('redis.password', { infer: true }),
-                  connectTimeout: 10000
-                },
-                keyPrefix: configService.get('redis.prefix', { infer: true }),
-              })
+        const { type, host, port, password, nodes, options } = configService.get('redis', { infer: true })
+        if (type === 'cluster') {
+          return {
+            createClient: () => {
+              return new Redis.Cluster(nodes, options)
+            }
           }
         }
         return {
           redis: {
-            host: configService.get('redis.host', { infer: true }),
-            port: configService.get('redis.port', { infer: true }),
-            password: configService.get('redis.password', { infer: true })
+            host,
+            port:port,
+            password
           },
         };
       },
