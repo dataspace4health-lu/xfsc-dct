@@ -11,6 +11,7 @@ import { ConfigService } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TerminusModule } from '@nestjs/terminus';
+import Redis from 'ioredis';
 import { join } from 'path';
 import { AgreementModule } from './agreement/agreement.module';
 import { AppConfigModule, ConfigType } from './config/config.module';
@@ -21,18 +22,39 @@ import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
-    // BullModule.forRootAsync({
-    //   inject: [ConfigService],
-    //   useFactory: (configService: ConfigService<ConfigType>) => {
-    //     return {
-    //       redis: {
-    //         host: configService.get('redis.host', { infer: true }),
-    //         port: configService.get('redis.port', { infer: true }),
-    //         password: configService.get('redis.password', {infer:true})
-    //       },
-    //     };
-    //   },
-    // }),
+    BullModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService<ConfigType>) => {
+        return {
+          createClient: () => {
+            return new Redis.Cluster([
+              {
+                port: configService.get('redis.port', { infer: true }),
+                host: configService.get('redis.host', { infer: true }),
+              }
+            ],
+              {
+                maxRedirections: 16,
+                slotsRefreshTimeout: 2000,
+                dnsLookup: (address, callback) => callback(null, address),
+                scaleReads: 'slave',
+                redisOptions: {
+                  password: configService.get('redis.password', { infer: true }),
+                  connectTimeout: 10000
+                },
+                keyPrefix: configService.get('redis.prefix', { infer: true }),
+              })
+          }
+        }
+        return {
+          redis: {
+            host: configService.get('redis.host', { infer: true }),
+            port: configService.get('redis.port', { infer: true }),
+            password: configService.get('redis.password', { infer: true })
+          },
+        };
+      },
+    }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'ui'), // "ui" is the folder where the UI application is builded
       exclude: [

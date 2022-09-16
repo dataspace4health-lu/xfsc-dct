@@ -53,7 +53,7 @@ import { IoRedisStore, Store } from '@tirke/node-cache-manager-ioredis'
                   password: configService.get('redis.password', { infer: true }),
                   connectTimeout: 10000
                 },
-                keyPrefix: 'dct:cache:',
+                keyPrefix: configService.get('redis.prefix', { infer: true }),
               }
             },
 
