@@ -35,20 +35,28 @@ import { IoRedisStore, Store } from '@tirke/node-cache-manager-ioredis'
         if (cacheConfig.store === 'redis') {
           const nodes = [
             {
-              ...configService.get('redis'),
-              
+              port: configService.get('redis.port', { infer: true }),
+              host: configService.get('redis.host', { infer: true }),
             }
           ]
           return {
             ...cacheConfig,
             store: IoRedisStore as any,
-            clusterConfig:{
+            clusterConfig: {
               nodes,
-              
+              options: {
+                maxRedirections: 16,
+                slotsRefreshTimeout: 2000,
+                dnsLookup: (address, callback) => callback(null, address),
+                scaleReads: 'slave',
+                redisOptions: {
+                  password: configService.get('redis.password', { infer: true }),
+                  connectTimeout: 10000
+                },
+                keyPrefix: 'dct:cache:',
+              }
             },
-            options:{
-              showFriendlyErrorStack: true,
-            }
+
           }
           // return {
           //   ...cacheConfig,
@@ -83,4 +91,4 @@ import { IoRedisStore, Store } from '@tirke/node-cache-manager-ioredis'
   ],
   exports: [CacheModule],
 })
-export class GlobalModule {}
+export class GlobalModule { }

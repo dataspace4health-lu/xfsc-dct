@@ -21,18 +21,18 @@ import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
-    BullModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService<ConfigType>) => {
-        return {
-          redis: {
-            host: configService.get('redis.host', { infer: true }),
-            port: configService.get('redis.port', { infer: true }),
-            password: configService.get('redis.password', {infer:true})
-          },
-        };
-      },
-    }),
+    // BullModule.forRootAsync({
+    //   inject: [ConfigService],
+    //   useFactory: (configService: ConfigService<ConfigType>) => {
+    //     return {
+    //       redis: {
+    //         host: configService.get('redis.host', { infer: true }),
+    //         port: configService.get('redis.port', { infer: true }),
+    //         password: configService.get('redis.password', {infer:true})
+    //       },
+    //     };
+    //   },
+    // }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'ui'), // "ui" is the folder where the UI application is builded
       exclude: [
