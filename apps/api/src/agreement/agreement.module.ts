@@ -28,7 +28,7 @@ import { UtilsController } from './controllers/utils.controller';
 
 @Module({
   imports: [
-    BullModule.registerQueue({ name: 'processSds' }),
+    BullModule.registerQueue({ name: '{processSds}' }),
     JwtModule.registerAsync({
       inject: [ConfigService],
       useFactory: async (config: ConfigService<ConfigType>) => {

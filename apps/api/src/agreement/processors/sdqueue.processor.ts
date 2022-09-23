@@ -5,7 +5,7 @@ import { ConfigService } from "@nestjs/config";
 import { Job } from "bull";
 import { ConfigType } from "../../config/config.module";
 
-@Processor('processSds')
+@Processor('{processSds}')
 export class SdqueueProcessor {
   public constructor(
     readonly configService: ConfigService<ConfigType>,
