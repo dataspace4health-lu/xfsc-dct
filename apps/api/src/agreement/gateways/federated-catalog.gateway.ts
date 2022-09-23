@@ -10,7 +10,7 @@ import { ConfigType } from '../../config/config.module';
 export class FederatedCatalogGateway extends BaseGateway {
   constructor(
     @Inject(CACHE_MANAGER) protected cache: Cache,
-    @InjectQueue('processSds') private readonly sdsQueue: Queue,
+    @InjectQueue('{processSds}') private readonly sdsQueue: Queue,
     readonly configService: ConfigService<ConfigType>,
   ) {
     super(configService.get('gateway', { infer: true }).federatedCatalog);
