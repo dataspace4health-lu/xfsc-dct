@@ -38,6 +38,9 @@ export class AgreementSignatureService {
         isValid = await this.validateConsumerSignature(presentation);
         break;
       }
+      default: {
+        isValid = await this.verifyDCSPresentation(presentation);
+      }
     }
     if (!isValid) {
       throw new UnauthorizedException(`Unauthorized – invalid ${type} signature`);
@@ -55,14 +58,32 @@ export class AgreementSignatureService {
     const presentation = vc.createPresentation({
       verifiableCredential: [presentationDataAsset.verifiableCredential[0]],
     });
+    const challenge = uuidv4();
     const verifiablePresentation = await vc.signPresentation({
       presentation,
       suite: this.dcsSuite,
-      challenge: uuidv4(),
+      challenge,
       documentLoader: this.documentLoader,
-      purpose: new purposes.AssertionProofPurpose(),
+      // purpose: new purposes.AssertionProofPurpose(),
     });
     return verifiablePresentation;
+  }
+
+  /**
+   * If the validation of the Data Asset Self-Description and the providers signature were correct,
+   * the GX-DCS MUST add its signature to the Data Asset Self-Description using a hash that includes
+   * the signature of the Data Provider and send the resulting signed SD back to the Data Provider (for both interfaces).
+   * @param presentation
+   * @returns
+   */
+  async verifyDCSPresentation(presentation: DataAssetPresentation): Promise<boolean> {
+    const { presentationResult: { verified } } = await vc.verify({
+      presentation,
+      suite: this.dcsSuite,
+      challenge: (presentation.proof[0] as any).challenge,
+      documentLoader: this.documentLoader,
+    });
+    return verified;
   }
 
   /**

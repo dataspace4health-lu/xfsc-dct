@@ -21,7 +21,7 @@ export class AgreementService {
     private readonly configService: ConfigService<ConfigType>,
     private readonly logTokenService: LogTokenService,
     private readonly federatedCatalogAdapter: AbstractFederatedCatalogAdapter,
-  ) {}
+  ) { }
 
   /**
    * Register contract API
@@ -141,13 +141,9 @@ export class AgreementService {
    * @returns
    */
   async validate(dataAsset: DataAssetPresentation) {
-    try {
-      await this.signatureService.validateSignature(dataAsset, ParticipantType.PROVIDER);
-      await this.signatureService.validateSignature(dataAsset, ParticipantType.CONSUMER);
-      await this.signatureService.validateSignature(dataAsset, 'DCT');
-    } catch (error) {
-      return { isValid: false, errorMessage: error.message };
-    }
+    await this.signatureService.validateSignature(dataAsset, ParticipantType.PROVIDER);
+    await this.signatureService.validateSignature(dataAsset, ParticipantType.CONSUMER);
+    await this.signatureService.validateSignature(dataAsset, 'DCT');
     return { isValid: true };
   }
 
@@ -182,7 +178,7 @@ export class AgreementService {
     //TBD
     const hasLegallyBindingAddress =
       dataAssetPresentation.verifiableCredential[0].credentialSubject['gax:distribution'][
-        'gax:hasLegallyBindingAddress'
+      'gax:hasLegallyBindingAddress'
       ];
     if (hasLegallyBindingAddress) {
       //POST to legally binding address

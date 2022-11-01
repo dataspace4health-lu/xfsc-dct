@@ -129,6 +129,9 @@ Available APIs:
 - `http://localhost:3000/log/token/validate`
 - `http://localhost:3000/contracts/inbox-discovery`
 
+Swagger path:
+ - `/swagger`
+
 #### UI in dev mode
 
 - Available route: `http://localhost:3001/ui`

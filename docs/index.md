@@ -2,7 +2,6 @@
 
 ### Routes
 
-- [/login (testing purposes)](login.md)
 - [/register](register.md)
 - [/validate](validate.md)
 - [/log-token](log-token.md)

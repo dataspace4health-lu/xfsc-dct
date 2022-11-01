@@ -24,7 +24,10 @@ export class DocumentLoaderService {
                         "@context": "https://w3id.org/security/v2",
                         "id": dcsSigntureKP.controller,
                         "assertionMethod": [
-                            dcsSigntureKP.id
+                            dcsSigntureKP.id,
+                        ],
+                        "authentication":[
+                            dcsSigntureKP.id,
                         ]
                     }
                 }
