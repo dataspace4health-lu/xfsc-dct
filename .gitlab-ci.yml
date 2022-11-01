@@ -19,6 +19,8 @@ build:
       --dockerfile $CI_PROJECT_DIR/Dockerfile
       --destination "${CI_REGISTRY}/gaia-x/data-infrastructure-federation-services/dct/dct:$CI_COMMIT_SHORT_SHA"
       --destination "${CI_REGISTRY}/gaia-x/data-infrastructure-federation-services/dct/dct:latest"
+      --cache=true
+      --cache-ttl=1h
     - echo CI_COMMIT_SHORT_SHA=$CI_COMMIT_SHORT_SHA >> build.env
   artifacts:
     reports:
