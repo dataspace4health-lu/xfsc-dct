@@ -7,7 +7,6 @@ plugins:
   - search
 nav:
   - Home: index.md
-  - Login: login.md
   - Data Asset Registration: register.md
   - Contract Validation: validate.md
   - Get Log Token: log-token.md
