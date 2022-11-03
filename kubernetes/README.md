@@ -42,5 +42,5 @@ kubectl apply -f mkdocs-ingress.yaml
 
 - more copies of the aplication can be added by running bellow command or change "replicas:" in del-deploy.yaml
 ```
-kubectl scale --replicas=3 deploy/del -n del
+kubectl scale --replicas=3 deploy/dct -n dct
 ```
