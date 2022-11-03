@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.allow-http: "false"
+  name: dct
+  namespace: dct
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: dct-dev3.gxfs.dev
+    http:
+      paths:
+      - backend:
+          service:
+            name: dct
+            port:
+              number: 3000
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - dct-dev3.gxfs.dev
+    secretName: wildcard-gxfs-dev
