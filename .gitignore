@@ -1,0 +1,23 @@
+dist
+node_modules
+.env
+client
+./logs
+logs/app.log
+client
+
+# IDE
+.idea
+.vscode
+
+# Mac Only
+.DS_Store
+
+#docker
+.config
+.npm
+
+
+.yalc
+yalc.lock
+yalc.sig

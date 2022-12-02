@@ -1,0 +1,311 @@
+{
+	"info": {
+		"_postman_id": "6a3d7e73-1796-48e3-bc56-7bf3741b8318",
+		"name": "DCT",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9031010"
+	},
+	"item": [
+		{
+			"name": "register-post",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": " application/ld+json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": " Bearer axcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvb",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"@context\": [\r\n        \"https://www.w3.org/2018/credentials/v1\",\r\n        {\r\n            \"@id\": \"https://gaia-dataasset.com/\",\r\n            \"@context\": {\r\n                \"@version\": 1.1,\r\n                \"id\": \"@id\",\r\n                \"type\": \"@type\",\r\n                \"credentialSubject\": {\r\n                    \"@id\": \"https://gaia-dataasset.com/credentialSubject\",\r\n                    \"@context\": {\r\n                        \"gax\": \"https://gaia-dataasset.com/\"\r\n                    }\r\n                }\r\n            }\r\n        }\r\n    ],\r\n    \"type\": \"VerifiablePresentation\",\r\n    \"verifiableCredential\": [\r\n       {\r\n        \"@context\": [\r\n            \"https://www.w3.org/2018/credentials/v1\",\r\n            {\r\n                \"@id\": \"https://gaia-dataasset.com/\",\r\n                \"@context\": {\r\n                    \"@version\": 1.1,\r\n                    \"id\": \"@id\",\r\n                    \"type\": \"@type\",\r\n                    \"credentialSubject\": {\r\n                        \"@id\": \"https://gaia-dataasset.com/credentialSubject\",\r\n                        \"@context\": {\r\n                            \"gax\": \"https://gaia-dataasset.com/\"\r\n                        }\r\n                    }\r\n                }\r\n            }\r\n        ],\r\n        \"type\": [\r\n            \"VerifiableCredential\"\r\n        ],\r\n        \"credentialSubject\": {\r\n            \"@id\": \"http://example.org/data-asset-1\",\r\n            \"@type\": \"gax:DataAsset\",\r\n            \"gax:title\": \"Example title\",\r\n            \"gax:description\": \"Example description\",\r\n            \"gax:keyword\": [\r\n                \"key\",\r\n                \"word\"\r\n            ],\r\n            \"gax:category\": [\r\n                \"example\"\r\n            ],\r\n            \"gax:publisher\": \"did:provider\",\r\n            \"gax:creator\": \"?creatorDID\",\r\n            \"gax:language\": \"http://id.loc.gov/vocabulary/iso639-1/en\",\r\n            \"gax:distribution\": {\r\n                \"gax:title\": \"Example distribution title\",\r\n                \"gax:description\": \"Example distribution description\",\r\n                \"gax:created\": \"2021-01-23T18:25:43.511Z\",\r\n                \"gax:modified\": \"2021-01-25T12:20:34.007Z\",\r\n                \"gax:mediaType\": \"text/csv\",\r\n                \"gax:byteSize\": \"100000\",\r\n                \"gax:accessURL\": \"www.example.com/data/example.csv\"\r\n            },\r\n            \"gax:created\": \"2021-01-23T12:21:23.876Z\",\r\n            \"gax:modified\": \"2021-01-24T14:45:03.517Z\",\r\n            \"gax:containsPersonalData\": false,\r\n            \"gax:sampleAvailable\": false,\r\n            \"gax:contractOffer\": {\r\n                \"@type\": \"gax-GX-DCS:contractOffer\",\r\n                \"gax:choiceOfLaw\": \"iso:Germany\",\r\n                \"gax:generalTerms\": \"Example text for the general terms\",\r\n                \"gax:confirmationRequired\": false,\r\n                \"gax:loggingMode\": \"gax:LoggingMandatory\",\r\n                \"gax:circulationDetails\": \"Example text for the circulation details\",\r\n                \"gax:permission\": {\r\n                    \"@type\": \"gax:Permission\",\r\n                    \"gax:assigner\": \"?providerDID\",\r\n                    \"gax:target\": \"?AssetURI\",\r\n                    \"gax:action\": \"gax:USE\",\r\n                    \"gax:negotiable\": false,\r\n                    \"gax:postDuty\": {\r\n                        \"@type\": \"gax:Duty\",\r\n                        \"gax:action\": {\r\n                            \"@id\": \"gax:LOG\"\r\n                        }\r\n                    }\r\n                }\r\n            }\r\n        },\r\n        \"issuanceDate\": \"2021-01-23T12:21:23.876Z\",\r\n        \"issuer\": \"did:provider:controller\",\r\n        \"proof\": {\r\n            \"type\": \"Ed25519Signature2018\",\r\n            \"created\": \"2022-08-16T18:44:24Z\",\r\n            \"verificationMethod\": \"did:provider:key:123\",\r\n            \"proofPurpose\": \"assertionMethod\",\r\n            \"jws\": \"eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..OK5LRGOFDxHETGEPXvFWqoCM540egHyAPnrBi6pskyRIwdA9ZUf-U6aYsMYJduTNk9w6u98M18XU4Tn5S7rmBg\"\r\n        }\r\n    }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/register",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "make/contract",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": " application/ld+json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": " Bearer axcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvb",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"@context\": [\r\n        \"https://www.w3.org/2018/credentials/v1\",\r\n        {\r\n            \"@id\": \"https://gaia-dataasset.com/\",\r\n            \"@context\": {\r\n                \"@version\": 1.1,\r\n                \"id\": \"@id\",\r\n                \"type\": \"@type\",\r\n                \"credentialSubject\": {\r\n                    \"@id\": \"https://gaia-dataasset.com/credentialSubject\",\r\n                    \"@context\": {\r\n                        \"gax\": \"https://gaia-dataasset.com/\"\r\n                    }\r\n                }\r\n            }\r\n        }\r\n    ],\r\n    \"type\": \"VerifiablePresentation\",\r\n    \"verifiableCredential\": [\r\n        {\r\n            \"@context\": [\r\n                \"https://www.w3.org/2018/credentials/v1\",\r\n                {\r\n                    \"@id\": \"https://gaia-dataasset.com/\",\r\n                    \"@context\": {\r\n                        \"@version\": 1.1,\r\n                        \"id\": \"@id\",\r\n                        \"type\": \"@type\",\r\n                        \"credentialSubject\": {\r\n                            \"@id\": \"https://gaia-dataasset.com/credentialSubject\",\r\n                            \"@context\": {\r\n                                \"gax\": \"https://gaia-dataasset.com/\"\r\n                            }\r\n                        }\r\n                    }\r\n                }\r\n            ],\r\n            \"type\": [\r\n                \"VerifiableCredential\"\r\n            ],\r\n            \"credentialSubject\": {\r\n                \"@id\": \"http://example.org/data-asset-1\",\r\n                \"@type\": \"gax:DataAsset\",\r\n                \"gax:title\": \"Example title\",\r\n                \"gax:description\": \"Example description\",\r\n                \"gax:keyword\": [\r\n                    \"key\",\r\n                    \"word\"\r\n                ],\r\n                \"gax:category\": [\r\n                    \"example\"\r\n                ],\r\n                \"gax:publisher\": \"did:provider\",\r\n                \"gax:creator\": \"?creatorDID\",\r\n                \"gax:language\": \"http://id.loc.gov/vocabulary/iso639-1/en\",\r\n                \"gax:distribution\": {\r\n                    \"gax:title\": \"Example distribution title\",\r\n                    \"gax:description\": \"Example distribution description\",\r\n                    \"gax:created\": \"2021-01-23T18:25:43.511Z\",\r\n                    \"gax:modified\": \"2021-01-25T12:20:34.007Z\",\r\n                    \"gax:mediaType\": \"text/csv\",\r\n                    \"gax:byteSize\": \"100000\",\r\n                    \"gax:accessURL\": \"www.example.com/data/example.csv\"\r\n                },\r\n                \"gax:created\": \"2021-01-23T12:21:23.876Z\",\r\n                \"gax:modified\": \"2021-01-24T14:45:03.517Z\",\r\n                \"gax:containsPersonalData\": false,\r\n                \"gax:sampleAvailable\": false,\r\n                \"gax:contractOffer\": {\r\n                    \"@type\": \"gax-GX-DCS:contractOffer\",\r\n                    \"gax:choiceOfLaw\": \"iso:Germany\",\r\n                    \"gax:generalTerms\": \"Example text for the general terms\",\r\n                    \"gax:confirmationRequired\": false,\r\n                    \"gax:loggingMode\": \"gax:LoggingMandatory\",\r\n                    \"gax:circulationDetails\": \"Example text for the circulation details\",\r\n                    \"gax:permission\": {\r\n                        \"@type\": \"gax:Permission\",\r\n                        \"gax:assigner\": \"?providerDID\",\r\n                        \"gax:target\": \"?AssetURI\",\r\n                        \"gax:action\": \"gax:USE\",\r\n                        \"gax:negotiable\": false,\r\n                        \"gax:postDuty\": {\r\n                            \"@type\": \"gax:Duty\",\r\n                            \"gax:action\": {\r\n                                \"@id\": \"gax:LOG\"\r\n                            }\r\n                        }\r\n                    }\r\n                },\r\n                \"gax:consumer\": \"did:consumer\"\r\n            },\r\n            \"issuanceDate\": \"2021-01-23T12:21:23.876Z\",\r\n            \"issuer\": \"did:consumer:controller\",\r\n            \"proof\": [\r\n                {\r\n                    \"type\": \"Ed25519Signature2018\",\r\n                    \"created\": \"2022-08-16T18:44:24Z\",\r\n                    \"verificationMethod\": \"did:provider:key:123\",\r\n                    \"proofPurpose\": \"assertionMethod\",\r\n                    \"jws\": \"eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..OK5LRGOFDxHETGEPXvFWqoCM540egHyAPnrBi6pskyRIwdA9ZUf-U6aYsMYJduTNk9w6u98M18XU4Tn5S7rmBg\"\r\n                },\r\n                {\r\n                    \"type\": \"Ed25519Signature2018\",\r\n                    \"created\": \"2022-08-18T10:41:35Z\",\r\n                    \"verificationMethod\": \"did:consumer:key:123\",\r\n                    \"proofPurpose\": \"assertionMethod\",\r\n                    \"jws\": \"eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..Z3TevpLn-1MEc4hIdvmocc4uSWL-Y0xNoXuc8Pqp2H3u2N8SRC1QDr7oKE1lCiILf5B_npG61H4zWmuVcX0GBw\"\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/make/contract",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"make",
+						"contract"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "negotiate",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": " application/ld+json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": " Bearer axcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvb",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"@context\": [\r\n        \"https://www.w3.org/2018/credentials/v1\",\r\n        {\r\n            \"@id\": \"https://gaia-dataasset.com/\",\r\n            \"@context\": {\r\n                \"@version\": 1.1,\r\n                \"id\": \"@id\",\r\n                \"type\": \"@type\",\r\n                \"credentialSubject\": {\r\n                    \"@id\": \"https://gaia-dataasset.com/credentialSubject\",\r\n                    \"@context\": {\r\n                        \"gax\": \"https://gaia-dataasset.com/\"\r\n                    }\r\n                }\r\n            }\r\n        }\r\n    ],\r\n    \"type\": \"VerifiablePresentation\",\r\n    \"verifiableCredential\": [\r\n        {\r\n            \"@context\": [\r\n                \"https://www.w3.org/2018/credentials/v1\",\r\n                {\r\n                    \"@id\": \"https://gaia-dataasset.com/\",\r\n                    \"@context\": {\r\n                        \"@version\": 1.1,\r\n                        \"id\": \"@id\",\r\n                        \"type\": \"@type\",\r\n                        \"credentialSubject\": {\r\n                            \"@id\": \"https://gaia-dataasset.com/credentialSubject\",\r\n                            \"@context\": {\r\n                                \"gax\": \"https://gaia-dataasset.com/\"\r\n                            }\r\n                        }\r\n                    }\r\n                }\r\n            ],\r\n            \"type\": [\r\n                \"VerifiableCredential\"\r\n            ],\r\n            \"credentialSubject\": {\r\n                \"@id\": \"http://example.org/data-asset-1\",\r\n                \"@type\": \"gax:DataAsset\",\r\n                \"gax:title\": \"Example title\",\r\n                \"gax:description\": \"Example description\",\r\n                \"gax:keyword\": [\r\n                    \"key\",\r\n                    \"word\"\r\n                ],\r\n                \"gax:category\": [\r\n                    \"example\"\r\n                ],\r\n                \"gax:publisher\": \"did:provider\",\r\n                \"gax:creator\": \"?creatorDID\",\r\n                \"gax:language\": \"http://id.loc.gov/vocabulary/iso639-1/en\",\r\n                \"gax:distribution\": {\r\n                    \"gax:title\": \"Example distribution title\",\r\n                    \"gax:description\": \"Example distribution description\",\r\n                    \"gax:created\": \"2021-01-23T18:25:43.511Z\",\r\n                    \"gax:modified\": \"2021-01-25T12:20:34.007Z\",\r\n                    \"gax:mediaType\": \"text/csv\",\r\n                    \"gax:byteSize\": \"100000\",\r\n                    \"gax:accessURL\": \"www.example.com/data/example.csv\"\r\n                },\r\n                \"gax:created\": \"2021-01-23T12:21:23.876Z\",\r\n                \"gax:modified\": \"2021-01-24T14:45:03.517Z\",\r\n                \"gax:containsPersonalData\": false,\r\n                \"gax:sampleAvailable\": false,\r\n                \"gax:contractOffer\": {\r\n                    \"@type\": \"gax-GX-DCS:contractOffer\",\r\n                    \"gax:choiceOfLaw\": \"iso:Germany\",\r\n                    \"gax:generalTerms\": \"Example text for the general terms\",\r\n                    \"gax:confirmationRequired\": true,\r\n                    \"gax:loggingMode\": \"gax:LoggingMandatory\",\r\n                    \"gax:circulationDetails\": \"Example text for the circulation details\",\r\n                    \"gax:permission\": {\r\n                        \"@type\": \"gax:Permission\",\r\n                        \"gax:assigner\": \"?providerDID\",\r\n                        \"gax:target\": \"?AssetURI\",\r\n                        \"gax:action\": \"gax:USE\",\r\n                        \"gax:negotiable\": true,\r\n                        \"gax:postDuty\": {\r\n                            \"@type\": \"gax:Duty\",\r\n                            \"gax:action\": {\r\n                                \"@id\": \"gax:LOG\"\r\n                            }\r\n                        }\r\n                    }\r\n                },\r\n                \"gax:consumer\": \"did:consumer\"\r\n            },\r\n            \"issuanceDate\": \"2021-01-23T12:21:23.876Z\",\r\n            \"issuer\": \"did:consumer:controller\",\r\n            \"proof\": [\r\n                {\r\n                    \"type\": \"Ed25519Signature2018\",\r\n                    \"created\": \"2022-08-18T12:08:01Z\",\r\n                    \"verificationMethod\": \"did:consumer:key:123\",\r\n                    \"proofPurpose\": \"assertionMethod\",\r\n                    \"jws\": \"eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..DoLrISDflookLjocrvWuHcK4MWfLLlJF7pde6g9QGe5nPsGAwuXXvisRqUx2bvPt-uvkF1CNm8iQxqnH3mCvBA\"\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/negotiate",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"negotiate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "finalize",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": " application/ld+json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": " Bearer axcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvb",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"@context\": [\r\n        \"https://www.w3.org/2018/credentials/v1\"\r\n    ],\r\n    \"type\": [\r\n        \"VerifiablePresentation\"\r\n    ],\r\n    \"verifiableCredential\": [\r\n        {\r\n            \"@context\": [\r\n                \"https://www.w3.org/2018/credentials/v1\",\r\n                {\r\n                    \"@id\": \"https://gaia-dataasset.com/\",\r\n                    \"@context\": {\r\n                        \"@version\": 1.1,\r\n                        \"id\": \"@id\",\r\n                        \"type\": \"@type\",\r\n                        \"credentialSubject\": {\r\n                            \"@id\": \"https://gaia-dataasset.com/credentialSubject\",\r\n                            \"@context\": {\r\n                                \"gax\": \"https://gaia-dataasset.com/\"\r\n                            }\r\n                        }\r\n                    }\r\n                }\r\n            ],\r\n            \"type\": [\r\n                \"VerifiableCredential\"\r\n            ],\r\n            \"credentialSubject\": {\r\n                \"@id\": \"http://example.org/data-asset-1\",\r\n                \"@type\": \"gax:DataAsset\",\r\n                \"gax:title\": \"Example title\",\r\n                \"gax:description\": \"Example description\",\r\n                \"gax:keyword\": [\r\n                    \"key\",\r\n                    \"word\"\r\n                ],\r\n                \"gax:category\": [\r\n                    \"example\"\r\n                ],\r\n                \"gax:publisher\": \"did:provider\",\r\n                \"gax:creator\": \"?creatorDID\",\r\n                \"gax:language\": \"http://id.loc.gov/vocabulary/iso639-1/en\",\r\n                \"gax:distribution\": {\r\n                    \"gax:title\": \"Example distribution title\",\r\n                    \"gax:description\": \"Example distribution description\",\r\n                    \"gax:created\": \"2021-01-23T18:25:43.511Z\",\r\n                    \"gax:modified\": \"2021-01-25T12:20:34.007Z\",\r\n                    \"gax:mediaType\": \"text/csv\",\r\n                    \"gax:byteSize\": \"100000\",\r\n                    \"gax:accessURL\": \"www.example.com/data/example.csv\",\r\n                    \"gax:hasLegallyBindingAddress\": \"www.example.com/fc/transfer-contract-offers?hasLegallyBindingAddress=something\"\r\n                },\r\n                \"gax:created\": \"2021-01-23T12:21:23.876Z\",\r\n                \"gax:modified\": \"2021-01-24T14:45:03.517Z\",\r\n                \"gax:containsPersonalData\": false,\r\n                \"gax:sampleAvailable\": false,\r\n                \"gax:contractOffer\": {\r\n                    \"@type\": \"gax-GX-DCS:contractOffer\",\r\n                    \"gax:choiceOfLaw\": \"iso:Germany\",\r\n                    \"gax:generalTerms\": \"General terms\",\r\n                    \"gax:confirmationRequired\": true,\r\n                    \"gax:loggingMode\": \"gax:LoggingMandatory\",\r\n                    \"gax:circulationDetails\": \"Example text for the circulation details\",\r\n                    \"gax:permission\": [\r\n                        {\r\n                            \"@type\": \"gax:Permission\",\r\n                            \"gax:assigner\": \"?providerDID\",\r\n                            \"gax:target\": \"?AssetURI\",\r\n                            \"gax:action\": \"gax:USE\",\r\n                            \"gax:negotiable\": true,\r\n                            \"gax:postDuty\": {\r\n                                \"@type\": \"gax:Duty\",\r\n                                \"gax:action\": {\r\n                                    \"@id\": \"gax:LOG\"\r\n                                }\r\n                            }\r\n                        }\r\n                    ]\r\n                },\r\n                \"gax:consumer\": \"did:consumer\"\r\n            },\r\n            \"issuanceDate\": \"2021-01-23T12:21:23.876Z\",\r\n            \"issuer\": \"did:consumer:controller\",\r\n            \"proof\": [\r\n                {\r\n                    \"type\": \"Ed25519Signature2018\",\r\n                    \"created\": \"2022-08-18T12:21:27Z\",\r\n                    \"verificationMethod\": \"did:provider:key:123\",\r\n                    \"proofPurpose\": \"assertionMethod\",\r\n                    \"jws\": \"eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..OkFFKeG-5-2DFpjyQcXfRN7F1B-Fz1B79PVJEiKI6Yj4-TuYCdvYCUKQwqlP_qcfsKrVvO9lOkBSsL8JKUDBCA\"\r\n                },\r\n                {\r\n                    \"type\": \"Ed25519Signature2018\",\r\n                    \"created\": \"2022-08-18T12:21:27Z\",\r\n                    \"verificationMethod\": \"did:consumer:key:123\",\r\n                    \"proofPurpose\": \"assertionMethod\",\r\n                    \"jws\": \"eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..8DQsBqiQDtGI6_77WLqTiEwmW73hA5-Rd57pm959nokHDF1nujEATcYkR8n4oL3QfzZWcyWw0LxDFyCLGmqhAQ\"\r\n                }\r\n            ]\r\n        }\r\n    ],\r\n    \"proof\": {\r\n        \"type\": \"Ed25519Signature2018\",\r\n        \"created\": \"2022-11-01T11:25:04Z\",\r\n        \"verificationMethod\": \"did:dcs:key:123\",\r\n        \"proofPurpose\": \"authentication\",\r\n        \"challenge\": \"4a995a3a-d710-4252-9b5f-99c450c195e0\",\r\n        \"jws\": \"eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..Hkw9pwVdg3FNk0J4yUUQ0MDrpA-vPcG9THN6Wly9vGjGyOr9z3VnWp4P2kRY5G_bhEr-DcfT8arLXOzysv6bCw\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/finalize",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"finalize"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "validate",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": " application/ld+json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": " Bearer axcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvb",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"@context\": [\r\n        \"https://www.w3.org/2018/credentials/v1\"\r\n    ],\r\n    \"type\": [\r\n        \"VerifiablePresentation\"\r\n    ],\r\n    \"verifiableCredential\": [\r\n        {\r\n            \"@context\": [\r\n                \"https://www.w3.org/2018/credentials/v1\",\r\n                {\r\n                    \"@id\": \"https://gaia-dataasset.com/\",\r\n                    \"@context\": {\r\n                        \"@version\": 1.1,\r\n                        \"id\": \"@id\",\r\n                        \"type\": \"@type\",\r\n                        \"credentialSubject\": {\r\n                            \"@id\": \"https://gaia-dataasset.com/credentialSubject\",\r\n                            \"@context\": {\r\n                                \"gax\": \"https://gaia-dataasset.com/\"\r\n                            }\r\n                        }\r\n                    }\r\n                }\r\n            ],\r\n            \"type\": [\r\n                \"VerifiableCredential\"\r\n            ],\r\n            \"credentialSubject\": {\r\n                \"@id\": \"http://example.org/data-asset-1\",\r\n                \"@type\": \"gax:DataAsset\",\r\n                \"gax:title\": \"Example title\",\r\n                \"gax:description\": \"Example description\",\r\n                \"gax:keyword\": [\r\n                    \"key\",\r\n                    \"word\"\r\n                ],\r\n                \"gax:category\": [\r\n                    \"example\"\r\n                ],\r\n                \"gax:publisher\": \"did:provider\",\r\n                \"gax:creator\": \"?creatorDID\",\r\n                \"gax:language\": \"http://id.loc.gov/vocabulary/iso639-1/en\",\r\n                \"gax:distribution\": {\r\n                    \"gax:title\": \"Example distribution title\",\r\n                    \"gax:description\": \"Example distribution description\",\r\n                    \"gax:created\": \"2021-01-23T18:25:43.511Z\",\r\n                    \"gax:modified\": \"2021-01-25T12:20:34.007Z\",\r\n                    \"gax:mediaType\": \"text/csv\",\r\n                    \"gax:byteSize\": \"100000\",\r\n                    \"gax:accessURL\": \"www.example.com/data/example.csv\"\r\n                },\r\n                \"gax:created\": \"2021-01-23T12:21:23.876Z\",\r\n                \"gax:modified\": \"2021-01-24T14:45:03.517Z\",\r\n                \"gax:containsPersonalData\": false,\r\n                \"gax:sampleAvailable\": false,\r\n                \"gax:contractOffer\": {\r\n                    \"@type\": \"gax-GX-DCS:contractOffer\",\r\n                    \"gax:choiceOfLaw\": \"iso:Germany\",\r\n                    \"gax:generalTerms\": \"Example text for the general terms\",\r\n                    \"gax:confirmationRequired\": false,\r\n                    \"gax:loggingMode\": \"gax:LoggingMandatory\",\r\n                    \"gax:circulationDetails\": \"Example text for the circulation details\",\r\n                    \"gax:permission\": [\r\n                        {\r\n                            \"@type\": \"gax:Permission\",\r\n                            \"gax:assigner\": \"?providerDID\",\r\n                            \"gax:target\": \"?AssetURI\",\r\n                            \"gax:action\": \"gax:USE\",\r\n                            \"gax:negotiable\": false,\r\n                            \"gax:postDuty\": {\r\n                                \"@type\": \"gax:Duty\",\r\n                                \"gax:action\": {\r\n                                    \"@id\": \"gax:LOG\"\r\n                                }\r\n                            }\r\n                        }\r\n                    ]\r\n                },\r\n                \"gax:consumer\": \"did:consumer\"\r\n            },\r\n            \"issuanceDate\": \"2021-01-23T12:21:23.876Z\",\r\n            \"issuer\": \"did:consumer:controller\",\r\n            \"proof\": [\r\n                {\r\n                    \"type\": \"Ed25519Signature2018\",\r\n                    \"created\": \"2022-08-16T18:44:24Z\",\r\n                    \"verificationMethod\": \"did:provider:key:123\",\r\n                    \"proofPurpose\": \"assertionMethod\",\r\n                    \"jws\": \"eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..OK5LRGOFDxHETGEPXvFWqoCM540egHyAPnrBi6pskyRIwdA9ZUf-U6aYsMYJduTNk9w6u98M18XU4Tn5S7rmBg\"\r\n                },\r\n                {\r\n                    \"type\": \"Ed25519Signature2018\",\r\n                    \"created\": \"2022-08-18T10:41:35Z\",\r\n                    \"verificationMethod\": \"did:consumer:key:123\",\r\n                    \"proofPurpose\": \"assertionMethod\",\r\n                    \"jws\": \"eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..Z3TevpLn-1MEc4hIdvmocc4uSWL-Y0xNoXuc8Pqp2H3u2N8SRC1QDr7oKE1lCiILf5B_npG61H4zWmuVcX0GBw\"\r\n                }\r\n            ]\r\n        }\r\n    ],\r\n    \"proof\": {\r\n        \"type\": \"Ed25519Signature2018\",\r\n        \"created\": \"2022-11-01T12:56:09Z\",\r\n        \"verificationMethod\": \"did:dcs:key:123\",\r\n        \"proofPurpose\": \"authentication\",\r\n        \"challenge\": \"80184e12-35c8-433b-b584-23bf5d0274c8\",\r\n        \"jws\": \"eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..UVBzfEACsVNhOtym0bbwNeSzrwTH59kpwPYWX91G85a7brKp7eljCNFXMprkOopoKWx_dax9DEsnwMpiCjvkBA\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/validate",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"validate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "log/token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": " application/ld+json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": " Bearer axcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvb",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"@context\": [\r\n        \"https://www.w3.org/2018/credentials/v1\"\r\n    ],\r\n    \"type\": [\r\n        \"VerifiablePresentation\"\r\n    ],\r\n    \"verifiableCredential\": [\r\n        {\r\n            \"@context\": [\r\n                \"https://www.w3.org/2018/credentials/v1\",\r\n                {\r\n                    \"@id\": \"https://gaia-dataasset.com/\",\r\n                    \"@context\": {\r\n                        \"@version\": 1.1,\r\n                        \"id\": \"@id\",\r\n                        \"type\": \"@type\",\r\n                        \"credentialSubject\": {\r\n                            \"@id\": \"https://gaia-dataasset.com/credentialSubject\",\r\n                            \"@context\": {\r\n                                \"gax\": \"https://gaia-dataasset.com/\"\r\n                            }\r\n                        }\r\n                    }\r\n                }\r\n            ],\r\n            \"type\": [\r\n                \"VerifiableCredential\"\r\n            ],\r\n            \"credentialSubject\": {\r\n                \"@id\": \"http://example.org/data-asset-1\",\r\n                \"@type\": \"gax:DataAsset\",\r\n                \"gax:title\": \"Example title\",\r\n                \"gax:description\": \"Example description\",\r\n                \"gax:keyword\": [\r\n                    \"key\",\r\n                    \"word\"\r\n                ],\r\n                \"gax:category\": [\r\n                    \"example\"\r\n                ],\r\n                \"gax:publisher\": \"did:provider\",\r\n                \"gax:creator\": \"?creatorDID\",\r\n                \"gax:language\": \"http://id.loc.gov/vocabulary/iso639-1/en\",\r\n                \"gax:distribution\": {\r\n                    \"gax:title\": \"Example distribution title\",\r\n                    \"gax:description\": \"Example distribution description\",\r\n                    \"gax:created\": \"2021-01-23T18:25:43.511Z\",\r\n                    \"gax:modified\": \"2021-01-25T12:20:34.007Z\",\r\n                    \"gax:mediaType\": \"text/csv\",\r\n                    \"gax:byteSize\": \"100000\",\r\n                    \"gax:accessURL\": \"www.example.com/data/example.csv\",\r\n                    \"gax:hasLegallyBindingAddress\": \"www.example.com/fc/transfer-contract-offers?hasLegallyBindingAddress=something\"\r\n                },\r\n                \"gax:created\": \"2021-01-23T12:21:23.876Z\",\r\n                \"gax:modified\": \"2021-01-24T14:45:03.517Z\",\r\n                \"gax:containsPersonalData\": false,\r\n                \"gax:sampleAvailable\": false,\r\n                \"gax:contractOffer\": {\r\n                    \"@type\": \"gax-GX-DCS:contractOffer\",\r\n                    \"gax:choiceOfLaw\": \"iso:Germany\",\r\n                    \"gax:generalTerms\": \"General terms\",\r\n                    \"gax:confirmationRequired\": true,\r\n                    \"gax:loggingMode\": \"gax:LoggingMandatory\",\r\n                    \"gax:circulationDetails\": \"Example text for the circulation details\",\r\n                    \"gax:permission\": [\r\n                        {\r\n                            \"@type\": \"gax:Permission\",\r\n                            \"gax:assigner\": \"?providerDID\",\r\n                            \"gax:target\": \"?AssetURI\",\r\n                            \"gax:action\": \"gax:USE\",\r\n                            \"gax:negotiable\": true,\r\n                            \"gax:postDuty\": {\r\n                                \"@type\": \"gax:Duty\",\r\n                                \"gax:action\": {\r\n                                    \"@id\": \"gax:LOG\"\r\n                                }\r\n                            }\r\n                        }\r\n                    ]\r\n                },\r\n                \"gax:consumer\": \"did:consumer\"\r\n            },\r\n            \"issuanceDate\": \"2021-01-23T12:21:23.876Z\",\r\n            \"issuer\": \"did:consumer:controller\",\r\n            \"proof\": [\r\n                {\r\n                    \"type\": \"Ed25519Signature2018\",\r\n                    \"created\": \"2022-08-18T12:21:27Z\",\r\n                    \"verificationMethod\": \"did:provider:key:123\",\r\n                    \"proofPurpose\": \"assertionMethod\",\r\n                    \"jws\": \"eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..OkFFKeG-5-2DFpjyQcXfRN7F1B-Fz1B79PVJEiKI6Yj4-TuYCdvYCUKQwqlP_qcfsKrVvO9lOkBSsL8JKUDBCA\"\r\n                },\r\n                {\r\n                    \"type\": \"Ed25519Signature2018\",\r\n                    \"created\": \"2022-08-18T12:21:27Z\",\r\n                    \"verificationMethod\": \"did:consumer:key:123\",\r\n                    \"proofPurpose\": \"assertionMethod\",\r\n                    \"jws\": \"eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..8DQsBqiQDtGI6_77WLqTiEwmW73hA5-Rd57pm959nokHDF1nujEATcYkR8n4oL3QfzZWcyWw0LxDFyCLGmqhAQ\"\r\n                }\r\n            ]\r\n            \r\n        }\r\n    ],\r\n    \"proof\": {\r\n        \"type\": \"Ed25519Signature2018\",\r\n        \"created\": \"2022-11-01T12:52:39Z\",\r\n        \"verificationMethod\": \"did:dcs:key:123\",\r\n        \"proofPurpose\": \"authentication\",\r\n        \"challenge\": \"978aebef-f0f0-4ce4-9ae0-57c2065516a0\",\r\n        \"jws\": \"eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..vGbtrYnlmDZT15xxY5G5wYG-l5iJYRRrizOz0ipd_HQavfIzxTdoJ4Mcb71havdyjjs8HDHsA1g-DMN4yzbbCg\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/log/token",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"log",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "contracts/inbox-discovery",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": " application/ld+json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": " Bearer axcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvbxcvb",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/contracts/inbox-discovery",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"contracts",
+						"inbox-discovery"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "health",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/health",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "http://localhost:3000",
+			"type": "string",
+			"disabled": true
+		}
+	]
+}

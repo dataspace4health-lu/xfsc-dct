@@ -1,0 +1,16 @@
+site_name: DCS
+site_url: http://localhost
+docs_dir: /docs
+theme:
+  name: readthedocs
+plugins:
+  - search
+nav:
+  - Home: index.md
+  - Data Asset Registration: register.md
+  - Contract Validation: validate.md
+  - Get Log Token: log-token.md
+  - Make Contract: make-contract.md
+  - Contract Negotiation: contract-negotiation.md
+  - Finalization of a Contract: contract-finalize.md
+  - DELS inbox discovery: contracts-inbox.md

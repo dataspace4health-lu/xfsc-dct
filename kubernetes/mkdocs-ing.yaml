@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.allow-http: "false"
+    nginx.ingress.kubernetes.io/app-root: /dct/sites/
+  name: mkdocs
+  namespace: dct
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: docs-dev3.gxfs.dev
+    http:
+      paths:
+      - backend:
+          service:
+            name: mkdocs
+            port:
+              number: 8000
+        path: /dct
+        pathType: Prefix
+  tls:
+  - hosts:
+    - docs-dev3.gxfs.dev
+    secretName: wildcard-gxfs-dev

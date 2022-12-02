@@ -1,0 +1,168 @@
+{
+  "https://trust-service.com": {
+    "/get-participant?did=did:provider": {
+      "onGet": {
+        "status": 200,
+        "response": {
+          "exists": true,
+          "isRevoked": false
+        }
+      }
+    },
+    "/get-participant?did=did:consumer": {
+      "onGet": {
+        "status": 200,
+        "response": {
+          "exists": true,
+          "isRevoked": false
+        }
+      }
+    },
+    "/get-key?did=did:provider:key:123": {
+      "onGet": {
+        "status": 200,
+        "response": {
+          "id": "did:provider:key:123",
+          "type": "Ed25519VerificationKey2018",
+          "controller": "did:provider:controller",
+          "publicKeyBase58": "Hera6o42v5TtK5pAXVJyCF1yGFnrPedPLGL3YuQUALmp"
+        }
+      }
+    },
+    "/get-key?did=did:consumer:key:123": {
+      "onGet": {
+        "status": 200,
+        "response": {
+          "id": "did:consumer:key:123",
+          "type": "Ed25519VerificationKey2018",
+          "controller": "did:consumer:controller",
+          "publicKeyBase58": "DKtCMG25dPChEPSWkStZqRXLgUo1j4JSeB8rJyLPDzwn"
+        }
+      }
+    },
+    "/health-check": {
+      "onGet": {
+        "status": 200,
+        "response": {
+          "status": "ok",
+          "info": {
+            "database": {
+              "status": "up"
+            },
+            "storage": {
+              "status": "up"
+            },
+            "memory_heap": {
+              "status": "up"
+            }
+          },
+          "error": {},
+          "details": {
+            "database": {
+              "status": "up"
+            },
+            "storage": {
+              "status": "up"
+            },
+            "memory_heap": {
+              "status": "up"
+            }
+          }
+        }
+      }
+    }
+  },
+  "https://federated-catalog.com": {
+    "/get-data-asset?id=http://example.org/data-asset-1": {
+      "onGet": {
+        "status": 200,
+        "response": {
+          "@id": "http://example.org/data-asset-1",
+          "@type": "gax:DataAsset",
+          "gax:title": "Example title",
+          "gax:description": "Example description",
+          "gax:keyword": ["key", "word"],
+          "gax:category": ["example"],
+          "gax:publisher": "did:provider",
+          "gax:creator": "?creatorDID",
+          "gax:language": "http://id.loc.gov/vocabulary/iso639-1/en",
+          "gax:distribution": {
+            "gax:title": "Example distribution title",
+            "gax:description": "Example distribution description",
+            "gax:created": "2021-01-23T18:25:43.511Z",
+            "gax:modified": "2021-01-25T12:20:34.007Z",
+            "gax:mediaType": "text/csv",
+            "gax:byteSize": "100000",
+            "gax:accessURL": "www.example.com/data/example.csv"
+          },
+          "gax:created": "2021-01-23T12:21:23.876Z",
+          "gax:modified": "2021-01-24T14:45:03.517Z",
+          "gax:containsPersonalData": false,
+          "gax:sampleAvailable": false,
+          "gax:contractOffer": {
+            "@type": "gax-GX-DCS:contractOffer",
+            "gax:choiceOfLaw": "iso:Germany",
+            "gax:generalTerms": "Example text for the general terms",
+            "gax:confirmationRequired": false,
+            "gax:loggingMode": "gax:LoggingMandatory",
+            "gax:circulationDetails": "Example text for the circulation details",
+            "gax:permission": {
+              "@type": "gax:Permission",
+              "gax:assigner": "?providerDID",
+              "gax:target": "?AssetURI",
+              "gax:action": "gax:USE",
+              "gax:negotiable": false,
+              "gax:postDuty": {
+                "@type": "gax:Duty",
+                "gax:action": {
+                  "@id": "gax:LOG"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get-data-asset?id=not-valid-data-asset": {
+      "onGet": {
+        "status": 200,
+        "response": {
+          "example": {
+            "key": "value"
+          }
+        }
+      }
+    },
+    "/health-check": {
+      "onGet": {
+        "status": 200,
+        "response": {
+          "status": "ok",
+          "info": {
+            "database": {
+              "status": "up"
+            },
+            "storage": {
+              "status": "up"
+            },
+            "memory_heap": {
+              "status": "up"
+            }
+          },
+          "error": {},
+          "details": {
+            "database": {
+              "status": "up"
+            },
+            "storage": {
+              "status": "up"
+            },
+            "memory_heap": {
+              "status": "up"
+            }
+          }
+        }
+      }
+    }
+  }
+}
