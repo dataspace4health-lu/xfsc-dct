@@ -1,27 +1,23 @@
+spec:
+  inputs:
+    docker_args:
+      default: ""
+---
+
+include:
+  - project: 'eclipsefdn/it/releng/gitlab-runner-service/gitlab-ci-templates'
+    file: '/jobs/buildkit.gitlab-ci.yml'
+
 stages:
   - build
 
-build:
-  image:
-    name: gcr.io/kaniko-project/executor:debug
-    entrypoint: [""]
-  tags:
-    - dct-runner
+docker-build:
+  extends: .buildkit
   stage: build
-  when: manual
-  before_script: []
-  script:
-    - mkdir -p /kaniko/.docker
-    - echo "{\"auths\":{\"${CI_REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${CI_REGISTRY_USER}" "${CI_REGISTRY_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
-    - >-
-      /kaniko/executor
-      --context $CI_PROJECT_DIR
-      --dockerfile $CI_PROJECT_DIR/Dockerfile
-      --destination "${CI_REGISTRY}/gaia-x/data-infrastructure-federation-services/dct/dct:$CI_COMMIT_SHORT_SHA"
-      --destination "${CI_REGISTRY}/gaia-x/data-infrastructure-federation-services/dct/dct:latest"
-      --cache=true
-      --cache-ttl=1h
-    - echo CI_COMMIT_SHORT_SHA=$CI_COMMIT_SHORT_SHA >> build.env
-  artifacts:
-    reports:
-      dotenv: build.env
+  variables:
+    CI_REGISTRY: ${HARBOR_HOST}
+    CI_REGISTRY_USER: ${HARBOR_USERNAME}
+    CI_REGISTRY_PASSWORD: ${HARBOR_PASSWORD}
+    CI_REGISTRY_IMAGE: ${HARBOR_HOST}/${HARBOR_PROJECT}/${CI_PROJECT_NAME}
+    DOCKERFILE_NAME: Dockerfile
+    BUILD_ARG: $[[ inputs.docker_args ]]
