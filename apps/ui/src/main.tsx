@@ -13,7 +13,7 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <BrowserRouter basename='/ui'>
+        <BrowserRouter basename={process.env.REACT_APP_ENDPOINT || ''}>
           <App />
         </BrowserRouter>
       </PersistGate>

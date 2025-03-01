@@ -3,8 +3,8 @@ import { LoggerType } from '../global/logs/logger.provider';
 
 export default Joi.object({
     NODE_ENV: Joi.string().valid('development', 'production').default('production'),
-    NODE_PORT: Joi.number(),
-    NODE_BASE_PATH: Joi.string(),
+    NX_API_PORT: Joi.number(),
+    NX_API_BASEPATH: Joi.string(),
 
     SERVER_THROTLLER_TTL: Joi.number().integer().min(1).max(300).default(60),
     SERVER_THROTLLER_LIMIT: Joi.number().integer().min(1).default(10),
