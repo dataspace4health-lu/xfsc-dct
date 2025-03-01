@@ -2,6 +2,8 @@ import { registerAs } from '@nestjs/config';
 
 const loader = () => ({
     isDevelopment: Boolean(process.env.NODE_ENV === 'development'),
+    port: parseInt(process.env.NODE_PORT) || 3000,
+    basePath: process.env.NODE_BASE_PATH || '',
 
     cache: {
         store: process.env.CACHE_TYPE,
