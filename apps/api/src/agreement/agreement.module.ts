@@ -25,7 +25,6 @@ import { UtilsService } from './services/utils.service';
 import { LogTokenController } from './controllers/log-token.controller';
 import { UtilsController } from './controllers/utils.controller';
 
-
 @Module({
   imports: [
     BullModule.registerQueue({ name: '{processSds}' }),

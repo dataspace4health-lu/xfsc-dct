@@ -45,5 +45,12 @@ export default Joi.object({
     DELS_ID:Joi.string().optional(),
     DELS_INBOX: Joi.string().uri(),
     DELS_LINK: Joi.string().uri(),
-    DELS_REL: Joi.string().uri()
+    DELS_REL: Joi.string().uri(),
+
+    OIDC_ISSUER: Joi.string().uri().required(),
+    OIDC_CLIENT_ID: Joi.string(),
+    OIDC_CLIENT_SECRET: Joi.string(),
+    OIDC_LOGIN_SCOPE: Joi.string().default('openid profile'),
+    OIDC_REDIRECT_URI: Joi.string().uri(),
+    OIDC_POST_LOGOUT_REDIRECT_URI: Joi.string().uri(),
 });

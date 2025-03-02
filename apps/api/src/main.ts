@@ -5,6 +5,7 @@ import { AppModule } from './app.module';
 import { LoggerProvider } from './global/logs/logger.provider';
 import { JSONLDValidationPipe } from './global/pipes/json-ld.validation-pipe';
 import { ConfigService } from '@nestjs/config';
+import * as passport from 'passport';
 
 function initSwagger(app: INestApplication) {
   const config = new DocumentBuilder()
@@ -33,6 +34,10 @@ async function bootstrap() {
   app.useGlobalPipes(new JSONLDValidationPipe({ transform: true }));
   app.enableCors();
   initSwagger(app);
+
+  app.use(passport.initialize());
+  //app.use(passport.session());
+
   await app.listen(port);
 }
 
