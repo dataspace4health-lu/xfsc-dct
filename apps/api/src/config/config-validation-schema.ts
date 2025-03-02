@@ -47,10 +47,10 @@ export default Joi.object({
     DELS_LINK: Joi.string().uri(),
     DELS_REL: Joi.string().uri(),
 
-    OIDC_ISSUER: Joi.string().uri().required(),
-    OIDC_CLIENT_ID: Joi.string(),
-    OIDC_CLIENT_SECRET: Joi.string(),
-    OIDC_LOGIN_SCOPE: Joi.string().default('openid profile'),
-    OIDC_REDIRECT_URI: Joi.string().uri(),
-    OIDC_POST_LOGOUT_REDIRECT_URI: Joi.string().uri(),
+    NX_OIDC_ISSUER: Joi.string().uri().required(),
+    NX_OIDC_CLIENT_ID: Joi.string(),
+    NX_OIDC_CLIENT_SECRET: Joi.string(),
+    NX_OIDC_LOGIN_SCOPE: Joi.string().default('openid profile'),
+    NX_OIDC_REDIRECT_URI: Joi.string().uri(),
+    NX_OIDC_POST_LOGOUT_REDIRECT_URI: Joi.string().uri(),
 });

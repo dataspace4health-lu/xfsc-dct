@@ -4,7 +4,6 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, Client, UserinfoResponse, TokenSet, Issuer } from 'openid-client';
 import { OidcService } from './oidc.service';
 import { ConfigType } from '../config/config.module';
-import { verify } from 'crypto';
 
 export const buildOpenIdClient = async (configService: ConfigService<ConfigType>) => {
   const { issuer, clientId, clientSecret } = configService.get('oidc', { infer: true });

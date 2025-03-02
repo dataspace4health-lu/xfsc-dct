@@ -46,7 +46,7 @@ const dctQuery: BaseQueryFn<
 };
 
 export const dctApiSlice = createApi({
-  reducerPath: 'dct/api',
+  reducerPath: process.env.NX_API_BASEPATH, // before 'dct/api'
   baseQuery: dctQuery,
   endpoints: (builder) => ({
     login: builder.mutation<AuthToken, { username: string; password: string }>({
