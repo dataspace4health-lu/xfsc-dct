@@ -7,7 +7,6 @@ import { ConfigType } from '../config/config.module';
 import { verify } from 'crypto';
 
 export const buildOpenIdClient = async (configService: ConfigService<ConfigType>) => {
-  console.log("ANTONIO OidcStrategy buildOpenIdClient");
   const { issuer, clientId, clientSecret } = configService.get('oidc', { infer: true });
   
   const TrustIssuer = await Issuer.discover(`${issuer}/.well-known/openid-configuration`);
