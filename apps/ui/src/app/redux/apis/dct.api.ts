@@ -6,7 +6,7 @@ import { setAuthToken } from '../slices/auth.slice';
 import { QueryReturnValue } from '@reduxjs/toolkit/dist/query/baseQueryTypes';
 
 const dctBaseQuery = fetchBaseQuery({
-  baseUrl: process.env.NX_API_ENDPOINT,
+  baseUrl: process.env.NX_API_BASEPATH,
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
     if (token) {
