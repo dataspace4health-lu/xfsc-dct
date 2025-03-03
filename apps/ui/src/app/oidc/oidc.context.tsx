@@ -1,11 +1,13 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { UserManager, User } from 'oidc-client-ts';
 import { oidcSettings } from './oidc.config';
+import { useDispatch } from 'react-redux';
+import { setAuthToken } from '../redux/slices/auth.slice';
 
 interface OidcContextType {
   user: User | null;
-  login: () => void;
-  logout: () => void;
+  login: () => Promise<void>;
+  logout: () => Promise<void>;
 }
 
 const OidcContext = createContext<OidcContextType | undefined>(undefined);
@@ -13,10 +15,17 @@ const OidcContext = createContext<OidcContextType | undefined>(undefined);
 export const OidcProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const userManager = new UserManager(oidcSettings);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    userManager.getUser().then(setUser);
-  }, []);
+    if (!user) 
+      userManager.getUser()
+        .then(user => {
+          dispatch(setAuthToken({accessToken: user?.access_token || '', expiresAt: user?.expires_at || 0}));
+          return user;
+        })
+        .then(setUser);
+  }, [user]);
 
   const login = () => userManager.signinRedirect();
   const logout = () => userManager.signoutRedirect();
