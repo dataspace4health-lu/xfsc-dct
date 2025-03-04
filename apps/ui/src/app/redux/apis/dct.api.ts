@@ -6,7 +6,7 @@ import { setAuthToken } from '../slices/auth.slice';
 import { QueryReturnValue } from '@reduxjs/toolkit/dist/query/baseQueryTypes';
 
 const dctBaseQuery = fetchBaseQuery({
-  baseUrl: process.env.NX_API_ENDPOINT,
+  baseUrl: window.location.protocol + '//' + window.location.hostname + (process.env.NX_API_PORT ? (':' + process.env.NX_API_PORT) : ''),
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
     if (token) {
@@ -46,19 +46,19 @@ const dctQuery: BaseQueryFn<
 };
 
 export const dctApiSlice = createApi({
-  reducerPath: 'dct/api',
+  reducerPath: process.env.NX_API_BASEPATH, // before 'dct/api'
   baseQuery: dctQuery,
   endpoints: (builder) => ({
     login: builder.mutation<AuthToken, { username: string; password: string }>({
       query: (credentials) => ({
-        url: '/auth/login',
+        url: (process.env.NX_API_BASEPATH || '') + '/auth/login',
         method: 'POST',
         body: JSON.stringify(credentials),
       }),
     }),
     register: builder.mutation<any, any>({
       query: contract => ({
-        url: '/register',
+        url: (process.env.NX_API_BASEPATH || '') + '/register',
         method: 'POST',
         body: JSON.stringify(contract),
         headers: {

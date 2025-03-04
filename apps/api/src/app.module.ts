@@ -17,8 +17,8 @@ import { AgreementModule } from './agreement/agreement.module';
 import { AppConfigModule, ConfigType } from './config/config.module';
 import { GlobalModule } from './global/global.module';
 import { JsonBodyParserMiddleware } from './global/middlewares/json.parser.middleware';
-import { HealthController } from './health/health.controller';
 import { HealthModule } from './health/health.module';
+import { OidcModule } from './oidc/oidc.module';
 
 @Module({
   imports: [
@@ -62,6 +62,7 @@ import { HealthModule } from './health/health.module';
     AgreementModule,
     TerminusModule,
     HealthModule,
+    OidcModule
   ],
   providers: [
     {

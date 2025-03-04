@@ -3,6 +3,8 @@ import { LoggerType } from '../global/logs/logger.provider';
 
 export default Joi.object({
     NODE_ENV: Joi.string().valid('development', 'production').default('production'),
+    NX_API_PORT: Joi.number(),
+    NX_API_BASEPATH: Joi.string(),
 
     SERVER_THROTLLER_TTL: Joi.number().integer().min(1).max(300).default(60),
     SERVER_THROTLLER_LIMIT: Joi.number().integer().min(1).default(10),
@@ -43,5 +45,12 @@ export default Joi.object({
     DELS_ID:Joi.string().optional(),
     DELS_INBOX: Joi.string().uri(),
     DELS_LINK: Joi.string().uri(),
-    DELS_REL: Joi.string().uri()
+    DELS_REL: Joi.string().uri(),
+
+    NX_OIDC_ISSUER: Joi.string().uri().required(),
+    NX_OIDC_CLIENT_ID: Joi.string(),
+    NX_OIDC_CLIENT_SECRET: Joi.string(),
+    NX_OIDC_LOGIN_SCOPE: Joi.string().default('openid profile'),
+    NX_OIDC_REDIRECT_URI: Joi.string().uri(),
+    NX_OIDC_POST_LOGOUT_REDIRECT_URI: Joi.string().uri(),
 });
