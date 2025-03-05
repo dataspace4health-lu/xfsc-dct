@@ -1,5 +1,5 @@
 import { HttpException, Injectable } from '@nestjs/common';
-import { AbstractFederatedCatalogAdapter, AbstractTrustServiceAdapter } from '../adapters';
+import { AbstractFederatedCatalogAdapter } from '../adapters';
 import { DataAsset } from '../dtos/data-asset.dto';
 import { ParticipantType } from './agreement.service';
 
@@ -16,7 +16,7 @@ export type DataAssetStatus = {
 @Injectable()
 export class AgreementValidationService {
   constructor(
-    private readonly trustService: AbstractTrustServiceAdapter,
+    // private readonly trustService: AbstractTrustServiceAdapter,
     private readonly federatedCatalog: AbstractFederatedCatalogAdapter,
   ) {}
 
@@ -26,7 +26,7 @@ export class AgreementValidationService {
    * @param type
    */
   async assertParticipant(dataAsset: DataAsset, type: ParticipantType) {
-    const { exists, isRevoked } = await this.trustService.validateParticipant(dataAsset, type);
+    const { exists, isRevoked } = await this.federatedCatalog.validateParticipant(dataAsset, type);
     if (!exists) {
       throw new HttpException(`Forbidden – the requesting Participant is not a human being`, 403);
     }

@@ -8,13 +8,13 @@ import { DIDTrustServiceGateway, SignatureService, VerifiableCredentialModule } 
 import { ConfigType } from '../config/config.module';
 import { RdfInterceptor } from '../global/interceptors/rdf.interceptor';
 import { RdfBodyParserMiddleware } from '../global/middlewares/rdf.parser.middleware';
-import { AbstractFederatedCatalogAdapter, AbstractLogTokenAdapter, AbstractTrustServiceAdapter } from './adapters';
+import { AbstractFederatedCatalogAdapter, AbstractLogTokenAdapter } from './adapters';
 import { FederatedCatalogAdapter } from './adapters/federated-catalog.adapter';
 import { LogTokenAdapter } from './adapters/log-token.adapter';
-import { TrustServiceAdapter } from './adapters/trust-service.adapter';
+// import { TrustServiceAdapter } from './adapters/trust-service.adapter';
 import { AgreementController } from './controllers/agreement.controller';
 import { FederatedCatalogGateway } from './gateways/federated-catalog.gateway';
-import { TrustServiceGateway } from './gateways/trust-service.gateway';
+import { TrustServiceGateway } from './gateways/DIDResolverGateway ';
 import { SdqueueProcessor } from './processors/sdqueue.processor';
 import { AgreementSignatureService } from './services/agreement-signature.service';
 import { AgreementValidationService } from './services/agreement-validation.service';
@@ -69,10 +69,10 @@ import { UtilsController } from './controllers/utils.controller';
     },
     FederatedCatalogGateway,
     SdqueueProcessor,
-    {
-      provide: AbstractTrustServiceAdapter,
-      useClass: TrustServiceAdapter,
-    },
+    // {
+    //   provide: AbstractTrustServiceAdapter,
+    //   useClass: TrustServiceAdapter,
+    // },
     TrustServiceGateway,
     {
       provide: AbstractFederatedCatalogAdapter,

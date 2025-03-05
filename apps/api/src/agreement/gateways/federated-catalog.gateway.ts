@@ -47,6 +47,32 @@ export class FederatedCatalogGateway extends BaseGateway {
     }
   }
 
+  public async getParticipant(participantDID: string) {
+    try {
+      console.log('participantDID', JSON.stringify(participantDID));
+      const cachedProof = await this.cache.get(`participant-${participantDID}`);
+      console.log('cachedProof', JSON.stringify(cachedProof));
+
+      if (cachedProof !== undefined && cachedProof !== null) {
+        return cachedProof;
+      }
+      // For request we are using mocks, make sure you remove the mocks once TS is reary
+      const res = await this.request(`/get-participant?did=${participantDID}`, 'GET');
+      console.warn('Trust Services integration impremented with mocks.');
+
+      await this.cache.set(`participant-${participantDID}`, res, {
+        ttl: this.configService.get('general.cache.ttl', { infer: true }),
+      });
+
+      return res;
+    } catch (e) {
+      if (e instanceof Error) {
+        throw new ServiceUnavailableException(e.message);
+      }
+      throw new ServiceUnavailableException();
+    }
+  }
+
   public async getHealthStatus() {
     try {
       const res = await this.request(`/health-check`, 'GET');
