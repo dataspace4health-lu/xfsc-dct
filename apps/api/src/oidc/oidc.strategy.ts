@@ -1,25 +1,13 @@
-import { UnauthorizedException } from '@nestjs/common';
+import { Inject, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, Client, UserinfoResponse, TokenSet, Issuer } from 'openid-client';
-import { OidcService } from './oidc.service';
 import { ConfigType } from '../config/config.module';
-
-export const buildOpenIdClient = async (configService: ConfigService<ConfigType>) => {
-  const { issuer, clientId, clientSecret } = configService.get('oidc', { infer: true });
-  
-  const TrustIssuer = await Issuer.discover(`${issuer}/.well-known/openid-configuration`);
-  const client = new TrustIssuer.Client({
-    client_id: clientId,
-    client_secret: clientSecret,
-  });
-  return client;
-};
 
 export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
   client: Client;
 
-  constructor(private readonly oidcService: OidcService, client: Client, configService: ConfigService<ConfigType>) {
+  constructor(private readonly configService: ConfigService<ConfigType>, @Inject('Client') client: Client) {
     const { redirectUri, scope } = configService.get('oidc', { infer: true });
     
     super({
@@ -35,7 +23,7 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
     this.client = client;
   }
 
-  async validate(tokenset: TokenSet): Promise<any> {
+  async validate(tokenset: TokenSet): Promise<any> {   
     const userinfo: UserinfoResponse = await this.client.userinfo(tokenset);
 
     try {

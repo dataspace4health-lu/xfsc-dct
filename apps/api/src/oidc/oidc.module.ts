@@ -1,27 +1,42 @@
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
-import { OidcStrategy, buildOpenIdClient } from './oidc.strategy';
+import { OidcStrategy } from './oidc.strategy';
 import { SessionSerializer } from './session.serializer';
-import { OidcService } from './oidc.service';
 import { OidcController } from './oidc.controller';
 import { ConfigService } from '@nestjs/config';
 import { ConfigType } from '../config/config.module';
-
-const OidcStrategyFactory = {
-  provide: 'OidcStrategy',
-  useFactory: async (oidcService: OidcService, configService: ConfigService<ConfigType>) => {
-    const client = await buildOpenIdClient(configService); // secret sauce! build the dynamic client before injecting it into the strategy for use in the constructor super call.
-    const strategy = new OidcStrategy(oidcService, client, configService);
-    return strategy;
-  },
-  inject: [OidcService, ConfigService]
-};
+import { Client, Issuer } from 'openid-client';
 
 @Module({
   imports: [
-    PassportModule.register({ session: false, defaultStrategy: 'oidc' }),
+    PassportModule.register({ session: true, defaultStrategy: 'oidc' }),
   ],
   controllers: [OidcController],
-  providers: [OidcStrategyFactory, SessionSerializer, OidcService],
+  providers: [
+    SessionSerializer, 
+    ConfigService,
+    {
+      provide: 'Client',
+      useFactory: async (configService: ConfigService<ConfigType>) => {
+        const { issuer, clientId, clientSecret } = configService.get('oidc', { infer: true });
+  
+        const TrustIssuer = await Issuer.discover(`${issuer}/.well-known/openid-configuration`);
+        const client = new TrustIssuer.Client({
+          client_id: clientId,
+          client_secret: clientSecret,
+        });
+        return client;
+      },
+      inject: [ConfigService],
+    },
+    {
+      provide: 'OidcStrategy',
+      useFactory: async (configService: ConfigService<ConfigType>, client: Client) => {
+        const strategy = new OidcStrategy(configService, client);
+        return strategy;
+      },
+      inject: [ConfigService, 'Client'],
+    }
+  ],
 })
 export class OidcModule {}

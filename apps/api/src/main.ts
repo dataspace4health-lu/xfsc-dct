@@ -5,6 +5,7 @@ import { AppModule } from './app.module';
 import { LoggerProvider } from './global/logs/logger.provider';
 import { JSONLDValidationPipe } from './global/pipes/json-ld.validation-pipe';
 import { ConfigService } from '@nestjs/config';
+import * as session from 'express-session';
 import * as passport from 'passport';
 
 function initSwagger(app: INestApplication) {
@@ -35,8 +36,15 @@ async function bootstrap() {
   app.enableCors();
   initSwagger(app);
 
+  app.use(session({
+    secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false }, // Set to true in production with HTTPS
+  }));
+
   app.use(passport.initialize());
-  //app.use(passport.session());
+  app.use(passport.session());
 
   await app.listen(port);
 }
