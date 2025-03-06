@@ -92,13 +92,15 @@ import { OidcStrategy } from '../oidc/oidc.strategy';
     {
       provide: 'Client',
       useFactory: async (configService: ConfigService<ConfigType>) => {
-        const { issuer, clientId, clientSecret } = configService.get('oidc', { infer: true });
+        const { issuer, clientId, clientSecret, scope } = configService.get('oidc', { infer: true });
   
         const TrustIssuer = await Issuer.discover(`${issuer}/.well-known/openid-configuration`);
         const client = new TrustIssuer.Client({
           client_id: clientId,
           client_secret: clientSecret,
+          scope: scope,
         });
+
         return client;
       },
       inject: [ConfigService],
