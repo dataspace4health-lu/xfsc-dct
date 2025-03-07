@@ -12,25 +12,36 @@ export class BaseGateway {
             ...props,
         });
 
-        mock(this.requester, baseURL);
+        // mock(this.requester, baseURL);
     }
 
     protected handleError(error: any): Promise<boolean> {
         return Promise.resolve(false);
     }
 
-    protected request<T>(url: string, method: string, data?: any): Promise<T | void> {
-        return this.requester
-            .request<T>({
+    protected async request<T>(url: string, method: string, data?: any): Promise<T | null> {
+        try {
+            console.log(`🔵 Sending ${method} request to: ${this.requester.defaults.baseURL}${url}`);
+    
+            const response = await this.requester.request<T>({
                 method,
                 url,
-                data,
-            })
-            .then((response) => response.data)
-            .catch((error) => {
-                if (!this.handleError(error.toJSON())) {
-                    throw error;
-                }
+                ...data,
             });
+    
+            console.log(`🟢 Full API Response:`, response);
+            console.log(`🟢 Extracted Response Data:`, response.data);
+    
+            return response.data || null;  // Ensures we always return something
+        } catch (error) {
+            console.error(`❌ API Request Error:`, error.message);
+    
+            if (error.response) {
+                console.error(`❌ API Error Status:`, error.response.status);
+                console.error(`❌ API Error Data:`, error.response.data);
+            }
+    
+            return null; // Prevents `undefined`
+        }
     }
 }

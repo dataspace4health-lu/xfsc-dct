@@ -48,12 +48,14 @@ export class FederatedCatalogAdapter extends AbstractFederatedCatalogAdapter {
    * @param type
    * @returns
    */
-    validateParticipant(dataAsset: DataAsset, type: ParticipantType): Promise<ParticipantStatus> {
+   async validateParticipant(dataAsset: DataAsset, type: ParticipantType): Promise<ParticipantStatus> {
       const participantDID = type === ParticipantType.CONSUMER ? dataAsset['gax:consumer'] : dataAsset['gax:publisher'];
       if (!participantDID) {
         throw new HttpException(`Not found – Data Provider DID could not be resolved`, 404);
       }
-      return this.federatedCatalogGateway.getParticipant(participantDID) as Promise<ParticipantStatus>;
+      const participantStatus = await this.federatedCatalogGateway.getParticipant(participantDID) as Promise<ParticipantStatus>;
+      console.log('participantStatus', JSON.stringify(participantStatus));
+      return participantStatus;
     }
 
   /**

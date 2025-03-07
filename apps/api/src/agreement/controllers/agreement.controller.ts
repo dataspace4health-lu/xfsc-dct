@@ -5,10 +5,10 @@ import { ValidateLogTokenDto } from '../dtos/validate-log-token.dto';
 import { AgreementService } from '../services/agreement.service';
 import { LogTokenService } from '../services/log-token.service';
 import { UtilsService } from '../services/utils.service';
-import { OidcGuard } from '../../oidc/oidc.guard';
+// import { OidcGuard } from '../../oidc/oidc.guard';
 
 @Controller()
-@UseGuards(OidcGuard)
+// @UseGuards(OidcGuard)
 @ApiResponse({
   status: 400,
   description:
