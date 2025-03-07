@@ -48,7 +48,7 @@ export class FederatedCatalogGateway extends BaseGateway {
     }
   }
 
-  public async getParticipant(participantDID: string) {
+  public async getParticipant(participantDID: string): Promise<any> {
     try {
       console.log('participantDID', JSON.stringify(participantDID));
       // const cachedProof = await this.cache.get(`participant-${participantDID}`);
@@ -58,7 +58,7 @@ export class FederatedCatalogGateway extends BaseGateway {
       //   return cachedProof;
       // }
       // Prepare URL for fetching participant data
-      const url = `/api/participants/${participantDID}`;
+      const url = `/api/self-descriptions?ids=${encodeURIComponent(participantDID)}`; 
       // const url = `http://dataspace4health.local/catalogue/api/participants/8fbaa6ce-c7ac-4478-861b-59db2eadc606`;
       const token = process.env.AUTH_TOKEN; // Get token from environment variable
 

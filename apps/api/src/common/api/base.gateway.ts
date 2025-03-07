@@ -29,7 +29,7 @@ export class BaseGateway {
                 ...data,
             });
     
-            console.log(`🟢 Full API Response:`, response);
+            // console.log(`🟢 Full API Response:`, response);
             console.log(`🟢 Extracted Response Data:`, response.data);
     
             return response.data || null;  // Ensures we always return something

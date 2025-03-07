@@ -38,7 +38,7 @@ export class FederatedCatalogAdapter extends AbstractFederatedCatalogAdapter {
     };
   }
 
-    /**
+  /**
    * Validate participant verifies that the user is a GX Participant
    * In general, only Gaia-X Participants must be able to interact with the GX-DCS.
    * Each participant shall be capable of registering Data Assets, negotiate,
@@ -48,15 +48,21 @@ export class FederatedCatalogAdapter extends AbstractFederatedCatalogAdapter {
    * @param type
    * @returns
    */
-   async validateParticipant(dataAsset: DataAsset, type: ParticipantType): Promise<ParticipantStatus> {
-      const participantDID = type === ParticipantType.CONSUMER ? dataAsset['gax:consumer'] : dataAsset['gax:publisher'];
-      if (!participantDID) {
-        throw new HttpException(`Not found – Data Provider DID could not be resolved`, 404);
-      }
-      const participantStatus = await this.federatedCatalogGateway.getParticipant(participantDID) as Promise<ParticipantStatus>;
-      console.log('participantStatus', JSON.stringify(participantStatus));
-      return participantStatus;
+  async validateParticipant(dataAsset: DataAsset, type: ParticipantType): Promise<ParticipantStatus> {
+    const participantDID = type === ParticipantType.CONSUMER ? dataAsset['gax:consumer'] : dataAsset['gax:publisher'];
+    if (!participantDID) {
+      throw new HttpException(`Not found – Data Provider DID could not be resolved`, 404);
     }
+    const apiResponse = await this.federatedCatalogGateway.getParticipant(participantDID);
+
+    const participantStatus: ParticipantStatus = {
+      exists: apiResponse?.totalCount > 0, // Ensures at least one participant is found
+      isRevoked: apiResponse?.items?.[0]?.meta?.status !== 'active', // Checks if status is not 'active'
+    };
+
+    console.log('Processed participantStatus:', JSON.stringify(participantStatus));
+    return participantStatus;
+  }
 
   /**
    * To correctly validate the provider signature the DCS MUST remove the Consumer Details beforehand.
