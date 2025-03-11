@@ -25,8 +25,8 @@ export class AgreementValidationService {
    * @param dataAsset
    * @param type
    */
-  async assertParticipant(dataAsset: DataAsset, type: ParticipantType) {
-    const { exists, isRevoked } = await this.trustService.validateParticipant(dataAsset, type);
+  async assertParticipant(access_token: string, dataAsset: DataAsset, type: ParticipantType) {
+    const { exists, isRevoked } = await this.trustService.validateParticipant(access_token, dataAsset, type);
     if (!exists) {
       throw new HttpException(`Forbidden – the requesting Participant is not a human being`, 403);
     }

@@ -7,7 +7,7 @@ import { ParticipantType } from '../services/agreement.service';
 
 
 export abstract class AbstractTrustServiceAdapter {
-  abstract validateParticipant(dataAsset: DataAsset, type: ParticipantType): Promise<ParticipantStatus>;
+  abstract validateParticipant(access_token: string, dataAsset: DataAsset, type: ParticipantType): Promise<ParticipantStatus>;
   abstract isHealthy(): Promise<boolean>;
 }
 

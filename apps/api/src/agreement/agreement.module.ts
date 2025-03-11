@@ -24,6 +24,8 @@ import { LogTokenService } from './services/log-token.service';
 import { UtilsService } from './services/utils.service';
 import { LogTokenController } from './controllers/log-token.controller';
 import { UtilsController } from './controllers/utils.controller';
+import { Client, Issuer } from 'openid-client';
+import { OidcStrategy } from '../oidc/oidc.strategy';
 
 @Module({
   imports: [
@@ -86,6 +88,31 @@ import { UtilsController } from './controllers/utils.controller';
     },
     LogTokenService,
     UtilsService,
+    ConfigService,
+    {
+      provide: 'Client',
+      useFactory: async (configService: ConfigService<ConfigType>) => {
+        const { issuer, clientId, clientSecret, scope } = configService.get('oidc', { infer: true });
+  
+        const TrustIssuer = await Issuer.discover(`${issuer}/.well-known/openid-configuration`);
+        const client = new TrustIssuer.Client({
+          client_id: clientId,
+          client_secret: clientSecret,
+          scope: scope,
+        });
+
+        return client;
+      },
+      inject: [ConfigService],
+    },
+    {
+      provide: 'OidcStrategy',
+      useFactory: async (configService: ConfigService<ConfigType>, client: Client) => {
+        const strategy = new OidcStrategy(configService, client);
+        return strategy;
+      },
+      inject: [ConfigService, 'Client'],
+    }
   ],
   controllers: [AgreementController, LogTokenController, UtilsController],
   exports: [TrustServiceGateway]

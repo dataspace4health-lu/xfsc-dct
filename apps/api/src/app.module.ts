@@ -62,7 +62,7 @@ import { OidcModule } from './oidc/oidc.module';
     AgreementModule,
     TerminusModule,
     HealthModule,
-    OidcModule
+    OidcModule,
   ],
   providers: [
     {
