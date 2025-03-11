@@ -13,7 +13,7 @@ export class TrustServiceGateway extends BaseGateway implements DIDTrustServiceG
 
   public async getParticipant(access_token: string, participantDID: string) {
     try {
-      console.log('participantDID', JSON.stringify(participantDID));
+      // console.log('participantDID', JSON.stringify(participantDID));
       // const cachedProof = await this.cache.get(`participant-${participantDID}`);
       // console.log('cachedProof', JSON.stringify(cachedProof));
 

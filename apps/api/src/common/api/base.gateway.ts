@@ -20,7 +20,7 @@ export class BaseGateway {
     }
 
     protected request_protected<T>(url: string, method: string, access_token: string, data?: any): Promise<T | void> {
-        console.log("ACCESS TOKEN: ", access_token);
+        // console.log("ACCESS TOKEN: ", access_token);
         return this.requester
             .request<T>({
                 method,
