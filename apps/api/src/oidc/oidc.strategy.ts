@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, Client, UserinfoResponse, TokenSet, Issuer } from 'openid-client';
 import { ConfigType } from '../config/config.module';
+import { Request } from 'express';
 
 export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
   client: Client;
@@ -16,14 +17,14 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
         redirect_uri: redirectUri,
         scope: scope,
       },
-      passReqToCallback: false,
+      passReqToCallback: true,
       usePKCE: false,
     });
 
     this.client = client;
   }
 
-  async validate(tokenset: TokenSet): Promise<any> {   
+  async validate(request: Request, tokenset: TokenSet): Promise<any> {   
     const userinfo: UserinfoResponse = await this.client.userinfo(tokenset);
     //console.log("OidcStrategy got userinfo", userinfo);
 
@@ -37,6 +38,7 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
         refresh_token,
         userinfo,
       }
+      request['user'] = user;
       return user;
     } catch (err) {
       throw new UnauthorizedException();

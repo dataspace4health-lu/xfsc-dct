@@ -21,7 +21,7 @@ export class OidcGuard extends AuthGuard('oidc') {
     }
 
     // Add your token validation logic here
-    return await this.oidcStrategy.validate(token);
+    return await this.oidcStrategy.validate(context.switchToHttp().getRequest(), token);
   }
 
   private extractTokenFromHeader(request: Request): string | null {

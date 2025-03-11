@@ -31,9 +31,10 @@ export class AgreementService {
    * @param registerDto
    * @returns
    */
-  async register(registerDto: DataAssetPresentation) {
+  async register(request: any, registerDto: DataAssetPresentation) {
     const dataAsset = registerDto.verifiableCredential[0].credentialSubject;
-    await this.validateService.assertParticipant(dataAsset, ParticipantType.PROVIDER);
+    const access_token = request.user.access_token;
+    await this.validateService.assertParticipant(access_token, dataAsset, ParticipantType.PROVIDER);
     await this.signatureService.validateSignature(registerDto, ParticipantType.PROVIDER);
     await this.validateService.assertDataAsset(dataAsset);
     return this.signatureService.sign(registerDto);
@@ -51,9 +52,10 @@ export class AgreementService {
    * @param contractDto
    * @returns
    */
-  async makeContract(makeContractDto: DataAssetPresentation) {
+  async makeContract(request: any, makeContractDto: DataAssetPresentation) {
     const dataAsset = makeContractDto.verifiableCredential[0].credentialSubject;
-    await this.validateService.assertParticipant(dataAsset, ParticipantType.CONSUMER);
+    const access_token = request.session.user.access_token;
+    await this.validateService.assertParticipant(access_token, dataAsset, ParticipantType.CONSUMER);
     if (this.isNegotiable(dataAsset)) {
       throw new ValidationException('Data Asset is negotiable', 400);
     }
@@ -88,9 +90,10 @@ export class AgreementService {
    * Forbidden – the “general terms” are not empty, but the requesting Participant is not a human being (this restriction might be removed in future versions)
    * @param contractDto
    */
-  async negotiate(negotiateDto: DataAssetPresentation) {
+  async negotiate(request: any, negotiateDto: DataAssetPresentation) {
     const dataAsset = negotiateDto.verifiableCredential[0].credentialSubject;
-    await this.validateService.assertParticipant(dataAsset, ParticipantType.CONSUMER);
+    const access_token = request.session.user.access_token;
+    await this.validateService.assertParticipant(access_token, dataAsset, ParticipantType.CONSUMER);
     // move to adapter
     if (!this.isNegotiable(dataAsset)) {
       throw new HttpException('Data Asset is not negotiable', 430);
@@ -123,9 +126,10 @@ export class AgreementService {
    * - Finalization distribution: return contract in response
    * @param contractDto
    */
-  async finalize(finalizeDto: DataAssetPresentation) {
+  async finalize(request: any, finalizeDto: DataAssetPresentation) {
     const dataAsset = finalizeDto.verifiableCredential[0].credentialSubject;
-    await this.validateService.assertParticipant(dataAsset, ParticipantType.PROVIDER);
+    const access_token = request.session.user.access_token;
+    await this.validateService.assertParticipant(access_token, dataAsset, ParticipantType.PROVIDER);
     await this.validateService.assertDataAsset(dataAsset);
     await this.signatureService.validateSignature(finalizeDto, ParticipantType.PROVIDER);
     await this.signatureService.validateSignature(finalizeDto, ParticipantType.CONSUMER);

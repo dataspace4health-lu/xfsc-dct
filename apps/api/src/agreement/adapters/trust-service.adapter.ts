@@ -28,12 +28,12 @@ export class TrustServiceAdapter extends AbstractTrustServiceAdapter {
    * @param type
    * @returns
    */
-  validateParticipant(dataAsset: DataAsset, type: ParticipantType): Promise<ParticipantStatus> {
+  validateParticipant(access_token: string, dataAsset: DataAsset, type: ParticipantType): Promise<ParticipantStatus> {
     const participantDID = type === ParticipantType.CONSUMER ? dataAsset['gax:consumer'] : dataAsset['gax:publisher'];
     if (!participantDID) {
       throw new HttpException(`Not found – Data Provider DID could not be resolved`, 404);
     }
-    return this.trustServiceGateway.getParticipant(participantDID) as Promise<ParticipantStatus>;
+    return this.trustServiceGateway.getParticipant(access_token, participantDID) as Promise<ParticipantStatus>;
   }
 
 
