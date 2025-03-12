@@ -12,7 +12,7 @@ export class BaseGateway {
             ...props,
         });
 
-        mock(this.requester, baseURL);
+        // mock(this.requester, baseURL);
     }
 
     protected handleError(error: any): Promise<boolean> {
@@ -20,7 +20,6 @@ export class BaseGateway {
     }
 
     protected request_protected<T>(url: string, method: string, access_token: string, data?: any): Promise<T | void> {
-        // console.log("ACCESS TOKEN: ", access_token);
         return this.requester
             .request<T>({
                 method,

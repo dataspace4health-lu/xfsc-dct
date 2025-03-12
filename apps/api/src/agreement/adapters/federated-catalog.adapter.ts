@@ -1,10 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException } from '@nestjs/common';
 import { AbstractFederatedCatalogAdapter } from '.';
 import { DataAsset } from '../dtos/data-asset.dto';
 import { FederatedCatalogGateway } from '../gateways/federated-catalog.gateway';
 import { DataAssetStatus } from '../services/agreement-validation.service';
 import { isEqual, omit, pick } from 'lodash';
 import { IVerifiableCredential } from '@gaia-x/gaia-x-vc';
+import { ParticipantType } from '../services/agreement.service';
+import { ParticipantStatus } from '../services/agreement-validation.service';
 
 /**
  *
@@ -35,6 +37,34 @@ export class FederatedCatalogAdapter extends AbstractFederatedCatalogAdapter {
       isSupported,
     };
   }
+
+  /**
+   * Validate participant verifies that the user is a GX Participant
+   * In general, only Gaia-X Participants must be able to interact with the GX-DCS.
+   * Each participant shall be capable of registering Data Assets, negotiate,
+   * or make a Data Contracts for a Data Asset and get a validation confirmation
+   * for a finalized Agreement.
+   * @param dataAsset
+   * @param type
+   * @returns
+   */
+    async validateParticipant(access_token: string, dataAsset: DataAsset, type: ParticipantType): Promise<ParticipantStatus> {
+      const participantDID = type === ParticipantType.CONSUMER ? dataAsset['gax:consumer'] : dataAsset['gax:publisher'];
+      if (!participantDID) {
+        throw new HttpException(`Not found – Data Provider DID could not be resolved`, 404);
+      }
+      // return this.federatedCatalogGateway.getParticipant(access_token, participantDID) as Promise<ParticipantStatus>;
+
+      const apiResponse = await this.federatedCatalogGateway.getParticipant(access_token, participantDID);
+
+      const participantStatus: ParticipantStatus = {
+        exists: apiResponse?.totalCount > 0, // Ensures at least one participant is found
+        isRevoked: apiResponse?.items?.[0]?.meta?.status !== 'active', // Checks if status is not 'active'
+      };
+
+      console.log('Processed participantStatus:', JSON.stringify(participantStatus));
+      return participantStatus;
+    }
 
   /**
    * To correctly validate the provider signature the DCS MUST remove the Consumer Details beforehand.

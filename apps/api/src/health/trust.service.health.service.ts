@@ -1,8 +1,9 @@
 import { HealthCheckError, HealthIndicator, HealthIndicatorResult } from '@nestjs/terminus';
-import { TrustServiceAdapter } from '../agreement/adapters/trust-service.adapter';
+// import { TrustServiceAdapter } from '../agreement/adapters/trust-service.adapter';
 
 export class TrustServiceHealthService extends HealthIndicator {
-  constructor(private readonly trustServiceAdapter: TrustServiceAdapter) {
+  // constructor(private readonly trustServiceAdapter: TrustServiceAdapter) {
+  constructor() {
     super();
   }
 

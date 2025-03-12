@@ -6,12 +6,13 @@ import { ParticipantType } from '../services/agreement.service';
 
 
 
-export abstract class AbstractTrustServiceAdapter {
-  abstract validateParticipant(access_token: string, dataAsset: DataAsset, type: ParticipantType): Promise<ParticipantStatus>;
-  abstract isHealthy(): Promise<boolean>;
-}
+// export abstract class AbstractTrustServiceAdapter {
+//   abstract validateParticipant(access_token: string, dataAsset: DataAsset, type: ParticipantType): Promise<ParticipantStatus>;
+//   abstract isHealthy(): Promise<boolean>;
+// }
 
 export abstract class AbstractFederatedCatalogAdapter {
+  abstract validateParticipant(access_token: string, dataAsset: DataAsset, type: ParticipantType): Promise<ParticipantStatus>;
   abstract validateDataAsset(dataAsset: DataAsset): Promise<DataAssetStatus>;
   abstract removeConsumerDetails(
     dataAsset: IVerifiableCredential<DataAsset>,
