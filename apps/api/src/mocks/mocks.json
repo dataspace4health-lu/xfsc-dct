@@ -78,44 +78,44 @@
         "status": 200,
         "response": {
           "@id": "http://example.org/data-asset-1",
-          "@type": "gax:DataAsset",
-          "gax:title": "Example title",
-          "gax:description": "Example description",
-          "gax:keyword": ["key", "word"],
-          "gax:category": ["example"],
-          "gax:publisher": "did:provider",
-          "gax:creator": "?creatorDID",
-          "gax:language": "http://id.loc.gov/vocabulary/iso639-1/en",
-          "gax:distribution": {
-            "gax:title": "Example distribution title",
-            "gax:description": "Example distribution description",
-            "gax:created": "2021-01-23T18:25:43.511Z",
-            "gax:modified": "2021-01-25T12:20:34.007Z",
-            "gax:mediaType": "text/csv",
-            "gax:byteSize": "100000",
-            "gax:accessURL": "www.example.com/data/example.csv"
+          "@type": "gx:DataAsset",
+          "gx:title": "Example title",
+          "gx:description": "Example description",
+          "gx:keyword": ["key", "word"],
+          "gx:category": ["example"],
+          "gx:publisher": "did:provider",
+          "gx:creator": "?creatorDID",
+          "gx:language": "http://id.loc.gov/vocabulary/iso639-1/en",
+          "gx:distribution": {
+            "gx:title": "Example distribution title",
+            "gx:description": "Example distribution description",
+            "gx:created": "2021-01-23T18:25:43.511Z",
+            "gx:modified": "2021-01-25T12:20:34.007Z",
+            "gx:mediaType": "text/csv",
+            "gx:byteSize": "100000",
+            "gx:accessURL": "www.example.com/data/example.csv"
           },
-          "gax:created": "2021-01-23T12:21:23.876Z",
-          "gax:modified": "2021-01-24T14:45:03.517Z",
-          "gax:containsPersonalData": false,
-          "gax:sampleAvailable": false,
-          "gax:contractOffer": {
-            "@type": "gax-GX-DCS:contractOffer",
-            "gax:choiceOfLaw": "iso:Germany",
-            "gax:generalTerms": "Example text for the general terms",
-            "gax:confirmationRequired": false,
-            "gax:loggingMode": "gax:LoggingMandatory",
-            "gax:circulationDetails": "Example text for the circulation details",
-            "gax:permission": {
-              "@type": "gax:Permission",
-              "gax:assigner": "?providerDID",
-              "gax:target": "?AssetURI",
-              "gax:action": "gax:USE",
-              "gax:negotiable": false,
-              "gax:postDuty": {
-                "@type": "gax:Duty",
-                "gax:action": {
-                  "@id": "gax:LOG"
+          "gx:created": "2021-01-23T12:21:23.876Z",
+          "gx:modified": "2021-01-24T14:45:03.517Z",
+          "gx:containsPersonalData": false,
+          "gx:sampleAvailable": false,
+          "gx:contractOffer": {
+            "@type": "gx-GX-DCS:contractOffer",
+            "gx:choiceOfLaw": "iso:Germany",
+            "gx:generalTerms": "Example text for the general terms",
+            "gx:confirmationRequired": false,
+            "gx:loggingMode": "gx:LoggingMandatory",
+            "gx:circulationDetails": "Example text for the circulation details",
+            "gx:permission": {
+              "@type": "gx:Permission",
+              "gx:assigner": "?providerDID",
+              "gx:target": "?AssetURI",
+              "gx:action": "gx:USE",
+              "gx:negotiable": false,
+              "gx:postDuty": {
+                "@type": "gx:Duty",
+                "gx:action": {
+                  "@id": "gx:LOG"
                 }
               }
             }

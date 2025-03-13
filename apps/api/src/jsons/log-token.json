@@ -12,52 +12,52 @@
       ],
       "credentialSubject": {
         "@id": "?AssetURI",
-        "@type": "gax:DataAsset",
-        "gax:title": "Example title",
-        "gax:description": "Example description",
-        "gax:keyword": [
+        "@type": "gx:DataAsset",
+        "gx:title": "Example title",
+        "gx:description": "Example description",
+        "gx:keyword": [
           "key",
           "word"
         ],
-        "gax:category": [
+        "gx:category": [
           "example"
         ],
-        "gax:publisher": "?publisherDID",
-        "gax:consumer": "?consumerDID",
-        "gax:creator": "?creatorDID",
-        "gax:language": "http://id.loc.gov/vocabulary/iso639-1/en",
-        "gax:distribution": {
-          "gax:title": "Example distribution title",
-          "gax:description": "Example distribution description",
-          "gax:created": "2021-01-23T18:25:43.511Z",
-          "gax:modified": "2021-01-25T12:20:34.007Z",
-          "gax:mediaType": "text/csv",
-          "gax:byteSize": "100000",
-          "gax:accessURL": "www.example.com/data/example.csv"
+        "gx:publisher": "?publisherDID",
+        "gx:consumer": "?consumerDID",
+        "gx:creator": "?creatorDID",
+        "gx:language": "http://id.loc.gov/vocabulary/iso639-1/en",
+        "gx:distribution": {
+          "gx:title": "Example distribution title",
+          "gx:description": "Example distribution description",
+          "gx:created": "2021-01-23T18:25:43.511Z",
+          "gx:modified": "2021-01-25T12:20:34.007Z",
+          "gx:mediaType": "text/csv",
+          "gx:byteSize": "100000",
+          "gx:accessURL": "www.example.com/data/example.csv"
         },
-        "gax:created": "2021-01-23T12:21:23.876Z",
-        "gax:modified": "2021-01-24T14:45:03.517Z",
-        "gax:containsPersonalData": false,
-        "gax:sampleAvailable": false,
-        "gax:contractOffer": {
-          "@type": "gax:contractOffer",
-          "gax:choiceOfLaw": "iso:Germany",
-          "gax:generalTerms": "Example text for the general terms",
-          "gax:confirmationRequired": true,
-          "gax:loggingMode": "gax:LoggingMandatory",
-          "gax:circulationDetails": "Example text for the circulation details",
-          "gax:permission": [
+        "gx:created": "2021-01-23T12:21:23.876Z",
+        "gx:modified": "2021-01-24T14:45:03.517Z",
+        "gx:containsPersonalData": false,
+        "gx:sampleAvailable": false,
+        "gx:contractOffer": {
+          "@type": "gx:contractOffer",
+          "gx:choiceOfLaw": "iso:Germany",
+          "gx:generalTerms": "Example text for the general terms",
+          "gx:confirmationRequired": true,
+          "gx:loggingMode": "gx:LoggingMandatory",
+          "gx:circulationDetails": "Example text for the circulation details",
+          "gx:permission": [
             {
-              "@type": "gax:Permission",
-              "gax:assigner": "?providerDID",
-              "gax:target": "?someDataAssetID",
-              "gax:action": "gax:COMPENSATE",
-              "gax:negotiable": true,
-              "gax:constraint": {
-                "@type": "gax:Constraint",
-                "gax:leftOperand": "gax: PAY_AMOUNT",
-                "gax:operator": "gax:EQ",
-                "gax:rightOperand": {
+              "@type": "gx:Permission",
+              "gx:assigner": "?providerDID",
+              "gx:target": "?someDataAssetID",
+              "gx:action": "gx:COMPENSATE",
+              "gx:negotiable": true,
+              "gx:constraint": {
+                "@type": "gx:Constraint",
+                "gx:leftOperand": "gx: PAY_AMOUNT",
+                "gx:operator": "gx:EQ",
+                "gx:rightOperand": {
                   "@value": "?price",
                   "@type": "http://www.w3.org/2001/XMLSchema#double"
                 }
@@ -102,9 +102,9 @@ LogToken Header:
 "typ": "JWT"
 }
 LogToken Body: {
-gax-dcs:logID: "(128-bit UUID)",  // generate - 24h
-gax-dcs:dataTransactionID: "(Transaction ID)",
-gax-dcs:contractID: "(contract ID)",
+gx-dcs:logID: "(128-bit UUID)",  // generate - 24h
+gx-dcs:dataTransactionID: "(Transaction ID)",
+gx-dcs:contractID: "(contract ID)",
 iss: "(Logging Service ID)"
 sub: "(Participant ID)",
 aud: "(GX-DELS identifier)",

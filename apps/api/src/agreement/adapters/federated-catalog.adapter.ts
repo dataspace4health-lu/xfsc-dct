@@ -28,7 +28,7 @@ export class FederatedCatalogAdapter extends AbstractFederatedCatalogAdapter {
    */
   async validateDataAsset(dataAsset: DataAsset): Promise<DataAssetStatus> {
     const originalDataAsset = await this.federatedCatalogGateway.getDataAsset(dataAsset['@id']);
-    const fileds = ['@id', 'gax:title', 'gax:description', 'gax:creator', 'gax:publisher'] as Array<keyof DataAsset>;
+    const fileds = ['@id', 'gx:title', 'gx:description', 'gx:creator', 'gx:publisher'] as Array<keyof DataAsset>;
     const valid = isEqual(pick(originalDataAsset, fileds), pick(dataAsset, fileds));
 
     const isSupported = true;
@@ -49,7 +49,7 @@ export class FederatedCatalogAdapter extends AbstractFederatedCatalogAdapter {
    * @returns
    */
     async validateParticipant(access_token: string, dataAsset: DataAsset, type: ParticipantType): Promise<ParticipantStatus> {
-      const participantDID = type === ParticipantType.CONSUMER ? dataAsset['gax:consumer'] : dataAsset['gax:publisher'];
+      const participantDID = type === ParticipantType.CONSUMER ? dataAsset['gx:consumer'] : dataAsset['gx:publisher'];
       if (!participantDID) {
         throw new HttpException(`Not found – Data Provider DID could not be resolved`, 404);
       }
@@ -74,7 +74,7 @@ export class FederatedCatalogAdapter extends AbstractFederatedCatalogAdapter {
   async removeConsumerDetails(credential: IVerifiableCredential<DataAsset>): Promise<IVerifiableCredential<DataAsset>> {
     return {
       ...credential,
-      credentialSubject: omit(credential.credentialSubject, 'gax:consumer'),
+      credentialSubject: omit(credential.credentialSubject, 'gx:consumer'),
       issuer: 'did:provider:controller',
     };
   }
@@ -86,7 +86,7 @@ export class FederatedCatalogAdapter extends AbstractFederatedCatalogAdapter {
    */
   async getProviderProof(dataAsset: DataAsset) {
     return {
-      verificationMethod: dataAsset['gax:publisher'] + ':key:123',
+      verificationMethod: dataAsset['gx:publisher'] + ':key:123',
     };
   }
 
@@ -97,7 +97,7 @@ export class FederatedCatalogAdapter extends AbstractFederatedCatalogAdapter {
    */
   async getConsumerProof(dataAsset: DataAsset) {
     return {
-      verificationMethod: dataAsset['gax:consumer'] + ':key:123',
+      verificationMethod: dataAsset['gx:consumer'] + ':key:123',
     };
   }
 
