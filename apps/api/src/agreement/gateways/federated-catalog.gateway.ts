@@ -5,7 +5,6 @@ import { Queue } from 'bull';
 import { ConfigService } from '@nestjs/config';
 import { BaseGateway } from '../../common/api/base.gateway';
 import { ConfigType } from '../../config/config.module';
-import axios from 'axios';
 
 @Injectable()
 export class FederatedCatalogGateway extends BaseGateway {
@@ -48,29 +47,20 @@ export class FederatedCatalogGateway extends BaseGateway {
     }
   }
 
-  public async getParticipant(participantDID: string): Promise<any> {
+  
+  public async getParticipant(access_token: string, participantDID: string): Promise<any>{
     try {
-      console.log('participantDID', JSON.stringify(participantDID));
+      // console.log('participantDID', JSON.stringify(participantDID));
       // const cachedProof = await this.cache.get(`participant-${participantDID}`);
       // console.log('cachedProof', JSON.stringify(cachedProof));
 
       // if (cachedProof !== undefined && cachedProof !== null) {
       //   return cachedProof;
       // }
-      // Prepare URL for fetching participant data
-      const url = `/api/self-descriptions?ids=${encodeURIComponent(participantDID)}`; 
-      // const url = `http://dataspace4health.local/catalogue/api/participants/8fbaa6ce-c7ac-4478-861b-59db2eadc606`;
-      const token = process.env.AUTH_TOKEN; // Get token from environment variable
-
-
-      const res = await this.request(url, 'GET', {
-        headers: {
-          accept: 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
       
+      const url = `/api/self-descriptions?ids=${encodeURIComponent(participantDID)}`;
+      const res = await this.request(url, 'GET', access_token);
+
       // await this.cache.set(`participant-${participantDID}`, res, {
       //   ttl: this.configService.get('general.cache.ttl', { infer: true }),
       // });
@@ -83,41 +73,6 @@ export class FederatedCatalogGateway extends BaseGateway {
       throw new ServiceUnavailableException();
     }
   }
-//   public async getParticipantDirectAxios(participantDID: string) {
-//     const url = `http://dataspace4health.local/catalogue/api/participants/2103fcf8-8d00-431c-afdb-b1e5c5a3021f`;
-//     try {
-//         const token = process.env.AUTH_TOKEN;
-
-//         console.log('🔵 Fetching participant data from API:', url);
-//         console.log('🔵 Using Authorization Token:', token ? 'Token Found' : 'No Token ❌');
-
-//         if (!token) {
-//             throw new Error("❌ No AUTH_TOKEN set in environment variables.");
-//         }
-
-//         const response = await axios.get(url, {
-//             headers: {
-//                 'accept': 'application/json',
-//                 'Authorization': `Bearer ${token}`,
-//             },
-//         });
-
-//         console.log('🟢 Full API Response:', response.data);
-//         return response.data;
-//     } catch (e) {
-//         if (e.response) {
-//             if (e.response.status === 401) {
-//                 console.error('❌ Authentication Error: Invalid or missing token');
-//                 throw new ServiceUnavailableException('Unauthorized: Invalid token');
-//             } else if (e.response.status === 404) {
-//                 console.error('❌ API Error: Endpoint not found', url);
-//                 throw new ServiceUnavailableException('Participant not found');
-//             }
-//         }
-//         console.error('❌ getParticipant Error:', e.message);
-//         throw new ServiceUnavailableException('Error fetching participant data');
-//     }
-// }
 
   public async getHealthStatus() {
     try {

@@ -1,7 +1,7 @@
 export class LogToken {
-    'gax-dcs:logID': string;
-    'gax-dcs:dataTransactionID': string;
-    'gax-dcs:contractID': string;
+    'gx-dcs:logID': string;
+    'gx-dcs:dataTransactionID': string;
+    'gx-dcs:contractID': string;
     iss: string;
     sub: string;
     aud: string;

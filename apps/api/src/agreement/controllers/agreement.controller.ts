@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Post, UseGuards } from '@nestjs/common';
+import { Req, Body, Controller, Get, HttpCode, Post, UseGuards } from '@nestjs/common';
 import { ApiBody, ApiConsumes, ApiOperation, ApiProduces, ApiResponse } from '@nestjs/swagger';
 import { DataAssetPresentation } from '../dtos/data-asset.dto';
 import { ValidateLogTokenDto } from '../dtos/validate-log-token.dto';
@@ -68,7 +68,7 @@ export class AgreementController {
     description:
       `Register contract API
       <br/> - verify that users are GX Participants before allowing them to register a Data Asset.
-      <br/> - check the properties named gax:negotiable to true in each Rule that contains a placeholder.
+      <br/> - check the properties named gx:negotiable to true in each Rule that contains a placeholder.
       <br/> - check with the GX-FC if the Self-Description is formally correct.`,
   })
   @ApiResponse({
@@ -85,8 +85,8 @@ export class AgreementController {
   @ApiConsumes('application/ld+json', 'application/n-quads', 'application/n-triples', 'application/trig', 'text/n3', 'text/turtle')
   @ApiProduces('application/ld+json', 'application/n-quads', 'application/n-triples', 'application/trig', 'text/n3', 'text/turtle')
   @Post('/register')
-  async register(@Body() dataAsset: DataAssetPresentation) {
-    return this.agreementService.register(dataAsset);
+  async register(@Req() request: any, @Body() dataAsset: DataAssetPresentation) {
+    return this.agreementService.register(request, dataAsset);
   }
 
   @ApiOperation({
@@ -106,8 +106,8 @@ export class AgreementController {
   @ApiConsumes('application/ld+json', 'application/n-quads', 'application/n-triples', 'application/trig', 'text/n3', 'text/turtle')
   @ApiProduces('application/ld+json', 'application/n-quads', 'application/n-triples', 'application/trig', 'text/n3', 'text/turtle')
   @Post('/make/contract')
-  async makeContract(@Body() dataAsset: DataAssetPresentation) {
-    return this.agreementService.makeContract(dataAsset);
+  async makeContract(@Req() request: any, @Body() dataAsset: DataAssetPresentation) {
+    return this.agreementService.makeContract(request, dataAsset);
   }
 
   @ApiOperation({
@@ -130,8 +130,8 @@ export class AgreementController {
   @ApiConsumes('application/ld+json', 'application/n-quads', 'application/n-triples', 'application/trig', 'text/n3', 'text/turtle')
   @ApiProduces('application/ld+json', 'application/n-quads', 'application/n-triples', 'application/trig', 'text/n3', 'text/turtle')
   @Post('/negotiate')
-  async negotiate(@Body() dataAsset: DataAssetPresentation) {
-    return this.agreementService.negotiate(dataAsset);
+  async negotiate(@Req() request: any, @Body() dataAsset: DataAssetPresentation) {
+    return this.agreementService.negotiate(request, dataAsset);
   }
 
   @ApiOperation({
@@ -154,8 +154,8 @@ export class AgreementController {
   @ApiConsumes('application/ld+json', 'application/n-quads', 'application/n-triples', 'application/trig', 'text/n3', 'text/turtle')
   @ApiProduces('application/ld+json', 'application/n-quads', 'application/n-triples', 'application/trig', 'text/n3', 'text/turtle')
   @Post('/finalize')
-  async finalize(@Body() dataAsset: DataAssetPresentation) {
-    return this.agreementService.finalize(dataAsset);
+  async finalize(@Req() request: any, @Body() dataAsset: DataAssetPresentation) {
+    return this.agreementService.finalize(request, dataAsset);
   }
 
   @ApiOperation({
@@ -204,8 +204,4 @@ export class AgreementController {
   async logToken(@Body() dataAsset: DataAssetPresentation):Promise<string> {
     return this.agreementService.logToken(dataAsset);
   }
-
-
-
-
 }

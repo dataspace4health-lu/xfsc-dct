@@ -26,14 +26,15 @@ export class AgreementService {
   /**
    * Register contract API
    * - verify that users are GX Participants before allowing them to register a Data Asset.
-   * - check the properties named gax:negotiable to true in each Rule that contains a placeholder.
+   * - check the properties named gx:negotiable to true in each Rule that contains a placeholder.
    * - check with the GX-FC if the Self-Description is formally correct.
    * @param registerDto
    * @returns
    */
-  async register(registerDto: DataAssetPresentation) {
+  async register(request: any, registerDto: DataAssetPresentation) {
     const dataAsset = registerDto.verifiableCredential[0].credentialSubject;
-    await this.validateService.assertParticipant(dataAsset, ParticipantType.PROVIDER);
+    const access_token = request.user.access_token;
+    await this.validateService.assertParticipant(access_token, dataAsset, ParticipantType.PROVIDER);
     await this.signatureService.validateSignature(registerDto, ParticipantType.PROVIDER);
     await this.validateService.assertDataAsset(dataAsset);
     return this.signatureService.sign(registerDto);
@@ -51,9 +52,10 @@ export class AgreementService {
    * @param contractDto
    * @returns
    */
-  async makeContract(makeContractDto: DataAssetPresentation) {
+  async makeContract(request: any, makeContractDto: DataAssetPresentation) {
     const dataAsset = makeContractDto.verifiableCredential[0].credentialSubject;
-    await this.validateService.assertParticipant(dataAsset, ParticipantType.CONSUMER);
+    const access_token = request.session.user.access_token;
+    await this.validateService.assertParticipant(access_token, dataAsset, ParticipantType.CONSUMER);
     if (this.isNegotiable(dataAsset)) {
       throw new ValidationException('Data Asset is negotiable', 400);
     }
@@ -81,16 +83,17 @@ export class AgreementService {
    * The GX-DCS validates the offer made by comparing it to the original DASD available in the Catalogue to ensure that only the negotiable properties were adjusted. The offer is then forwarded to the Data provider who can decide whether the offer is accepted.
    * - verify that users are GX participants
    * - validate the provider and consumer signature
-   * - MUST accept only Agreements that have the value true assigned to one or more gax:negotiable properties inside the Rules or true assigned to the gax:confirmationRequired property.
+   * - MUST accept only Agreements that have the value true assigned to one or more gx:negotiable properties inside the Rules or true assigned to the gx:confirmationRequired property.
    * - validate contract (Data Contract was valid and forwarded to the Data Provider)
-   * - The Providers need to offer an endpoint (that the GX-DCS can transfer contract offers to) utilizing the property gax:hasLegallyBindingAddress in their Self Descriptions. This endpoint could be used to automatically evaluate Agreements or to establish manual Confirmation flows on the Provider side.
+   * - The Providers need to offer an endpoint (that the GX-DCS can transfer contract offers to) utilizing the property gx:hasLegallyBindingAddress in their Self Descriptions. This endpoint could be used to automatically evaluate Agreements or to establish manual Confirmation flows on the Provider side.
    * Note: 200 indicates that the Agreement has been forwarded to the Data Provider for confirmation
    * Forbidden – the “general terms” are not empty, but the requesting Participant is not a human being (this restriction might be removed in future versions)
    * @param contractDto
    */
-  async negotiate(negotiateDto: DataAssetPresentation) {
+  async negotiate(request: any, negotiateDto: DataAssetPresentation) {
     const dataAsset = negotiateDto.verifiableCredential[0].credentialSubject;
-    await this.validateService.assertParticipant(dataAsset, ParticipantType.CONSUMER);
+    const access_token = request.session.user.access_token;
+    await this.validateService.assertParticipant(access_token, dataAsset, ParticipantType.CONSUMER);
     // move to adapter
     if (!this.isNegotiable(dataAsset)) {
       throw new HttpException('Data Asset is not negotiable', 430);
@@ -123,9 +126,10 @@ export class AgreementService {
    * - Finalization distribution: return contract in response
    * @param contractDto
    */
-  async finalize(finalizeDto: DataAssetPresentation) {
+  async finalize(request: any, finalizeDto: DataAssetPresentation) {
     const dataAsset = finalizeDto.verifiableCredential[0].credentialSubject;
-    await this.validateService.assertParticipant(dataAsset, ParticipantType.PROVIDER);
+    const access_token = request.session.user.access_token;
+    await this.validateService.assertParticipant(access_token, dataAsset, ParticipantType.PROVIDER);
     await this.validateService.assertDataAsset(dataAsset);
     await this.signatureService.validateSignature(finalizeDto, ParticipantType.PROVIDER);
     await this.signatureService.validateSignature(finalizeDto, ParticipantType.CONSUMER);
@@ -158,8 +162,8 @@ export class AgreementService {
     await this.validate(dataAssetPresentation);
     const dataAsset = dataAssetPresentation.verifiableCredential[0].credentialSubject;
     const isLoggingEnabled =
-      dataAsset['gax:contractOffer']['gax:logging_mandatory'] ||
-      ['gax:LoggingMandatory', 'gax:logging_optional'].includes(dataAsset['gax:contractOffer']['gax:loggingMode']);
+      dataAsset['gx:contractOffer']['gx:logging_mandatory'] ||
+      ['gx:LoggingMandatory', 'gx:logging_optional'].includes(dataAsset['gx:contractOffer']['gx:loggingMode']);
 
     if (!isLoggingEnabled) {
       throw new ValidationException('Forbidden – Finalized Agreement indicates the logging is not allowed', 403);
@@ -170,15 +174,15 @@ export class AgreementService {
 
   /**
    * Transfer Contract. This could be used to automatically evaluate Agreements or to establish manual Confirmation flows on the Provider side.
-   * The Providers need to offer an endpoint (that the GX-DCS can transfer contract offers to) utilizing the property gax:hasLegallyBindingAddress in their Self Descriptions.
+   * The Providers need to offer an endpoint (that the GX-DCS can transfer contract offers to) utilizing the property gx:hasLegallyBindingAddress in their Self Descriptions.
    * MUST forward the Agreement to the Data Provider and MUST inform the Data Consumer about it.
    * @param contract
    */
   protected async sendDataAsset(dataAssetPresentation: DataAssetPresentation, type: ParticipantType) {
     //TBD
     const hasLegallyBindingAddress =
-      dataAssetPresentation.verifiableCredential[0].credentialSubject['gax:distribution'][
-      'gax:hasLegallyBindingAddress'
+      dataAssetPresentation.verifiableCredential[0].credentialSubject['gx:distribution'][
+      'gx:hasLegallyBindingAddress'
       ];
     if (hasLegallyBindingAddress) {
       //POST to legally binding address
@@ -187,14 +191,14 @@ export class AgreementService {
   }
 
   /**
-   * The GX-DCS MUST accept only Agreements that have the value true assigned to all gax:negotiable properties inside the Rules
+   * The GX-DCS MUST accept only Agreements that have the value true assigned to all gx:negotiable properties inside the Rules
    * @param dataAsset
    * @returns boolean
    */
   protected isNegotiable(dataAsset: DataAsset): boolean {
-    const permissions: GaxPermission[] = (<unknown>dataAsset['gax:contractOffer']['gax:permission']) as GaxPermission[];
+    const permissions: GaxPermission[] = (<unknown>dataAsset['gx:contractOffer']['gx:permission']) as GaxPermission[];
     for (const permission of permissions) {
-      if (!permission['gax:negotiable']) {
+      if (!permission['gx:negotiable']) {
         return false;
       }
     }
@@ -202,11 +206,11 @@ export class AgreementService {
   }
 
   /**
-   * In the case of making an Agreement the GX-DCS MUST accept only Agreements that have the value false assigned to the gax:confirmationRequired property.
+   * In the case of making an Agreement the GX-DCS MUST accept only Agreements that have the value false assigned to the gx:confirmationRequired property.
    * @param contract
    */
   protected isConfirmationRequired(dataAsset: DataAsset): boolean {
-    return dataAsset['gax:contractOffer']['gax:confirmationRequired'];
+    return dataAsset['gx:contractOffer']['gx:confirmationRequired'];
   }
 
   /**
@@ -215,7 +219,7 @@ export class AgreementService {
    * @returns boolean
    */
   protected isGeneralTermsEmpty(dataAsset: DataAsset): boolean {
-    if (dataAsset['gax:contractOffer']['gax:generalTerms'] === '') {
+    if (dataAsset['gx:contractOffer']['gx:generalTerms'] === '') {
       return false;
     }
     return true;

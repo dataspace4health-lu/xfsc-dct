@@ -11,10 +11,9 @@ import { RdfBodyParserMiddleware } from '../global/middlewares/rdf.parser.middle
 import { AbstractFederatedCatalogAdapter, AbstractLogTokenAdapter } from './adapters';
 import { FederatedCatalogAdapter } from './adapters/federated-catalog.adapter';
 import { LogTokenAdapter } from './adapters/log-token.adapter';
-// import { TrustServiceAdapter } from './adapters/trust-service.adapter';
 import { AgreementController } from './controllers/agreement.controller';
 import { FederatedCatalogGateway } from './gateways/federated-catalog.gateway';
-import { TrustServiceGateway } from './gateways/DIDResolverGateway ';
+import { DidResolverGateway } from './gateways/did-resolver.gateway';
 import { SdqueueProcessor } from './processors/sdqueue.processor';
 import { AgreementSignatureService } from './services/agreement-signature.service';
 import { AgreementValidationService } from './services/agreement-validation.service';
@@ -24,6 +23,8 @@ import { LogTokenService } from './services/log-token.service';
 import { UtilsService } from './services/utils.service';
 import { LogTokenController } from './controllers/log-token.controller';
 import { UtilsController } from './controllers/utils.controller';
+import { Client, Issuer } from 'openid-client';
+import { OidcStrategy } from '../oidc/oidc.strategy';
 
 @Module({
   imports: [
@@ -37,7 +38,7 @@ import { UtilsController } from './controllers/utils.controller';
     }),
     VerifiableCredentialModule.registerAsync({
       imports: [AgreementModule],
-      inject: [TrustServiceGateway],
+      inject: [DidResolverGateway],
       useFactory: (didTrustServiceGateway: DIDTrustServiceGateway) => {
         return { didTrustServiceGateway }
       }
@@ -69,11 +70,7 @@ import { UtilsController } from './controllers/utils.controller';
     },
     FederatedCatalogGateway,
     SdqueueProcessor,
-    // {
-    //   provide: AbstractTrustServiceAdapter,
-    //   useClass: TrustServiceAdapter,
-    // },
-    TrustServiceGateway,
+    DidResolverGateway,
     {
       provide: AbstractFederatedCatalogAdapter,
       useClass: FederatedCatalogAdapter,
@@ -86,9 +83,34 @@ import { UtilsController } from './controllers/utils.controller';
     },
     LogTokenService,
     UtilsService,
+    ConfigService,
+    {
+      provide: 'Client',
+      useFactory: async (configService: ConfigService<ConfigType>) => {
+        const { issuer, clientId, clientSecret, scope } = configService.get('oidc', { infer: true });
+  
+        const TrustIssuer = await Issuer.discover(`${issuer}/.well-known/openid-configuration`);
+        const client = new TrustIssuer.Client({
+          client_id: clientId,
+          client_secret: clientSecret,
+          scope: scope,
+        });
+
+        return client;
+      },
+      inject: [ConfigService],
+    },
+    {
+      provide: 'OidcStrategy',
+      useFactory: async (configService: ConfigService<ConfigType>, client: Client) => {
+        const strategy = new OidcStrategy(configService, client);
+        return strategy;
+      },
+      inject: [ConfigService, 'Client'],
+    }
   ],
   controllers: [AgreementController, LogTokenController, UtilsController],
-  exports: [TrustServiceGateway]
+  exports: [DidResolverGateway]
 })
 export class AgreementModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
