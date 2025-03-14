@@ -68,7 +68,7 @@ export class AgreementController {
     description:
       `Register contract API
       <br/> - verify that users are GX Participants before allowing them to register a Data Asset.
-      <br/> - check the properties named gax:negotiable to true in each Rule that contains a placeholder.
+      <br/> - check the properties named gx:negotiable to true in each Rule that contains a placeholder.
       <br/> - check with the GX-FC if the Self-Description is formally correct.`,
   })
   @ApiResponse({

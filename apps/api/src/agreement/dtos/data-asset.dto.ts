@@ -21,7 +21,7 @@ class GaxPostDuty {
 
   @IsString()
   @Type(() => GaxAction)
-  'gax:action': GaxAction;
+  'gx:action': GaxAction;
 }
 
 export class GaxPermission {
@@ -29,20 +29,20 @@ export class GaxPermission {
   '@type': string;
 
   @IsString()
-  'gax:assigner': string;
+  'gx:assigner': string;
 
   @IsString()
-  'gax:target': string;
+  'gx:target': string;
 
   @IsString()
-  'gax:action': string;
+  'gx:action': string;
 
   @IsBoolean()
-  'gax:negotiable': boolean;
+  'gx:negotiable': boolean;
 
   @IsObject()
   @Type(() => GaxPostDuty)
-  'gax:postDuty': GaxPostDuty;
+  'gx:postDuty': GaxPostDuty;
 }
 
 class GaxContractOffer {
@@ -50,51 +50,51 @@ class GaxContractOffer {
   '@type': string;
 
   @IsString()
-  'gax:choiceOfLaw': string;
+  'gx:choiceOfLaw': string;
 
   @IsString()
-  'gax:generalTerms': string;
+  'gx:generalTerms': string;
 
   @IsBoolean()
-  'gax:confirmationRequired': boolean;
+  'gx:confirmationRequired': boolean;
 
   @IsString()
-  'gax:loggingMode': string;
+  'gx:loggingMode': string;
 
   @IsString()
-  'gax:circulationDetails': string;
+  'gx:circulationDetails': string;
 
   @ValidateNested()
   @IsArray()
   @Arrayify()
-  'gax:permission': GaxPermission[];
+  'gx:permission': GaxPermission[];
 }
 
 class GaxDistribution {
   @IsString()
-  'gax:title': string;
+  'gx:title': string;
 
   @IsString()
-  'gax:description': string;
+  'gx:description': string;
 
   @IsDateString()
-  'gax:created': string;
+  'gx:created': string;
 
   @IsDateString()
-  'gax:modified': string;
+  'gx:modified': string;
 
   @IsString()
-  'gax:mediaType': string;
+  'gx:mediaType': string;
 
   @IsNumberString()
-  'gax:byteSize': string;
+  'gx:byteSize': string;
 
   @IsUrl()
-  'gax:accessURL': string;
+  'gx:accessURL': string;
 
   @IsString()
   @IsOptional()
-  'gax:hasLegallyBindingAddress': string;
+  'gx:hasLegallyBindingAddress': string;
 }
 
 export class DataAsset {
@@ -105,51 +105,51 @@ export class DataAsset {
   '@type': string;
 
   @IsString()
-  'gax:title': string;
+  'gx:title': string;
 
   @IsString()
-  'gax:description': string;
+  'gx:description': string;
 
   @IsArray()
-  'gax:keyword': string[];
+  'gx:keyword': string[];
 
   @IsArray()
-  'gax:category': string[];
+  'gx:category': string[];
 
   @IsString()
-  'gax:publisher': string;
+  'gx:publisher': string;
 
   @IsString()
   @IsOptional()
-  'gax:consumer'?: string;
+  'gx:consumer'?: string;
 
   @IsString()
-  'gax:creator': string;
+  'gx:creator': string;
 
   @IsString()
-  'gax:language': string;
+  'gx:language': string;
 
   @IsObject()
   @Type(() => GaxDistribution)
   @ValidateNested()
-  'gax:distribution': GaxDistribution;
+  'gx:distribution': GaxDistribution;
 
   @IsDateString()
-  'gax:created': string;
+  'gx:created': string;
 
   @IsDateString()
-  'gax:modified': string;
+  'gx:modified': string;
 
   @IsBoolean()
-  'gax:containsPersonalData': boolean;
+  'gx:containsPersonalData': boolean;
 
   @IsBoolean()
-  'gax:sampleAvailable': boolean;
+  'gx:sampleAvailable': boolean;
 
   @IsObject()
   @Type(() => GaxContractOffer)
   @ValidateNested()
-  'gax:contractOffer': GaxContractOffer;
+  'gx:contractOffer': GaxContractOffer;
 }
 
 export class DataAssetPresentation extends VerifiablePresentation(DataAsset) { 

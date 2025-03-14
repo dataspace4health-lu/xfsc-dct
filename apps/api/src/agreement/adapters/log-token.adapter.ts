@@ -22,9 +22,9 @@ export class LogTokenAdapter extends AbstractLogTokenAdapter {
     const logID = uuidv4();
 
     const logToken = {
-      'gax-dcs:logID': logID,
-      'gax-dcs:dataTransactionID': '123',
-      'gax-dcs:contractID': dataAsset['@id'],
+      'gx-dcs:logID': logID,
+      'gx-dcs:dataTransactionID': '123',
+      'gx-dcs:contractID': dataAsset['@id'],
       iss: '(Logging service ID)',
       sub: '(Participant ID)',
       aud: '(GX-DELS identifier)',
