@@ -47,6 +47,33 @@ export class FederatedCatalogGateway extends BaseGateway {
     }
   }
 
+  
+  public async getParticipant(access_token: string, participantDID: string): Promise<any>{
+    try {
+      // console.log('participantDID', JSON.stringify(participantDID));
+      // const cachedProof = await this.cache.get(`participant-${participantDID}`);
+      // console.log('cachedProof', JSON.stringify(cachedProof));
+
+      // if (cachedProof !== undefined && cachedProof !== null) {
+      //   return cachedProof;
+      // }
+      
+      const url = `/api/self-descriptions?ids=${encodeURIComponent(participantDID)}`;
+      const res = await this.request_protected(url, 'GET', access_token);
+
+      // await this.cache.set(`participant-${participantDID}`, res, {
+      //   ttl: this.configService.get('general.cache.ttl', { infer: true }),
+      // });
+
+      return res;
+    } catch (e) {
+      if (e instanceof Error) {
+        throw new ServiceUnavailableException(e.message);
+      }
+      throw new ServiceUnavailableException();
+    }
+  }
+
   public async getHealthStatus() {
     try {
       const res = await this.request(`/health-check`, 'GET');
