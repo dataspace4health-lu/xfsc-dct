@@ -19,29 +19,14 @@ export class BaseGateway {
         return Promise.resolve(false);
     }
 
-    protected request_protected<T>(url: string, method: string, access_token: string, data?: any): Promise<T | void> {
+    protected request<T>(url: string, method: string, access_token?: string, data?: any): Promise<T | void> {
         return this.requester
             .request<T>({
                 method,
                 url,
                 headers: {
-                    Authorization: `Bearer ${access_token}`,
+                    Authorization: access_token ? `Bearer ${access_token}` : null, // ??? try out if this works
                 },
-                data,
-            })
-            .then((response) => response.data)
-            .catch((error) => {
-                if (!this.handleError(error.toJSON())) {
-                    throw error;
-                }
-            });
-    }
-
-    protected request<T>(url: string, method: string, data?: any): Promise<T | void> {
-        return this.requester
-            .request<T>({
-                method,
-                url,
                 data,
             })
             .then((response) => response.data)

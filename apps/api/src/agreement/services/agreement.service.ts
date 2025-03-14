@@ -35,7 +35,7 @@ export class AgreementService {
     const dataAsset = registerDto.verifiableCredential[0].credentialSubject;
     const access_token = request.user.access_token;
     await this.validateService.assertParticipant(access_token, dataAsset, ParticipantType.PROVIDER);
-    // await this.signatureService.validateSignature(registerDto, ParticipantType.PROVIDER);
+    await this.signatureService.validateSignature(registerDto, ParticipantType.PROVIDER);
     await this.validateService.assertDataAsset(dataAsset);
     return this.signatureService.sign(registerDto);
   }

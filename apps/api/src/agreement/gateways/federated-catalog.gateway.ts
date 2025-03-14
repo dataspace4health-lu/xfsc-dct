@@ -59,7 +59,7 @@ export class FederatedCatalogGateway extends BaseGateway {
       // }
       
       const url = `/api/self-descriptions?ids=${encodeURIComponent(participantDID)}`;
-      const res = await this.request_protected(url, 'GET', access_token);
+      const res = await this.request(url, 'GET', access_token);
 
       // await this.cache.set(`participant-${participantDID}`, res, {
       //   ttl: this.configService.get('general.cache.ttl', { infer: true }),

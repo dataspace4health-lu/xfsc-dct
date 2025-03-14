@@ -49,7 +49,7 @@ export class FederatedCatalogAdapter extends AbstractFederatedCatalogAdapter {
    * @returns
    */
     async validateParticipant(access_token: string, dataAsset: DataAsset, type: ParticipantType): Promise<ParticipantStatus> {
-      const participantDID = type === ParticipantType.CONSUMER ? dataAsset['gx:consumer'] : dataAsset['gx:publisher'];
+      const participantDID = type === ParticipantType.CONSUMER ? dataAsset['gx:consumer'] : dataAsset['gx:providedBy']["id"];
       if (!participantDID) {
         throw new HttpException(`Not found – Data Provider DID could not be resolved`, 404);
       }
