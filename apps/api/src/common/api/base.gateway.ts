@@ -11,8 +11,6 @@ export class BaseGateway {
             baseURL,
             ...props,
         });
-
-        // mock(this.requester, baseURL);
     }
 
     protected handleError(error: any): Promise<boolean> {
