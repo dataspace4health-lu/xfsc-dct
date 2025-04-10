@@ -76,7 +76,7 @@ export class FederatedCatalogGateway extends BaseGateway {
 
   public async getHealthStatus() {
     try {
-      const res = await this.request(`/health-check`, 'GET');
+      const res = await this.request(`/api/actuator/health`, 'GET');
       return res;
     } catch (e) {
       if (e instanceof Error) {

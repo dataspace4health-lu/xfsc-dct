@@ -75,7 +75,6 @@ import { OidcStrategy } from '../oidc/oidc.strategy';
       provide: AbstractFederatedCatalogAdapter,
       useClass: FederatedCatalogAdapter,
     },
-    FederatedCatalogGateway,
     DocumentLoaderService,
     {
       provide: AbstractLogTokenAdapter,
@@ -107,10 +106,11 @@ import { OidcStrategy } from '../oidc/oidc.strategy';
         return strategy;
       },
       inject: [ConfigService, 'Client'],
-    }
+    },
+    FederatedCatalogAdapter
   ],
   controllers: [AgreementController, LogTokenController, UtilsController],
-  exports: [DidResolverGateway]
+  exports: [DidResolverGateway, FederatedCatalogAdapter]
 })
 export class AgreementModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
