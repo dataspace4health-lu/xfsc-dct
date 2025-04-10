@@ -115,7 +115,7 @@ export class FederatedCatalogAdapter extends AbstractFederatedCatalogAdapter {
    * @returns
    */
   async isHealthy(): Promise<boolean> {
-    const healtyStatus = await this.federatedCatalogGateway.getHealthStatus();
-    return healtyStatus['status'] === 'ok';
+    const healthStatus = await this.federatedCatalogGateway.getHealthStatus();
+    return healthStatus ? healthStatus['status'] === 'UP' : false;
   }
 }
