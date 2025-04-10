@@ -1,5 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { DataAssetPresentation } from '../dtos/data-asset.dto';
+import { DataAsset, DataAssetPresentation } from '../dtos/data-asset.dto';
 import { ParticipantType } from './agreement.service';
 import { DocumentLoaderService } from './did-document-loader.service';
 import * as vc from '@digitalcredentials/vc';
@@ -7,6 +7,7 @@ import { purposes } from 'jsonld-signatures';
 import { v4 as uuidv4 } from 'uuid';
 import { AbstractFederatedCatalogAdapter } from '../adapters';
 import { SignatureService } from '@gaia-x/gaia-x-vc';
+import { IVerifiableCredential } from '../dtos/verifiable-presentation.dto';
 
 @Injectable()
 export class AgreementSignatureService {
@@ -92,9 +93,11 @@ export class AgreementSignatureService {
    * @returns
    */
   protected async validateProviderSignature(presentation: DataAssetPresentation) {
-    const credential = await this.federatedCatalogAdapter.removeConsumerDetails(presentation.verifiableCredential[0]);
+    const providerCredential = presentation.verifiableCredential[0] as IVerifiableCredential<DataAsset>;
+    const providerDataAsset = presentation.verifiableCredential[0].credentialSubject as DataAsset;
+    const credential = await this.federatedCatalogAdapter.removeConsumerDetails(providerCredential);
     const providerProof = await this.federatedCatalogAdapter.getProviderProof(
-      presentation.verifiableCredential[0].credentialSubject,
+      providerDataAsset,
     );
     const { results } = await this.signatureService.verifyCredential(credential);
     return (
@@ -109,8 +112,9 @@ export class AgreementSignatureService {
    * @returns
    */
   protected async validateConsumerSignature(presentation: DataAssetPresentation) {
+    const dataAsset = presentation.verifiableCredential[0].credentialSubject as DataAsset;
     const consumerProof = await this.federatedCatalogAdapter.getConsumerProof(
-      presentation.verifiableCredential[0].credentialSubject,
+      dataAsset,
     );
     const { results } = await this.signatureService.verifyCredential(presentation.verifiableCredential[0]);
     return (

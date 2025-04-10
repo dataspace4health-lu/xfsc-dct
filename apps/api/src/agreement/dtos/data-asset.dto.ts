@@ -1,158 +1,65 @@
 import { Type } from 'class-transformer';
+import { IsString, ValidateNested } from 'class-validator';
+// import { VerifiablePresentation, Arrayify } from '@gaia-x/gaia-x-vc';
+import { VerifiablePresentation } from '../dtos/verifiable-presentation.dto';
+import { CredentialSubject, GaxIdReference, GaxDataAccountExport } from './base.dto';
+import { GaxTermsAndConditionsMetadata, GaxSOTermsAndConditions } from './policy.dto';
 import {
-  IsArray,
-  IsBoolean, IsDateString, IsNumberString,
-  IsObject,
-  IsOptional,
-  IsString,
-  IsUrl,
-  ValidateNested
-} from 'class-validator';
-import { VerifiablePresentation, Arrayify } from '@gaia-x/gaia-x-vc';
+  GaxDataResource,
+  GaxServiceOfferingLabelLevel1,
+  GaxServiceAccessPoint,
+  GaxInstantiatedVirtualResource,
+  GaxSoftwareResource,
+} from './service-offering.dto';
 
-class GaxAction {
-  @IsString()
-  '@id': string;
-}
-
-class GaxPostDuty {
-  @IsString()
-  '@type': string;
-
-  @IsString()
-  @Type(() => GaxAction)
-  'gx:action': GaxAction;
-}
-
-export class GaxPermission {
-  @IsString()
-  '@type': string;
-
-  @IsString()
-  'gx:assigner': string;
-
-  @IsString()
-  'gx:target': string;
-
-  @IsString()
-  'gx:action': string;
-
-  @IsBoolean()
-  'gx:negotiable': boolean;
-
-  @IsObject()
-  @Type(() => GaxPostDuty)
-  'gx:postDuty': GaxPostDuty;
-}
-
-class GaxContractOffer {
-  @IsString()
-  '@type': string;
-
-  @IsString()
-  'gx:choiceOfLaw': string;
-
-  @IsString()
-  'gx:generalTerms': string;
-
-  @IsBoolean()
-  'gx:confirmationRequired': boolean;
-
-  @IsString()
-  'gx:loggingMode': string;
-
-  @IsString()
-  'gx:circulationDetails': string;
+export class DataAsset extends CredentialSubject {
+  @ValidateNested()
+  @Type(() => GaxIdReference)
+  'gx:providedBy': GaxIdReference;
 
   @ValidateNested()
-  @IsArray()
-  @Arrayify()
-  'gx:permission': GaxPermission[];
-}
+  @Type(() => GaxTermsAndConditionsMetadata)
+  'gx:termsAndConditions': GaxTermsAndConditionsMetadata;
 
-class GaxDistribution {
   @IsString()
-  'gx:title': string;
+  'gx:policy': string;
+
+  @IsString()
+  'gx:dataProtectionRegime': string;
+
+  @ValidateNested()
+  @Type(() => GaxDataAccountExport)
+  'gx:dataAccountExport': GaxDataAccountExport;
+
+  @IsString()
+  'gx:name': string;
 
   @IsString()
   'gx:description': string;
 
-  @IsDateString()
-  'gx:created': string;
-
-  @IsDateString()
-  'gx:modified': string;
-
-  @IsString()
-  'gx:mediaType': string;
-
-  @IsNumberString()
-  'gx:byteSize': string;
-
-  @IsUrl()
-  'gx:accessURL': string;
-
-  @IsString()
-  @IsOptional()
-  'gx:hasLegallyBindingAddress': string;
-}
-
-export class DataAsset {
-  @IsUrl()
-  '@id': string;
-
-  @IsString()
-  '@type': string;
-
-  @IsString()
-  'gx:title': string;
-
-  @IsString()
-  'gx:description': string;
-
-  @IsArray()
-  'gx:keyword': string[];
-
-  @IsArray()
-  'gx:category': string[];
-
-  @IsString()
-  'gx:publisher': string;
-
-  @IsString()
-  @IsOptional()
-  'gx:consumer'?: string;
-
-  @IsString()
-  'gx:creator': string;
-
-  @IsString()
-  'gx:language': string;
-
-  @IsObject()
-  @Type(() => GaxDistribution)
   @ValidateNested()
-  'gx:distribution': GaxDistribution;
+  @Type(() => GaxServiceOfferingLabelLevel1)
+  'gx:ServiceOfferingLabelLevel1': GaxServiceOfferingLabelLevel1;
 
-  @IsDateString()
-  'gx:created': string;
-
-  @IsDateString()
-  'gx:modified': string;
-
-  @IsBoolean()
-  'gx:containsPersonalData': boolean;
-
-  @IsBoolean()
-  'gx:sampleAvailable': boolean;
-
-  @IsObject()
-  @Type(() => GaxContractOffer)
   @ValidateNested()
-  'gx:contractOffer': GaxContractOffer;
+  @Type(() => GaxDataResource)
+  'gx:DataResource': GaxDataResource;
+
+  @ValidateNested()
+  @Type(() => GaxSoftwareResource)
+  'gx:SoftwareResource': GaxSoftwareResource;
+
+  @ValidateNested()
+  @Type(() => GaxServiceAccessPoint)
+  'gx:ServiceAccessPoint': GaxServiceAccessPoint;
+
+  @ValidateNested()
+  @Type(() => GaxInstantiatedVirtualResource)
+  'gx:InstantiatedVirtualResource': GaxInstantiatedVirtualResource;
+
+  @ValidateNested()
+  @Type(() => GaxSOTermsAndConditions)
+  'gx:SOTermsAndConditions': GaxSOTermsAndConditions;
 }
 
-export class DataAssetPresentation extends VerifiablePresentation(DataAsset) { 
-
-  
-}
+export class DataAssetPresentation extends VerifiablePresentation(CredentialSubject) {}

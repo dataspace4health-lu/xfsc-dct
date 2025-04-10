@@ -3,10 +3,11 @@ import { ConfigService } from '@nestjs/config';
 import { ValidationException } from '../../common/exceptions/validation.exception';
 import { ConfigType } from '../../config/config.module';
 import { AbstractFederatedCatalogAdapter } from '../adapters';
-import { DataAsset, DataAssetPresentation, GaxPermission } from '../dtos/data-asset.dto';
+import { DataAsset, DataAssetPresentation } from '../dtos/data-asset.dto';
 import { AgreementSignatureService } from './agreement-signature.service';
 import { AgreementValidationService } from './agreement-validation.service';
 import { LogTokenService } from './log-token.service';
+import { CredentialSubject } from '../dtos/base.dto';
 
 export enum ParticipantType {
   PROVIDER = 'provider',
@@ -21,7 +22,25 @@ export class AgreementService {
     private readonly configService: ConfigService<ConfigType>,
     private readonly logTokenService: LogTokenService,
     private readonly federatedCatalogAdapter: AbstractFederatedCatalogAdapter,
-  ) { }
+  ) {}
+
+  private buildDataAssetFromPresentation(registerDto: DataAssetPresentation): DataAsset {
+    const credentialSubject = registerDto.verifiableCredential[0].credentialSubject as CredentialSubject;
+    console.log('credentialSubject', JSON.stringify(credentialSubject, null, 2));
+    const subjects = Array.isArray(credentialSubject) ? credentialSubject : [credentialSubject];
+
+    // Create the result object using a copy of the first element’s properties
+    const result = { ...subjects[0] };
+    // Loop through the remaining elements and add them as new keys based on their type
+    subjects.slice(1).forEach((item) => {
+      let key = item.type;
+      if (Array.isArray(key)) {
+        key = key[0];
+      }
+      result[key] = item;
+    });
+    return result;
+  }
 
   /**
    * Register contract API
@@ -32,8 +51,11 @@ export class AgreementService {
    * @returns
    */
   async register(request: any, registerDto: DataAssetPresentation) {
-    const dataAsset = registerDto.verifiableCredential[0].credentialSubject;
-    const access_token = request.user.access_token;
+    // const dataAsset = registerDto.verifiableCredential[0].credentialSubject;
+    const dataAsset = this.buildDataAssetFromPresentation(registerDto);
+    // console.log('dataAsset', JSON.stringify(dataAsset, null, 2));
+    const authHeader = request.headers['authorization'];
+    const access_token = authHeader && authHeader.split(' ')[1];
     await this.validateService.assertParticipant(access_token, dataAsset, ParticipantType.PROVIDER);
     await this.signatureService.validateSignature(registerDto, ParticipantType.PROVIDER);
     await this.validateService.assertDataAsset(dataAsset);
@@ -53,7 +75,7 @@ export class AgreementService {
    * @returns
    */
   async makeContract(request: any, makeContractDto: DataAssetPresentation) {
-    const dataAsset = makeContractDto.verifiableCredential[0].credentialSubject;
+    const dataAsset = makeContractDto.verifiableCredential[0].credentialSubject as DataAsset;
     const access_token = request.session.user.access_token;
     await this.validateService.assertParticipant(access_token, dataAsset, ParticipantType.CONSUMER);
     if (this.isNegotiable(dataAsset)) {
@@ -91,7 +113,7 @@ export class AgreementService {
    * @param contractDto
    */
   async negotiate(request: any, negotiateDto: DataAssetPresentation) {
-    const dataAsset = negotiateDto.verifiableCredential[0].credentialSubject;
+    const dataAsset = negotiateDto.verifiableCredential[0].credentialSubject as DataAsset;
     const access_token = request.session.user.access_token;
     await this.validateService.assertParticipant(access_token, dataAsset, ParticipantType.CONSUMER);
     // move to adapter
@@ -127,7 +149,7 @@ export class AgreementService {
    * @param contractDto
    */
   async finalize(request: any, finalizeDto: DataAssetPresentation) {
-    const dataAsset = finalizeDto.verifiableCredential[0].credentialSubject;
+    const dataAsset = finalizeDto.verifiableCredential[0].credentialSubject as DataAsset;
     const access_token = request.session.user.access_token;
     await this.validateService.assertParticipant(access_token, dataAsset, ParticipantType.PROVIDER);
     await this.validateService.assertDataAsset(dataAsset);
@@ -160,7 +182,7 @@ export class AgreementService {
    */
   async logToken(dataAssetPresentation: DataAssetPresentation) {
     await this.validate(dataAssetPresentation);
-    const dataAsset = dataAssetPresentation.verifiableCredential[0].credentialSubject;
+    const dataAsset = dataAssetPresentation.verifiableCredential[0].credentialSubject as DataAsset;
     const isLoggingEnabled =
       dataAsset['gx:contractOffer']['gx:logging_mandatory'] ||
       ['gx:LoggingMandatory', 'gx:logging_optional'].includes(dataAsset['gx:contractOffer']['gx:loggingMode']);
@@ -181,9 +203,7 @@ export class AgreementService {
   protected async sendDataAsset(dataAssetPresentation: DataAssetPresentation, type: ParticipantType) {
     //TBD
     const hasLegallyBindingAddress =
-      dataAssetPresentation.verifiableCredential[0].credentialSubject['gx:distribution'][
-      'gx:hasLegallyBindingAddress'
-      ];
+      dataAssetPresentation.verifiableCredential[0].credentialSubject['gx:distribution']['gx:hasLegallyBindingAddress'];
     if (hasLegallyBindingAddress) {
       //POST to legally binding address
       // send signed contract to provider
@@ -196,7 +216,7 @@ export class AgreementService {
    * @returns boolean
    */
   protected isNegotiable(dataAsset: DataAsset): boolean {
-    const permissions: GaxPermission[] = (<unknown>dataAsset['gx:contractOffer']['gx:permission']) as GaxPermission[];
+    const permissions: any[] = (<unknown>dataAsset['gx:contractOffer']['gx:permission']) as any[];
     for (const permission of permissions) {
       if (!permission['gx:negotiable']) {
         return false;

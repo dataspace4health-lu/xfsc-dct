@@ -1,4 +1,4 @@
-import { IVerifiableCredential, AbstractDIDTrustServiceAdapter } from '@gaia-x/gaia-x-vc';
+import { IVerifiableCredential } from '../dtos/verifiable-presentation.dto';
 import { DataAsset } from '../dtos/data-asset.dto';
 import { LogToken } from '../dtos/log-token.dto';
 import { DataAssetStatus, ParticipantStatus } from '../services/agreement-validation.service';
