@@ -51,8 +51,8 @@ export class AgreementService {
    * @returns
    */
   async register(request: any, registerDto: DataAssetPresentation) {
+    const access_token = request.user.access_token;
     const dataAsset = this.buildDataAssetFromPresentation(registerDto);
-    const access_token = request.session.user.access_token;
     await this.validateService.assertParticipant(access_token, dataAsset, ParticipantType.PROVIDER);
     await this.signatureService.validateSignature(registerDto, ParticipantType.PROVIDER);
     await this.validateService.assertDataAsset(dataAsset);
@@ -73,7 +73,7 @@ export class AgreementService {
    */
   async makeContract(request: any, makeContractDto: DataAssetPresentation) {
     const dataAsset = makeContractDto.verifiableCredential[0].credentialSubject as DataAsset;
-    const access_token = request.session.user.access_token;
+    const access_token = request.user.access_token;
     await this.validateService.assertParticipant(access_token, dataAsset, ParticipantType.CONSUMER);
     if (this.isNegotiable(dataAsset)) {
       throw new ValidationException('Data Asset is negotiable', 400);
@@ -111,7 +111,7 @@ export class AgreementService {
    */
   async negotiate(request: any, negotiateDto: DataAssetPresentation) {
     const dataAsset = negotiateDto.verifiableCredential[0].credentialSubject as DataAsset;
-    const access_token = request.session.user.access_token;
+    const access_token = request.user.access_token;
     await this.validateService.assertParticipant(access_token, dataAsset, ParticipantType.CONSUMER);
     // move to adapter
     if (!this.isNegotiable(dataAsset)) {
@@ -147,7 +147,7 @@ export class AgreementService {
    */
   async finalize(request: any, finalizeDto: DataAssetPresentation) {
     const dataAsset = finalizeDto.verifiableCredential[0].credentialSubject as DataAsset;
-    const access_token = request.session.user.access_token;
+    const access_token = request.user.access_token;
     await this.validateService.assertParticipant(access_token, dataAsset, ParticipantType.PROVIDER);
     await this.validateService.assertDataAsset(dataAsset);
     await this.signatureService.validateSignature(finalizeDto, ParticipantType.PROVIDER);
