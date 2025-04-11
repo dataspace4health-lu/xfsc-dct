@@ -1,7 +1,7 @@
 import { registerAs } from '@nestjs/config';
 
 const loader = () => ({
-    trustService: process.env.TRUST_SERVICE_URL,
+    didResolverService: process.env.DID_RESOLVER_SERVICE_URL,
     federatedCatalog: process.env.FEDERATED_CATALOG_URL,
 });
 

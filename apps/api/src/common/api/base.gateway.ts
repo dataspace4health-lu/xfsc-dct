@@ -1,5 +1,4 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import { mock } from '../../mocks/mocker';
 
 export type BaseGatewayOptions = Omit<AxiosRequestConfig, 'baseURL'>;
 

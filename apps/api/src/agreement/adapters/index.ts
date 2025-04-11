@@ -1,12 +1,12 @@
-import { IVerifiableCredential, AbstractDIDTrustServiceAdapter } from '@gaia-x/gaia-x-vc';
+import { IVerifiableCredential } from '../dtos/verifiable-presentation.dto';
 import { DataAsset } from '../dtos/data-asset.dto';
 import { LogToken } from '../dtos/log-token.dto';
 import { DataAssetStatus, ParticipantStatus } from '../services/agreement-validation.service';
 import { ParticipantType } from '../services/agreement.service';
 
 export abstract class AbstractFederatedCatalogAdapter {
-  abstract validateParticipant(access_token: string, dataAsset: DataAsset, type: ParticipantType): Promise<ParticipantStatus>;
   abstract validateDataAsset(dataAsset: DataAsset): Promise<DataAssetStatus>;
+  abstract validateParticipant(access_token: string, dataAsset: DataAsset, type: ParticipantType): Promise<ParticipantStatus>;
   abstract removeConsumerDetails(
     dataAsset: IVerifiableCredential<DataAsset>,
   ): Promise<IVerifiableCredential<DataAsset>>;
