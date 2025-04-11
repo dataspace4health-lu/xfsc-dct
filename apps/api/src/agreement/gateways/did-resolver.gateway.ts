@@ -8,7 +8,7 @@ import { DIDTrustServiceGateway } from '@gaia-x/gaia-x-vc';
 @Injectable()
 export class DidResolverGateway extends BaseGateway implements DIDTrustServiceGateway {
   constructor(@Inject(CACHE_MANAGER) protected cache: Cache, readonly configService: ConfigService<ConfigType>) {
-    super(configService.get('gateway', { infer: true }).trustService);
+    super(configService.get('gateway', { infer: true }).didResolverService);
   }
 
   public async getParticipantKey(participantDID: string) {

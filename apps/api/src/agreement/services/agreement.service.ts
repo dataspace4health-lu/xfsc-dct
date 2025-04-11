@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { ValidationException } from '../../common/exceptions/validation.exception';
 import { ConfigType } from '../../config/config.module';
 import { AbstractFederatedCatalogAdapter } from '../adapters';
-import { DataAsset, DataAssetPresentation } from '../dtos/data-asset.dto';
+import { DataAsset, DataAssetPresentation, GaxPermission } from '../dtos/data-asset.dto';
 import { AgreementSignatureService } from './agreement-signature.service';
 import { AgreementValidationService } from './agreement-validation.service';
 import { LogTokenService } from './log-token.service';
@@ -51,11 +51,8 @@ export class AgreementService {
    * @returns
    */
   async register(request: any, registerDto: DataAssetPresentation) {
-    // const dataAsset = registerDto.verifiableCredential[0].credentialSubject;
     const dataAsset = this.buildDataAssetFromPresentation(registerDto);
-    // console.log('dataAsset', JSON.stringify(dataAsset, null, 2));
-    const authHeader = request.headers['authorization'];
-    const access_token = authHeader && authHeader.split(' ')[1];
+    const access_token = request.session.user.access_token;
     await this.validateService.assertParticipant(access_token, dataAsset, ParticipantType.PROVIDER);
     await this.signatureService.validateSignature(registerDto, ParticipantType.PROVIDER);
     await this.validateService.assertDataAsset(dataAsset);
@@ -216,7 +213,7 @@ export class AgreementService {
    * @returns boolean
    */
   protected isNegotiable(dataAsset: DataAsset): boolean {
-    const permissions: any[] = (<unknown>dataAsset['gx:contractOffer']['gx:permission']) as any[];
+    const permissions: GaxPermission[] = (<unknown>dataAsset['gx:contractOffer']['gx:permission']) as GaxPermission[];
     for (const permission of permissions) {
       if (!permission['gx:negotiable']) {
         return false;

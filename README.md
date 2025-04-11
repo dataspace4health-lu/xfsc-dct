@@ -181,7 +181,7 @@ DELS_REL=http://www.w3.org/ns/ldp#inbox
 DELS_CONTEXT=https://www.w3.org/ns/ldp
 DELS_ID=https://dcs.gaia-x.com/contracts/1001
 DELS_INBOX=https://dels.gaia-x.com/inbox/
-TRUST_SERVICE_URL=https://trust-service.com # Trust Service Url 
+DID_RESOLVER_SERVICE_URL=https://trust-service.com # Trust Service Url 
 FEDERATED_CATALOG_URL=https://federated-catalog.com # Federated Catalog Url
 #Ed25519 signature configuration 
 SIGNATURE_ID=did:dcs:key:123

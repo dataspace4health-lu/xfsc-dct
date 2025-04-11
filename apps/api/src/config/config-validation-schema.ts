@@ -29,7 +29,7 @@ export default Joi.object({
     REDIS_PREFIX: Joi.string().default('cache'),
     REDIS_TYPE: Joi.string().valid('node', 'cluster').default('node'),
 
-    TRUST_SERVICE_URL: Joi.string().uri().required(),
+    DID_RESOLVER_SERVICE_URL: Joi.string().uri().required(),
     FEDERATED_CATALOG_URL: Joi.string().uri().required(),
 
     SIGNATURE_ID: Joi.string().required(),

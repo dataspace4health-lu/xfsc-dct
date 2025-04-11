@@ -62,4 +62,6 @@ export class DataAsset extends CredentialSubject {
   'gx:SOTermsAndConditions': GaxSOTermsAndConditions;
 }
 
+export class GaxPermission {}
+
 export class DataAssetPresentation extends VerifiablePresentation(CredentialSubject) {}

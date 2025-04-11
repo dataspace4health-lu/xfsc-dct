@@ -109,7 +109,7 @@ spec:
           value: "https://del-dev3.gxfs.dev/inbox"
 
         #gateway
-        - name: TRUST_SERVICE_URL
+        - name: DID_RESOLVER_SERVICE_URL
           value: "https://trust-service.com"
         - name: FEDERATED_CATALOG_URL
           value: "https://federated-catalog.com"
