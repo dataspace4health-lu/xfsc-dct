@@ -42,8 +42,8 @@ export class AgreementValidationService {
    * Validated contract/data asset
    * @param dataAsset
    */
-  async assertDataAsset(dataAsset: DataAsset) {
-    const { valid, isSupported } = await this.federatedCatalog.validateDataAsset(dataAsset);
+  async assertDataAsset(access_token: string, dataAsset: DataAsset) {
+    const { valid, isSupported } = await this.federatedCatalog.validateDataAsset(access_token, dataAsset);
     if (!valid) {
       throw new HttpException(`Failed dependency – could not validate Data Asset Self-Description model`, 424);
     }

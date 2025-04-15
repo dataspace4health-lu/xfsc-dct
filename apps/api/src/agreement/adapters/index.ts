@@ -5,7 +5,7 @@ import { DataAssetStatus, ParticipantStatus } from '../services/agreement-valida
 import { ParticipantType } from '../services/agreement.service';
 
 export abstract class AbstractFederatedCatalogAdapter {
-  abstract validateDataAsset(dataAsset: DataAsset): Promise<DataAssetStatus>;
+  abstract validateDataAsset(access_token: string, dataAsset: DataAsset): Promise<DataAssetStatus>;
   abstract validateParticipant(access_token: string, dataAsset: DataAsset, type: ParticipantType): Promise<ParticipantStatus>;
   abstract removeConsumerDetails(
     dataAsset: IVerifiableCredential<DataAsset>,

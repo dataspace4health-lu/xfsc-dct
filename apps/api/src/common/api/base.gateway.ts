@@ -16,7 +16,7 @@ export class BaseGateway {
         return Promise.resolve(false);
     }
 
-    protected request<T>(url: string, method: string, access_token?: string, data?: any): Promise<T | void> {
+    protected request<T>(url: string, method: string, access_token?: string, data?: any): Promise<T | void | unknown> {
         return this.requester
             .request<T>({
                 method,
@@ -26,7 +26,10 @@ export class BaseGateway {
                 },
                 data,
             })
-            .then((response) => response.data)
+            .then((response) => {
+                if (!response.data) return response
+                return response.data
+            })
             .catch((error) => {
                 if (!this.handleError(error.toJSON())) {
                     throw error;

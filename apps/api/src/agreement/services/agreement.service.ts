@@ -7,7 +7,7 @@ import { DataAsset, DataAssetPresentation, GaxPermission } from '../dtos/data-as
 import { AgreementSignatureService } from './agreement-signature.service';
 import { AgreementValidationService } from './agreement-validation.service';
 import { LogTokenService } from './log-token.service';
-import { CredentialSubject } from '../dtos/base.dto';
+import { buildDataAssetFromPresentation } from '../../common/functions/fonctions';
 
 export enum ParticipantType {
   PROVIDER = 'provider',
@@ -24,23 +24,6 @@ export class AgreementService {
     private readonly federatedCatalogAdapter: AbstractFederatedCatalogAdapter,
   ) {}
 
-  private buildDataAssetFromPresentation(registerDto: DataAssetPresentation): DataAsset {
-    const credentialSubject = registerDto.verifiableCredential[0].credentialSubject as CredentialSubject;
-    console.log('credentialSubject', JSON.stringify(credentialSubject, null, 2));
-    const subjects = Array.isArray(credentialSubject) ? credentialSubject : [credentialSubject];
-
-    // Create the result object using a copy of the first element’s properties
-    const result = { ...subjects[0] };
-    // Loop through the remaining elements and add them as new keys based on their type
-    subjects.slice(1).forEach((item) => {
-      let key = item.type;
-      if (Array.isArray(key)) {
-        key = key[0];
-      }
-      result[key] = item;
-    });
-    return result;
-  }
 
   /**
    * Register contract API
@@ -52,10 +35,10 @@ export class AgreementService {
    */
   async register(request: any, registerDto: DataAssetPresentation) {
     const access_token = request.user.access_token;
-    const dataAsset = this.buildDataAssetFromPresentation(registerDto);
+    const dataAsset = buildDataAssetFromPresentation(registerDto);
     await this.validateService.assertParticipant(access_token, dataAsset, ParticipantType.PROVIDER);
     await this.signatureService.validateSignature(registerDto, ParticipantType.PROVIDER);
-    await this.validateService.assertDataAsset(dataAsset);
+    await this.validateService.assertDataAsset(access_token, dataAsset);
     return this.signatureService.sign(registerDto);
   }
 
@@ -90,7 +73,7 @@ export class AgreementService {
 
     await this.signatureService.validateSignature(makeContractDto, ParticipantType.CONSUMER);
     await this.signatureService.validateSignature(makeContractDto, ParticipantType.PROVIDER);
-    await this.validateService.assertDataAsset(dataAsset);
+    await this.validateService.assertDataAsset(access_token, dataAsset);
     const signedDataAsset = await this.signatureService.sign(makeContractDto);
     await this.sendDataAsset(signedDataAsset, ParticipantType.PROVIDER);
 
@@ -131,7 +114,7 @@ export class AgreementService {
       );
     }
     await this.signatureService.validateSignature(negotiateDto, ParticipantType.CONSUMER);
-    await this.validateService.assertDataAsset(dataAsset);
+    await this.validateService.assertDataAsset(access_token, dataAsset);
     await this.sendDataAsset(negotiateDto, ParticipantType.PROVIDER);
     return negotiateDto;
   }
@@ -149,7 +132,7 @@ export class AgreementService {
     const dataAsset = finalizeDto.verifiableCredential[0].credentialSubject as DataAsset;
     const access_token = request.user.access_token;
     await this.validateService.assertParticipant(access_token, dataAsset, ParticipantType.PROVIDER);
-    await this.validateService.assertDataAsset(dataAsset);
+    await this.validateService.assertDataAsset(access_token, dataAsset);
     await this.signatureService.validateSignature(finalizeDto, ParticipantType.PROVIDER);
     await this.signatureService.validateSignature(finalizeDto, ParticipantType.CONSUMER);
     const signedDataAsset = await this.signatureService.sign(finalizeDto);
