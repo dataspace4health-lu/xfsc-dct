@@ -5,7 +5,7 @@ import { Queue } from 'bull';
 import { ConfigService } from '@nestjs/config';
 import { BaseGateway } from '../../common/api/base.gateway';
 import { ConfigType } from '../../config/config.module';
-import { buildDataAssetFromPresentation } from '../../common/functions/fonctions';
+import { buildDataAssetFromPresentation } from '../dtos/data-asset.dto';
 
 @Injectable()
 export class FederatedCatalogGateway extends BaseGateway {

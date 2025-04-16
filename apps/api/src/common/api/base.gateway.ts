@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 export type BaseGatewayOptions = Omit<AxiosRequestConfig, 'baseURL'>;
 
@@ -16,19 +16,18 @@ export class BaseGateway {
         return Promise.resolve(false);
     }
 
-    protected request<T>(url: string, method: string, access_token?: string, data?: any): Promise<T | void | unknown> {
+    protected request<T>(url: string, method: string, access_token?: string, data?: any): Promise<T | void> {
         return this.requester
             .request<T>({
                 method,
                 url,
                 headers: {
-                    Authorization: access_token ? `Bearer ${access_token}` : null, // ??? try out if this works
+                    Authorization: access_token ? `Bearer ${access_token}` : null,
                 },
                 data,
             })
             .then((response) => {
-                if (!response.data) return response
-                return response.data
+                return response.data;
             })
             .catch((error) => {
                 if (!this.handleError(error.toJSON())) {

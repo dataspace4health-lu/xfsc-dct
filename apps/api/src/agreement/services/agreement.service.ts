@@ -3,11 +3,10 @@ import { ConfigService } from '@nestjs/config';
 import { ValidationException } from '../../common/exceptions/validation.exception';
 import { ConfigType } from '../../config/config.module';
 import { AbstractFederatedCatalogAdapter } from '../adapters';
-import { DataAsset, DataAssetPresentation, GaxPermission } from '../dtos/data-asset.dto';
+import { buildDataAssetFromPresentation, DataAsset, DataAssetPresentation, GaxPermission } from '../dtos/data-asset.dto';
 import { AgreementSignatureService } from './agreement-signature.service';
 import { AgreementValidationService } from './agreement-validation.service';
 import { LogTokenService } from './log-token.service';
-import { buildDataAssetFromPresentation } from '../../common/functions/fonctions';
 
 export enum ParticipantType {
   PROVIDER = 'provider',
