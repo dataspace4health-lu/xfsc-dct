@@ -26,9 +26,7 @@ export class BaseGateway {
                 },
                 data,
             })
-            .then((response) => {
-                return response.data;
-            })
+            .then((response) => response.data)
             .catch((error) => {
                 if (!this.handleError(error.toJSON())) {
                     throw error;
