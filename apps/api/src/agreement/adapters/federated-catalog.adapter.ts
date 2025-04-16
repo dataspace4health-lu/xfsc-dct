@@ -26,10 +26,9 @@ export class FederatedCatalogAdapter extends AbstractFederatedCatalogAdapter {
    * @param dataAsset
    * @returns
    */
-  async validateDataAsset(dataAsset: DataAsset): Promise<DataAssetStatus> {
-    const originalDataAsset = await this.federatedCatalogGateway.getDataAsset(dataAsset['@id']);
-    const fileds = ['id', 'gx:name', 'gx:description', 'gx:providedBy'] as Array<keyof DataAsset>;
-    const valid = isEqual(pick(originalDataAsset, fileds), pick(dataAsset, fileds));
+  async validateDataAsset(access_token: string, dataAsset: DataAsset): Promise<DataAssetStatus> {
+    const originalDataAsset = await this.federatedCatalogGateway.getDataAsset(access_token, dataAsset['id']);
+    const valid = isEqual(JSON.parse(JSON.stringify(originalDataAsset)), JSON.parse(JSON.stringify(dataAsset)));
 
     const isSupported = true;
     return {

@@ -5,6 +5,7 @@ import { Queue } from 'bull';
 import { ConfigService } from '@nestjs/config';
 import { BaseGateway } from '../../common/api/base.gateway';
 import { ConfigType } from '../../config/config.module';
+import { buildDataAssetFromPresentation } from '../dtos/data-asset.dto';
 
 @Injectable()
 export class FederatedCatalogGateway extends BaseGateway {
@@ -16,7 +17,7 @@ export class FederatedCatalogGateway extends BaseGateway {
     super(configService.get('gateway', { infer: true }).federatedCatalog);
   }
 
-  public async getDataAsset(dataAssetId: string) {
+  public async getDataAsset(access_token: string, dataAssetId: string) {
     try {
       const cachedSD = await this.cache.get(dataAssetId);
 
@@ -25,20 +26,20 @@ export class FederatedCatalogGateway extends BaseGateway {
       }
 
       // For request we are using mocks, make sure you remove the mocks once FC is reary
-      const res = await this.request(`/get-data-asset?id=${dataAssetId}`, 'GET');
-      console.warn('Federated Catalog integration impremented with mocks.', JSON.stringify({ res }));
-
-      if (res) {
-        await this.cache.set(dataAssetId, res);
-        await this.sdsQueue.add('sds', JSON.stringify(res), {
+      const res: any = await this.request(`/api/self-descriptions?ids=${dataAssetId}&withContent=true`, 'GET', access_token);
+      if (res && res.items.length > 0) {
+        const dataAssetRes = buildDataAssetFromPresentation(JSON.parse(res.items[0].content || ""));
+        await this.cache.set(dataAssetId, dataAssetRes);
+        await this.sdsQueue.add('sds', JSON.stringify(dataAssetRes), {
           repeat: {
             limit: this.configService.get('general.sdQueueRetry', { infer: true }),
             every: this.configService.get('general.sdQueueDelay', { infer: true }),
           },
         });
+        return dataAssetRes;
       }
 
-      return res;
+      return res.items;
     } catch (e) {
       if (e instanceof Error) {
         throw new ServiceUnavailableException(e.message);

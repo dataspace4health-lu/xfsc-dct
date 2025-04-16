@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 export type BaseGatewayOptions = Omit<AxiosRequestConfig, 'baseURL'>;
 
@@ -22,7 +22,7 @@ export class BaseGateway {
                 method,
                 url,
                 headers: {
-                    Authorization: access_token ? `Bearer ${access_token}` : null, // ??? try out if this works
+                    Authorization: access_token ? `Bearer ${access_token}` : null,
                 },
                 data,
             })
